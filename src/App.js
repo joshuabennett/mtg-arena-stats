@@ -1,26 +1,65 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import { Route, Redirect } from "react-router-dom";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Header from "./components/header/header";
+import Homepage from "./pages/homepage/homepage";
+import Import from "./pages/import/import";
+import Stats from "./pages/stats/stats";
+import Profile from "./pages/profile/profile";
+import Login from "./pages/login/login";
+import { auth, createUserProfileDocument } from "./firebase/firebase";
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      currentUser: null,
+      id: null
+    };
+  }
+
+  unsubscribeFromAuth = null;
+
+  componentDidMount() {
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+      if (userAuth) {
+        console.log("auth");
+        const userRef = await createUserProfileDocument(userAuth);
+        userRef.onSnapshot(snapshot => {
+          this.setState({
+            id: snapshot.id,
+            ...snapshot.data()
+          });
+        });
+      }
+      this.setState({ currentUser: userAuth });
+    });
+  }
+
+  componentWillUnmount() {
+    this.unsubscribeFromAuth();
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <Header user={this.state.currentUser} />
+        <Route component={Homepage} path="/" exact />
+        <Route component={Import} path="/import" exact />
+        <Route component={Stats} path="/stats" exact />
+        <Route path="/profile" exact component={Profile} />
+        <Route
+          render={() =>
+            this.state.currentUser ? <Redirect to="/" /> : <Login />
+          }
+          path="/login"
+          exact
+        />
+      </div>
+    );
+  }
 }
 
 export default App;

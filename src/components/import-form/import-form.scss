@@ -1,0 +1,28 @@
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.deck-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 33%;
+
+  h3 {
+    padding: 3px;
+    margin: 3px;
+  }
+
+  input {
+    width: 33%;
+  }
+
+  .color-boxes {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+  }
+}

@@ -7,3 +7,21 @@
 // archetype stats
 // -- number of times drafted
 // -- win percentage
+
+// Objects
+// -- Deck
+// ---- Set
+// ---- Wins
+// ---- Losses
+// ---- Colors
+// ---- Archetype
+// ---- Cards
+
+// -- Card
+// ---- Total Amount
+// ---- Wins
+// ---- Losses
+// ---- Archetypes
+// ------ Amount
+// ------ Wins
+// ------ Losses
