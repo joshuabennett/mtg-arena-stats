@@ -1,0 +1,15 @@
+.deck-container {
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  .deck-items {
+    display: flex;
+
+    .deck-item {
+      padding: 20px;
+    }
+  }
+}
