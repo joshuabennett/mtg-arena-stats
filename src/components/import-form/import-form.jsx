@@ -24,7 +24,7 @@ class ImportForm extends React.Component {
     wins: "",
     losses: "",
     archetype: "",
-    cards: []
+    cardstext: ""
   });
 
   resetState = () => {
@@ -32,7 +32,6 @@ class ImportForm extends React.Component {
     document
       .querySelectorAll(".color-boxes input")
       .forEach(item => (item.checked = false));
-    document.querySelector("textarea").innerHTML = "";
   };
 
   handleSubmit(e) {
@@ -46,7 +45,7 @@ class ImportForm extends React.Component {
   }
 
   handleChange(e) {
-    if (e.target.type === "text") {
+    if (e.target.type === "text" || e.target.type === "textarea") {
       this.setState({
         [e.target.name]: e.target.value
       });
@@ -63,13 +62,7 @@ class ImportForm extends React.Component {
           return { colors };
         });
       }
-    } else if (e.target.type === "textarea") {
-      this.parseDeck(e.target.value);
     }
-  }
-
-  parseDeck(plainText) {
-    // var cards = plainText.split("/n");
   }
 
   render() {
@@ -145,11 +138,12 @@ class ImportForm extends React.Component {
               value={this.state.archetype}
             />
             <textarea
-              name="cards"
+              name="cardstext"
               rows="30"
               cols="50"
               placeholder="Paste Decklist Here"
               onChange={this.handleChange}
+              value={this.state.cardstext}
             ></textarea>
             <button>Add Deck</button>
           </form>

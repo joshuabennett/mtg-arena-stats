@@ -25,3 +25,21 @@
 // ------ Amount
 // ------ Wins
 // ------ Losses
+
+import React from "react";
+import "./stats.scss";
+
+class Stats extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: {},
+    };
+  }
+
+  render() {
+    return null;
+  }
+}
+
+export default Stats;

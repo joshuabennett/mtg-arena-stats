@@ -13,18 +13,19 @@ import React from "react";
 import "./profile.scss";
 import firebase from "../../firebase/firebase";
 import Deck from "../../components/deck/deck";
+import { Link, Route } from "react-router-dom";
 
 class Profile extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      decks: []
+      decks: [],
     };
   }
   componentDidMount() {
     const itemsRef = firebase.database().ref("decks");
-    itemsRef.on("value", snapshot => {
+    itemsRef.on("value", (snapshot) => {
       let items = snapshot.val();
       let newState = [];
       for (let item in items) {
@@ -35,11 +36,11 @@ class Profile extends React.Component {
           archetype: items[item].archetype,
           wins: items[item].wins,
           losses: items[item].losses,
-          cards: items[item].cards
+          cardstext: items[item].cardstext,
         });
       }
       this.setState({
-        decks: newState
+        decks: newState,
       });
     });
   }
@@ -48,13 +49,22 @@ class Profile extends React.Component {
     return (
       <div className="profile-page">
         <div className="deck-container">
-          <div className="deck-items">
-            {this.state.decks.length > 0
-              ? this.state.decks.map(item => {
-                  return <Deck key={item.id} item={item} />;
-                })
-              : null}
-          </div>
+          {this.state.decks.length > 0
+            ? this.state.decks.map((item) => {
+                return (
+                  <Link
+                    to={{
+                      pathname: `/profile/${item.id}`,
+                      state: {
+                        deck: item,
+                      },
+                    }}
+                  >
+                    <Deck key={item.id} item={item} />
+                  </Link>
+                );
+              })
+            : null}
         </div>
       </div>
     );

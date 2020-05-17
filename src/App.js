@@ -8,6 +8,7 @@ import Import from "./pages/import/import";
 import Stats from "./pages/stats/stats";
 import Profile from "./pages/profile/profile";
 import Login from "./pages/login/login";
+import DeckList from "./components/deck-list/deck-list";
 import { auth, createUserProfileDocument } from "./firebase/firebase";
 
 class App extends React.Component {
@@ -16,21 +17,21 @@ class App extends React.Component {
 
     this.state = {
       currentUser: null,
-      id: null
+      id: null,
     };
   }
 
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
         console.log("auth");
         const userRef = await createUserProfileDocument(userAuth);
-        userRef.onSnapshot(snapshot => {
+        userRef.onSnapshot((snapshot) => {
           this.setState({
             id: snapshot.id,
-            ...snapshot.data()
+            ...snapshot.data(),
           });
         });
       }
@@ -50,6 +51,7 @@ class App extends React.Component {
         <Route component={Import} path="/import" exact />
         <Route component={Stats} path="/stats" exact />
         <Route path="/profile" exact component={Profile} />
+        <Route path={`/profile/:deckId`} component={DeckList} exact />
         <Route
           render={() =>
             this.state.currentUser ? <Redirect to="/" /> : <Login />
