@@ -42,9 +42,10 @@ class ImportForm extends React.Component {
     };
     decksRef.push(deck);
 
-    const cardsRef = firebase.database().ref("cards");
     const cards = this.parseDeck(this.state.cardstext);
-    cardsRef.push(cards);
+    for (let card of cards) {
+      this.addCardToDB(card, deck);
+    }
 
     this.resetState();
   }
@@ -80,12 +81,34 @@ class ImportForm extends React.Component {
     });
 
     for (const card of reducedCards) {
-      deckListObject[card.slice(card.indexOf(" "))] = card.slice(
-        0,
-        card.indexOf(" ")
-      );
+      deckListObject["cardName"] = card.slice(card.indexOf(" "));
+      deckListObject["amount"] = card.slice(0, card.indexOf(" "));
     }
     return deckListObject;
+  }
+
+  addCardToDB(newCard, deck) {
+    const cardsRef = firebase.database.ref("cards");
+    firebase
+      .database()
+      .ref(`cards/${newCard.cardName}`)
+      .once("value", (snapshot) => {
+        if (snapshot.exists()) {
+          var card = snapshot.val();
+          let updatedInfo = {
+            timesDrafted: card.timesDrafted + newCard.amount,
+            winsWithCard: card.winsWithCard + deck.wins,
+            lossesWithCard: card.lossesWithCard + deck.losses,
+          };
+          cardsRef.child(newCard.cardName).update(updatedInfo);
+        } else {
+          cardsRef.child(newCard.cardName).push({
+            timesDrafted: 0 + newCard.amount,
+            winsWithCard: 0 + deck.wins,
+            lossesWithCard: 0 + deck.losses,
+          });
+        }
+      });
   }
 
   render() {
