@@ -24,45 +24,68 @@ class ImportForm extends React.Component {
     wins: "",
     losses: "",
     archetype: "",
-    cardstext: ""
+    cardstext: "",
   });
 
   resetState = () => {
     this.setState(this.getInitialState());
     document
       .querySelectorAll(".color-boxes input")
-      .forEach(item => (item.checked = false));
+      .forEach((item) => (item.checked = false));
   };
 
   handleSubmit(e) {
     e.preventDefault();
     const decksRef = firebase.database().ref("decks");
     const deck = {
-      ...this.state
+      ...this.state,
     };
     decksRef.push(deck);
+
+    const cardsRef = firebase.database().ref("cards");
+    const cards = this.parseDeck(this.state.cardstext);
+    cardsRef.push(cards);
+
     this.resetState();
   }
 
   handleChange(e) {
     if (e.target.type === "text" || e.target.type === "textarea") {
       this.setState({
-        [e.target.name]: e.target.value
+        [e.target.name]: e.target.value,
       });
     } else if (e.target.type === "checkbox") {
       var val = e.target.value;
       if (e.target.checked) {
-        this.setState(state => {
+        this.setState((state) => {
           const colors = [...state.colors, val];
           return { colors };
         });
       } else {
-        this.setState(state => {
-          const colors = state.colors.filter(item => item !== val);
+        this.setState((state) => {
+          const colors = state.colors.filter((item) => item !== val);
           return { colors };
         });
       }
     }
+  }
+
+  parseDeck(plainText) {
+    if (!plainText) return;
+    var deckListObject = {};
+    var cards = plainText.split("\n");
+
+    var reducedCards = cards.filter((item) => {
+      return item !== "[Deck]" && item !== "[Sideboard]" && item !== "";
+    });
+
+    for (const card of reducedCards) {
+      deckListObject[card.slice(card.indexOf(" "))] = card.slice(
+        0,
+        card.indexOf(" ")
+      );
+    }
+    return deckListObject;
   }
 
   render() {

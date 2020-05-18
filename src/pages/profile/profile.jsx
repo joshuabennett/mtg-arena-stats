@@ -13,7 +13,7 @@ import React from "react";
 import "./profile.scss";
 import firebase from "../../firebase/firebase";
 import Deck from "../../components/deck/deck";
-import { Link, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 class Profile extends React.Component {
   constructor(props) {
