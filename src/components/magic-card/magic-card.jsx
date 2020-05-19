@@ -12,13 +12,7 @@ class MagicCard extends React.Component {
   }
 
   componentDidMount() {
-    firebase
-      .database()
-      .ref(`cards/${this.props.card.cardName}`)
-      .once("value", (snapshot) => {
-        let card = snapshot.val();
-        this.setState({ card: card });
-      });
+    this.setState({ ...this.props.card });
   }
 
   render() {
@@ -26,9 +20,15 @@ class MagicCard extends React.Component {
     return (
       <div className="magic-card">
         <div className="card-name">{card.cardName}</div>
-        <div className="card-amount">{card.amount}</div>
-        <div className="card-wins">{card.wins}</div>
-        <div className="card-losses">{card.losses}</div>
+        <div className="card-amount">{card.timesDrafted}</div>
+        <div className="card-wins">{card.winsWithCard}</div>
+        <div className="card-losses">{card.lossesWithCard}</div>
+        <div className="win-pct">
+          {(
+            card.winsWithCard /
+            (card.winsWithCard + card.lossesWithCard)
+          ).toPrecision(3) * 100}
+        </div>
       </div>
     );
   }

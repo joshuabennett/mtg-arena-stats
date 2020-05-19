@@ -43,9 +43,9 @@ class ImportForm extends React.Component {
     decksRef.push(deck);
 
     const cards = this.parseDeck(this.state.cardstext);
-    for (let card of cards) {
+    cards.forEach((card) => {
       this.addCardToDB(card, deck);
-    }
+    });
 
     this.resetState();
   }
@@ -73,7 +73,7 @@ class ImportForm extends React.Component {
 
   parseDeck(plainText) {
     if (!plainText) return;
-    var deckListObject = {};
+    var deckListObject = [];
     var cards = plainText.split("\n");
 
     var reducedCards = cards.filter((item) => {
@@ -81,31 +81,42 @@ class ImportForm extends React.Component {
     });
 
     for (const card of reducedCards) {
-      deckListObject["cardName"] = card.slice(card.indexOf(" "));
-      deckListObject["amount"] = card.slice(0, card.indexOf(" "));
+      var cardName = card.slice(card.indexOf(" "));
+      var amount = card.slice(0, card.indexOf(" "));
+      deckListObject.push({
+        cardName,
+        amount,
+      });
     }
     return deckListObject;
   }
 
   addCardToDB(newCard, deck) {
-    const cardsRef = firebase.database.ref("cards");
+    const cardsRef = firebase.database().ref("cards");
     firebase
       .database()
-      .ref(`cards/${newCard.cardName}`)
+      .ref("cards")
+      .child(newCard.cardName)
       .once("value", (snapshot) => {
         if (snapshot.exists()) {
           var card = snapshot.val();
+          console.log(card);
+          console.log(snapshot.child("timesDrafted").val());
           let updatedInfo = {
-            timesDrafted: card.timesDrafted + newCard.amount,
-            winsWithCard: card.winsWithCard + deck.wins,
-            lossesWithCard: card.lossesWithCard + deck.losses,
+            timesDrafted:
+              snapshot.child("timesDrafted").val() + parseInt(newCard.amount),
+            winsWithCard:
+              snapshot.child("winsWithCard").val() + parseInt(deck.wins),
+            lossesWithCard:
+              snapshot.child("lossesWithCard").val() + parseInt(deck.losses),
           };
           cardsRef.child(newCard.cardName).update(updatedInfo);
         } else {
-          cardsRef.child(newCard.cardName).push({
-            timesDrafted: 0 + newCard.amount,
-            winsWithCard: 0 + deck.wins,
-            lossesWithCard: 0 + deck.losses,
+          cardsRef.child(newCard.cardName).set({
+            cardName: newCard.cardName,
+            timesDrafted: 0 + parseInt(newCard.amount),
+            winsWithCard: 0 + parseInt(deck.wins),
+            lossesWithCard: 0 + parseInt(deck.losses),
           });
         }
       });

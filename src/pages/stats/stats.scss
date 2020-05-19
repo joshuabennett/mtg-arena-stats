@@ -1,0 +1,33 @@
+.table-header {
+  display: flex;
+  flex-direction: row;
+
+  h3 {
+    width: 100px;
+    font-size: 14px;
+  }
+
+  .name-header {
+    width: 150px;
+  }
+}
+
+.magic-card {
+  display: flex;
+  flex-direction: row;
+
+  div {
+    width: 100px;
+    margin: 1px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  div:nth-child(odd) {
+    background-color: rgba(33, 200, 18, 0.23);
+  }
+
+  .card-name {
+    width: 150px;
+  }
+}
