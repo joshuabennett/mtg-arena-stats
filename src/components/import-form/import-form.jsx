@@ -99,13 +99,11 @@ class ImportForm extends React.Component {
       .get()
       .then((snapshot) => {
         if (snapshot.exists) {
+          var card = snapshot.data();
           let updatedInfo = {
-            timesDrafted:
-              snapshot.child("timesDrafted").val() + parseInt(newCard.amount),
-            winsWithCard:
-              snapshot.child("winsWithCard").val() + parseInt(deck.wins),
-            lossesWithCard:
-              snapshot.child("lossesWithCard").val() + parseInt(deck.losses),
+            timesDrafted: card.timesDrafted + parseInt(newCard.amount),
+            winsWithCard: card.winsWithCard + parseInt(deck.wins),
+            lossesWithCard: card.lossesWithCard + parseInt(deck.losses),
           };
           cardsRef.doc(newCard.cardName).update(updatedInfo);
         } else {

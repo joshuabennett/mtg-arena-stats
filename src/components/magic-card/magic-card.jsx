@@ -11,7 +11,7 @@ class MagicCard extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ ...this.props.card });
+    this.setState({ card: this.props.card });
   }
 
   render() {

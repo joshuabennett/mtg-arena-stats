@@ -37,6 +37,7 @@ class Stats extends React.Component {
     super(props);
     this.state = {
       cards: [],
+      desc: false,
     };
   }
 
@@ -44,28 +45,57 @@ class Stats extends React.Component {
     const cardsRef = firestore.collection("cards");
     cardsRef.get().then((snapshot) => {
       var newState = [];
-      snapshot.forEach((card) => {
-        newState.push({ card: card.data() });
+      snapshot.forEach((snapshot) => {
+        let card = snapshot.data();
+        newState.push({
+          cardName: card.cardName,
+          timesDrafted: card.timesDrafted,
+          winsWithCard: card.winsWithCard,
+          lossesWithCard: card.lossesWithCard,
+        });
       });
       this.setState({ cards: newState });
     });
   }
 
   render() {
+    const sortTable = () => {
+      this.setState((prevState) => {
+        if (prevState.desc) {
+          return {
+            cards: prevState.cards.sort(
+              (a, b) => b.timesDrafted - a.timesDrafted
+            ),
+            desc: false,
+          };
+        } else {
+          return {
+            cards: prevState.cards.sort(
+              (a, b) => a.timesDrafted - b.timesDrafted
+            ),
+            desc: true,
+          };
+        }
+      });
+      this.forceUpdate();
+    };
+
     return (
       <div className="stats-page">
         <div className="table">
           <h2 classame="table-header">Card Stats</h2>
           <div className="table-header">
             <h3 className="name-header">Card Name</h3>
-            <h3># Drafted</h3>
+            <h3 className="timesDrafted" onClick={sortTable}>
+              # Drafted
+            </h3>
             <h3># Wins</h3>
             <h3># Losses</h3>
             <h3>Win %</h3>
           </div>
           {this.state.cards.map((card) => {
             return (
-              <div className="table-row">
+              <div key={card.cardName} className="table-row">
                 <MagicCard card={card} />
               </div>
             );
