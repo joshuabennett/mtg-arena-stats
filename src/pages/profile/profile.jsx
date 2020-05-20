@@ -11,7 +11,7 @@
 
 import React from "react";
 import "./profile.scss";
-import firebase from "../../firebase/firebase";
+import { firestore } from "../../firebase/firebase";
 import Deck from "../../components/deck/deck";
 import { Link } from "react-router-dom";
 
@@ -24,21 +24,20 @@ class Profile extends React.Component {
     };
   }
   componentDidMount() {
-    const itemsRef = firebase.database().ref("decks");
-    itemsRef.on("value", (snapshot) => {
-      let items = snapshot.val();
+    const itemsRef = firestore.collection("decks");
+    itemsRef.get().then((snapshot) => {
       let newState = [];
-      for (let item in items) {
+      snapshot.forEach((snapshot) => {
+        let item = snapshot.data();
         newState.push({
-          id: item,
-          deckName: items[item].deckName,
-          colors: items[item].colors,
-          archetype: items[item].archetype,
-          wins: items[item].wins,
-          losses: items[item].losses,
-          cardstext: items[item].cardstext,
+          deckName: item.deckName,
+          colors: item.colors,
+          archetype: item.archetype,
+          wins: item.wins,
+          losses: item.losses,
+          cardstext: item.cardstext,
         });
-      }
+      });
       this.setState({
         decks: newState,
       });

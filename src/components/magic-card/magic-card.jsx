@@ -1,6 +1,5 @@
 import React from "react";
 import "./magic-card.scss";
-import firebase from "../../firebase/firebase";
 
 class MagicCard extends React.Component {
   constructor(props) {

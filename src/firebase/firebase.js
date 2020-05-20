@@ -2,6 +2,7 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 import "firebase/database";
+import "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDZ4-W1ENdv2Ii2XtLO8dJ7vEnfZUl0Ngk",
@@ -11,7 +12,7 @@ const firebaseConfig = {
   storageBucket: "arena-stats.appspot.com",
   messagingSenderId: "728485370177",
   appId: "1:728485370177:web:3dd8ea2a99bf2c04fce9c0",
-  measurementId: "G-617C4V05S7"
+  measurementId: "G-617C4V05S7",
 };
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
@@ -29,7 +30,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
         displayName,
         email,
         createdAt,
-        ...additionalData
+        ...additionalData,
       });
     } catch (error) {
       console.log("error creating user", error.message);

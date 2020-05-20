@@ -10,6 +10,7 @@
   justify-content: center;
   padding: 20px;
   cursor: pointer;
+  background-color: rgba(94, 18, 200, 0.23);
 
   h3 {
     margin: 0;
@@ -18,5 +19,22 @@
   .colors {
     display: flex;
     flex-direction: row;
+  }
+}
+
+a:link,
+a:visited {
+  color: black;
+  padding: 14px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+}
+
+a:hover,
+a:active {
+  .deck-item {
+    background-color: purple;
   }
 }

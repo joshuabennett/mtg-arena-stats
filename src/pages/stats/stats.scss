@@ -1,23 +1,30 @@
+.stats-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.table {
+  width: 80vw;
+}
+
 .table-header {
   display: flex;
   flex-direction: row;
 
   h3 {
-    width: 100px;
+    width: 20%;
     font-size: 14px;
-  }
-
-  .name-header {
-    width: 150px;
   }
 }
 
 .magic-card {
   display: flex;
   flex-direction: row;
+  width: 100%;
 
   div {
-    width: 100px;
+    width: 20%;
     margin: 1px;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -25,9 +32,5 @@
 
   div:nth-child(odd) {
     background-color: rgba(33, 200, 18, 0.23);
-  }
-
-  .card-name {
-    width: 150px;
   }
 }

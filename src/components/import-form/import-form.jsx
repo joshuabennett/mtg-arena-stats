@@ -7,7 +7,7 @@
 import React from "react";
 import "./import-form.scss";
 
-import firebase from "../../firebase/firebase";
+import { firestore } from "../../firebase/firebase";
 
 class ImportForm extends React.Component {
   constructor(props) {
@@ -36,11 +36,11 @@ class ImportForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const decksRef = firebase.database().ref("decks");
+    const decksRef = firestore.collection("decks");
     const deck = {
       ...this.state,
     };
-    decksRef.push(deck);
+    decksRef.add(deck);
 
     const cards = this.parseDeck(this.state.cardstext);
     cards.forEach((card) => {
@@ -92,16 +92,13 @@ class ImportForm extends React.Component {
   }
 
   addCardToDB(newCard, deck) {
-    const cardsRef = firebase.database().ref("cards");
-    firebase
-      .database()
-      .ref("cards")
-      .child(newCard.cardName)
-      .once("value", (snapshot) => {
-        if (snapshot.exists()) {
-          var card = snapshot.val();
-          console.log(card);
-          console.log(snapshot.child("timesDrafted").val());
+    const cardsRef = firestore.collection("cards");
+    firestore
+      .collection("cards")
+      .doc(newCard.cardName)
+      .get()
+      .then((snapshot) => {
+        if (snapshot.exists) {
           let updatedInfo = {
             timesDrafted:
               snapshot.child("timesDrafted").val() + parseInt(newCard.amount),
@@ -110,9 +107,9 @@ class ImportForm extends React.Component {
             lossesWithCard:
               snapshot.child("lossesWithCard").val() + parseInt(deck.losses),
           };
-          cardsRef.child(newCard.cardName).update(updatedInfo);
+          cardsRef.doc(newCard.cardName).update(updatedInfo);
         } else {
-          cardsRef.child(newCard.cardName).set({
+          cardsRef.doc(newCard.cardName).set({
             cardName: newCard.cardName,
             timesDrafted: 0 + parseInt(newCard.amount),
             winsWithCard: 0 + parseInt(deck.wins),
