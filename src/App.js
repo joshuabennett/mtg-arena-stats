@@ -12,9 +12,13 @@ import DeckList from "./components/deck-list/deck-list";
 import { auth, createUserProfileDocument } from "./firebase/firebase";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faSortUp,
+  faSortDown,
+  faSearch,
+} from "@fortawesome/free-solid-svg-icons";
 
-library.add(faSortUp, faSortDown);
+library.add(faSortUp, faSortDown, faSearch);
 
 class App extends React.Component {
   constructor(props) {

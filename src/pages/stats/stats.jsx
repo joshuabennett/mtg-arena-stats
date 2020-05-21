@@ -38,9 +38,12 @@ class Stats extends React.Component {
     super(props);
     this.state = {
       cards: [],
+      filteredCards: [],
+      searchText: "",
       desc: false,
       activeCol: "",
     };
+    this.filterCards = this.filterCards.bind(this);
   }
 
   componentDidMount() {
@@ -56,7 +59,17 @@ class Stats extends React.Component {
           lossesWithCard: card.lossesWithCard,
         });
       });
-      this.setState({ cards: newState });
+      this.setState({ cards: newState, filteredCards: newState });
+    });
+  }
+
+  filterCards(e) {
+    const text = e.target.value;
+    this.setState({ searchText: text });
+    this.setState({
+      filteredCards: this.state.cards.filter((card) => {
+        return card.cardName.indexOf(text) !== -1;
+      }),
     });
   }
 
@@ -84,6 +97,13 @@ class Stats extends React.Component {
       <div className="stats-page">
         <div className="table">
           <h2 classame="table-header">Card Stats</h2>
+          <input
+            type="text"
+            placeholder="Search Card"
+            value={this.state.searchText}
+            onChange={this.filterCards}
+          />
+          <FontAwesomeIcon icon="search" />
           <div className="table-header">
             <h3 className="cardName" onClick={sortTable}>
               Card Name
@@ -127,7 +147,7 @@ class Stats extends React.Component {
             </h3>
             <h3>Win %</h3>
           </div>
-          {this.state.cards.map((card) => {
+          {this.state.filteredCards.map((card) => {
             return (
               <div key={card.cardName} className="table-row">
                 <MagicCard card={card} />

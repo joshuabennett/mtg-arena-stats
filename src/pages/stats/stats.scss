@@ -6,14 +6,34 @@
 
 .table {
   width: 80vw;
+  padding: 20px;
+  background-color: white;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  border-radius: 20px;
+
+  input {
+    border: solid rgb(226, 226, 226) 2px;
+    border-radius: 30px;
+    height: 30px;
+    width: 300px;
+    margin: 10px 5px 10px 0;
+    padding-left: 15px;
+    align-self: flex-start;
+
+    &:focus {
+      outline: none;
+    }
+  }
 }
 
 .table-header {
   display: flex;
   flex-direction: row;
-  background-color: rgb(235, 237, 237);
+  background-color: rgba(238, 238, 252, 0.76);
   color: rgb(163, 162, 162);
   border-radius: 8px;
+  text-align: center;
 
   svg {
     padding-left: 10px;
@@ -23,6 +43,10 @@
     width: 20%;
     font-size: 14px;
   }
+}
+
+.table-row {
+  text-align: center;
 }
 
 .magic-card {
