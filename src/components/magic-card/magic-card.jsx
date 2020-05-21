@@ -24,9 +24,9 @@ class MagicCard extends React.Component {
         <div className="card-losses">{card.lossesWithCard}</div>
         <div className="win-pct">
           {(
-            card.winsWithCard /
-            (card.winsWithCard + card.lossesWithCard)
-          ).toPrecision(3) * 100}
+            (card.winsWithCard / (card.winsWithCard + card.lossesWithCard)) *
+            100
+          ).toPrecision(3)}
         </div>
       </div>
     );

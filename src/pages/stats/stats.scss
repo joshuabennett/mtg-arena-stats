@@ -11,6 +11,13 @@
 .table-header {
   display: flex;
   flex-direction: row;
+  background-color: rgb(235, 237, 237);
+  color: rgb(163, 162, 162);
+  border-radius: 8px;
+
+  svg {
+    padding-left: 10px;
+  }
 
   h3 {
     width: 20%;
@@ -26,11 +33,7 @@
   div {
     width: 20%;
     margin: 1px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-  }
-
-  div:nth-child(odd) {
-    background-color: rgba(33, 200, 18, 0.23);
+    padding-top: 15px;
+    padding-bottom: 15px;
   }
 }
