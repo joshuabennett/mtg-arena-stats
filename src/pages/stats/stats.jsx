@@ -31,6 +31,7 @@ import "./stats.scss";
 import { firestore } from "../../firebase/firebase";
 
 import MagicCard from "../../components/magic-card/magic-card";
+import TableHeader from "../../components/table-header/table-header";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class Stats extends React.Component {
@@ -80,12 +81,16 @@ class Stats extends React.Component {
       this.setState((prevState) => {
         if (prevState.desc) {
           return {
-            cards: prevState.cards.sort((a, b) => b[selection] - a[selection]),
+            filteredCards: prevState.filteredCards.sort(
+              (a, b) => b[selection] - a[selection]
+            ),
             desc: false,
           };
         } else {
           return {
-            cards: prevState.cards.sort((a, b) => a[selection] - b[selection]),
+            filteredCards: prevState.filteredCards.sort(
+              (a, b) => a[selection] - b[selection]
+            ),
             desc: true,
           };
         }
@@ -103,49 +108,29 @@ class Stats extends React.Component {
             value={this.state.searchText}
             onChange={this.filterCards}
           />
-          <FontAwesomeIcon icon="search" />
+          <span className="search-icon">
+            <FontAwesomeIcon icon="search" style={{ color: "lightgray" }} />
+          </span>
           <div className="table-header">
-            <h3 className="cardName" onClick={sortTable}>
-              Card Name
-              {this.state.activeCol === "cardName" ? (
-                this.state.desc ? (
-                  <FontAwesomeIcon icon="sort-down"></FontAwesomeIcon>
-                ) : (
-                  <FontAwesomeIcon icon="sort-up"></FontAwesomeIcon>
-                )
-              ) : null}
-            </h3>
-            <h3 className="timesDrafted" onClick={sortTable}>
-              # Drafted
-              {this.state.activeCol === "timesDrafted" ? (
-                this.state.desc ? (
-                  <FontAwesomeIcon icon="sort-down"></FontAwesomeIcon>
-                ) : (
-                  <FontAwesomeIcon icon="sort-up"></FontAwesomeIcon>
-                )
-              ) : null}
-            </h3>
-            <h3 className="winsWithCard" onClick={sortTable}>
-              # Wins
-              {this.state.activeCol === "winsWithCard" ? (
-                this.state.desc ? (
-                  <FontAwesomeIcon icon="sort-down"></FontAwesomeIcon>
-                ) : (
-                  <FontAwesomeIcon icon="sort-up"></FontAwesomeIcon>
-                )
-              ) : null}
-            </h3>
-            <h3 className="lossesWithCard" onClick={sortTable}>
-              # Losses
-              {this.state.activeCol === "lossesWithCard" ? (
-                this.state.desc ? (
-                  <FontAwesomeIcon icon="sort-down"></FontAwesomeIcon>
-                ) : (
-                  <FontAwesomeIcon icon="sort-up"></FontAwesomeIcon>
-                )
-              ) : null}
-            </h3>
-            <h3>Win %</h3>
+            {[
+              { name: "cardName", title: "Card Name" },
+              { name: "timesDrafted", title: "# Drafted" },
+              { name: "winsWithCard", title: "# Wins" },
+              { name: "lossesWithCard", title: "# Losses" },
+              { name: "winPct", title: "Win %" },
+            ].map((item) => {
+              return (
+                <TableHeader
+                  activeCol={this.state.activeCol}
+                  desc={this.state.desc}
+                  onClickHandler={sortTable}
+                  name={item.name}
+                >
+                  {item.title}
+                </TableHeader>
+              );
+            })}
+            }
           </div>
           {this.state.filteredCards.map((card) => {
             return (
