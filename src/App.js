@@ -80,7 +80,16 @@ class App extends React.Component {
             <Stats user={this.state.currentUser} set={this.state.currentSet} />
           )}
         />
-        <Route path="/profile" exact component={Profile} />
+        <Route
+          path="/profile"
+          exact
+          render={() => (
+            <Profile
+              user={this.state.currentUser}
+              set={this.state.currentSet}
+            />
+          )}
+        />
         <Route path={`/profile/:deckId`} component={DeckList} exact />
         <Route
           render={() =>

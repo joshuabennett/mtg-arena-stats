@@ -54,7 +54,6 @@ class Stats extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.set !== this.props.set) {
-      console.log(this.props.set);
       this.setState({ set: this.props.set });
       this.updateCards(this.props.set);
     }

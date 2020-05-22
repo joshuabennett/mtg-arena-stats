@@ -21,27 +21,46 @@ class Profile extends React.Component {
 
     this.state = {
       decks: [],
+      set: this.props.set,
     };
   }
   componentDidMount() {
-    const itemsRef = firestore.collection("decks");
-    itemsRef.get().then((snapshot) => {
-      let newState = [];
-      snapshot.forEach((snapshot) => {
-        let item = snapshot.data();
-        newState.push({
-          deckName: item.deckName,
-          colors: item.colors,
-          archetype: item.archetype,
-          wins: item.wins,
-          losses: item.losses,
-          cardstext: item.cardstext,
+    this.updateDecks(this.state.set);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.set !== this.props.set) {
+      this.setState({ set: this.props.set });
+      this.updateDecks(this.props.set);
+    }
+  }
+
+  updateDecks(set) {
+    if (this.props.user != null) {
+      const itemsRef = firestore
+        .collection("users")
+        .doc(this.props.user.uid)
+        .collection("sets")
+        .doc(set)
+        .collection("decks");
+      itemsRef.get().then((snapshot) => {
+        let newState = [];
+        snapshot.forEach((snapshot) => {
+          let item = snapshot.data();
+          newState.push({
+            deckName: item.deckName,
+            colors: item.colors,
+            archetype: item.archetype,
+            wins: item.wins,
+            losses: item.losses,
+            cardstext: item.cardstext,
+          });
+        });
+        this.setState({
+          decks: newState,
         });
       });
-      this.setState({
-        decks: newState,
-      });
-    });
+    }
   }
 
   render() {
