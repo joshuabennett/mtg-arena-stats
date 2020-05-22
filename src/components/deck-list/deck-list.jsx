@@ -11,7 +11,6 @@ class DeckList extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
     this.parseDeck(this.props.location.state.deck.cardstext);
   }
 

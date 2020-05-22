@@ -6,10 +6,29 @@
   margin-bottom: 20px;
   background-color: white;
 
-  .logo-container {
+  .set-selection {
+    display: flex;
+    align-items: center;
     height: 100%;
-    width: 70px;
-    padding: 25px;
+    width: 50%;
+    justify-content: flex-start;
+
+    label {
+      font-size: 14px;
+    }
+
+    select {
+      margin: 10px;
+      border-radius: 5px;
+      padding: 5px;
+      color: white;
+      background-color: rgb(73, 73, 73);
+      border: none;
+
+      &:focus {
+        outline: none;
+      }
+    }
   }
 
   .options {

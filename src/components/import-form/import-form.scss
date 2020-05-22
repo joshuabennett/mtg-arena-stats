@@ -1,28 +1,208 @@
-.container {
-  width: 100%;
+.import-form {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.deck-form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 33%;
 
-  h3 {
-    padding: 3px;
-    margin: 3px;
+  .container {
+    width: 40%;
+    padding: 20px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    border-radius: 20px;
+
+    h1 {
+      font-size: 22px;
+      float: right;
+    }
   }
 
-  input {
-    width: 33%;
-  }
-
-  .color-boxes {
+  .deck-form {
     display: flex;
-    flex-direction: row;
-    width: 50%;
+    flex-direction: column;
+
+    ::placeholder {
+      opacity: 0.5;
+    }
+
+    label {
+      margin-bottom: 3px;
+      margin-top: 10px;
+      font-size: 12px;
+    }
+
+    .text-input {
+      border: solid rgb(226, 226, 226) 2px;
+      border-radius: 5px;
+      height: 30px;
+      width: 300px;
+      padding-left: 15px;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    h3 {
+      padding: 3px;
+      margin: 3px;
+    }
+
+    .wins-and-losses {
+      display: flex;
+      flex-direction: row;
+
+      input {
+        width: 75px;
+        margin-right: 25px;
+      }
+
+      .wins-container,
+      .losses-container {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+
+    .color-boxes {
+      display: flex;
+      flex-direction: row;
+      width: 50%;
+
+      input[name="blue"] {
+        display: none;
+      }
+      input[name="blue"] + label {
+        background: url("../../assets/img/Mana_U.png") no-repeat;
+        background-size: 20px 20px;
+        opacity: 0.25;
+        width: 20px;
+        height: 20px;
+        padding-right: 10px;
+        cursor: pointer;
+      }
+      input[name="blue"]:checked + label {
+        background: url("../../assets/img/Mana_U.png") no-repeat;
+        background-size: 20px 20px;
+        opacity: 1;
+        width: 20px;
+        height: 20px;
+        padding-right: 10px;
+        cursor: pointer;
+      }
+
+      input[name="black"] {
+        display: none;
+      }
+      input[name="black"] + label {
+        background: url("../../assets/img/Mana_B.png") no-repeat;
+        background-size: 20px 20px;
+        opacity: 0.25;
+        width: 20px;
+        height: 20px;
+        padding-right: 10px;
+        cursor: pointer;
+      }
+      input[name="black"]:checked + label {
+        background: url("../../assets/img/Mana_B.png") no-repeat;
+        background-size: 20px 20px;
+        opacity: 1;
+        width: 20px;
+        height: 20px;
+        padding-right: 10px;
+        cursor: pointer;
+      }
+
+      input[name="red"] {
+        display: none;
+      }
+      input[name="red"] + label {
+        background: url("../../assets/img/Mana_R.png") no-repeat;
+        background-size: 20px 20px;
+        opacity: 0.25;
+        width: 20px;
+        height: 20px;
+        padding-right: 10px;
+        cursor: pointer;
+      }
+      input[name="red"]:checked + label {
+        background: url("../../assets/img/Mana_R.png") no-repeat;
+        background-size: 20px 20px;
+        opacity: 1;
+        width: 20px;
+        height: 20px;
+        padding-right: 10px;
+        cursor: pointer;
+      }
+
+      input[name="green"] {
+        display: none;
+      }
+      input[name="green"] + label {
+        background: url("../../assets/img/Mana_G.png") no-repeat;
+        background-size: 20px 20px;
+        opacity: 0.25;
+        width: 20px;
+        height: 20px;
+        padding-right: 10px;
+        cursor: pointer;
+      }
+      input[name="green"]:checked + label {
+        background: url("../../assets/img/Mana_G.png") no-repeat;
+        background-size: 20px 20px;
+        opacity: 1;
+        width: 20px;
+        height: 20px;
+        padding-right: 10px;
+        cursor: pointer;
+      }
+
+      input[name="white"] {
+        display: none;
+      }
+      input[name="white"] + label {
+        background: url("../../assets/img/Mana_W.png") no-repeat;
+        background-size: 20px 20px;
+        opacity: 0.25;
+        width: 20px;
+        height: 20px;
+        padding-right: 10px;
+        cursor: pointer;
+      }
+      input[name="white"]:checked + label {
+        background: url("../../assets/img/Mana_W.png") no-repeat;
+        background-size: 20px 20px;
+        opacity: 1;
+        width: 20px;
+        height: 20px;
+        padding-right: 10px;
+        cursor: pointer;
+      }
+
+      label {
+        margin-top: 0;
+        font-size: 14px;
+      }
+    }
+
+    textarea {
+      border: solid rgb(226, 226, 226) 2px;
+      border-radius: 5px;
+      width: 400px;
+      padding: 10px;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    button {
+      border-radius: 25px;
+      height: 40px;
+      width: 120px;
+      border: none;
+      background-color: rgb(56, 56, 56);
+      color: white;
+      margin-top: 10px;
+    }
   }
 }

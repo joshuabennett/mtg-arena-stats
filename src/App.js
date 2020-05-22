@@ -27,6 +27,7 @@ class App extends React.Component {
     this.state = {
       currentUser: null,
       id: null,
+      currentSet: "IKO",
     };
   }
 
@@ -52,13 +53,33 @@ class App extends React.Component {
     this.unsubscribeFromAuth();
   }
 
+  setChangeHandler = (e) => {
+    const newSet = e.target.value;
+    this.setState({ currentSet: newSet });
+  };
+
   render() {
     return (
       <div className="App">
-        <Header user={this.state.currentUser} />
+        <Header
+          user={this.state.currentUser}
+          setChangeHandler={this.setChangeHandler}
+        />
         <Route component={Homepage} path="/" exact />
-        <Route component={Import} path="/import" exact />
-        <Route component={Stats} path="/stats" exact />
+        <Route
+          path="/import"
+          exact
+          render={() => (
+            <Import user={this.state.currentUser} set={this.state.currentSet} />
+          )}
+        />
+        <Route
+          path="/stats"
+          exact
+          render={() => (
+            <Stats user={this.state.currentUser} set={this.state.currentSet} />
+          )}
+        />
         <Route path="/profile" exact component={Profile} />
         <Route path={`/profile/:deckId`} component={DeckList} exact />
         <Route

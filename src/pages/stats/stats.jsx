@@ -43,25 +43,45 @@ class Stats extends React.Component {
       searchText: "",
       desc: false,
       activeCol: "",
+      set: this.props.set,
     };
     this.filterCards = this.filterCards.bind(this);
   }
 
   componentDidMount() {
-    const cardsRef = firestore.collection("cards");
-    cardsRef.get().then((snapshot) => {
-      var newState = [];
-      snapshot.forEach((snapshot) => {
-        let card = snapshot.data();
-        newState.push({
-          cardName: card.cardName,
-          timesDrafted: card.timesDrafted,
-          winsWithCard: card.winsWithCard,
-          lossesWithCard: card.lossesWithCard,
+    this.updateCards(this.state.set);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.set !== this.props.set) {
+      console.log(this.props.set);
+      this.setState({ set: this.props.set });
+      this.updateCards(this.props.set);
+    }
+  }
+
+  updateCards(set) {
+    if (this.props.user != null) {
+      const cardsRef = firestore
+        .collection("users")
+        .doc(this.props.user.uid)
+        .collection("sets")
+        .doc(set)
+        .collection("cards");
+      cardsRef.get().then((snapshot) => {
+        var newState = [];
+        snapshot.forEach((snapshot) => {
+          let card = snapshot.data();
+          newState.push({
+            cardName: card.cardName,
+            timesDrafted: card.timesDrafted,
+            winsWithCard: card.winsWithCard,
+            lossesWithCard: card.lossesWithCard,
+          });
         });
+        this.setState({ cards: newState, filteredCards: newState });
       });
-      this.setState({ cards: newState, filteredCards: newState });
-    });
+    }
   }
 
   filterCards(e) {
@@ -101,7 +121,7 @@ class Stats extends React.Component {
     return (
       <div className="stats-page">
         <div className="table">
-          <h2 classame="table-header">Card Stats</h2>
+          <h2 classame="table-header">CARD STATS</h2>
           <input
             type="text"
             placeholder="Search Card"
