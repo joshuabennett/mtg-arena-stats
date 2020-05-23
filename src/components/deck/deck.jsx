@@ -6,16 +6,23 @@ const Deck = (props) => {
 
   return (
     <div className="deck-item">
-      <h3>{item.deckName}</h3>
+      <h2>{item.deckName}</h2>
       <div className="colors">
         {item.colors.length > 0
           ? item.colors.map((item) => {
-              return <span className="color">{item}</span>;
+              return (
+                <span className="color">
+                  <img
+                    src={`/images/Mana_${item.toUpperCase()}.png`}
+                    alt="color-symbol"
+                  />
+                </span>
+              );
             })
           : null}
       </div>
       <h3 className="archetype">{item.archetype}</h3>
-      <h3>{`${item.wins} - ${item.losses}`}</h3>
+      <span className="record">{`${item.wins} - ${item.losses}`}</span>
     </div>
   );
 };

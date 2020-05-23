@@ -1,7 +1,26 @@
 .deck-container {
-  width: 100vw;
+  width: 45vw;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  border-radius: 15px;
+  padding: 25px;
+  margin: 75px;
+
+  .deck-box {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  button {
+    border-radius: 25px;
+    height: 40px;
+    width: 120px;
+    border: none;
+    background-color: rgb(56, 56, 56);
+    color: white;
+    margin-top: 10px;
+  }
 }

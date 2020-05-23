@@ -37,15 +37,20 @@ class DeckList extends React.Component {
 
   render() {
     return (
-      <div className="deck-list">
-        {Object.keys(this.state.cards).map((key) => {
-          return (
-            <div className="row">
-              <span className="card-amount">{this.state.cards[key]}</span>
-              <span className="card-name">{key}</span>
-            </div>
-          );
-        })}
+      <div className="deck-list-page">
+        <div className="deck-list-container">
+          <h1 className="deck-name">Deck Name</h1>
+          <div className="deck-list">
+            {Object.keys(this.state.cards).map((key) => {
+              return (
+                <div className="row">
+                  <span className="card-amount">{this.state.cards[key]}</span>
+                  <span className="card-name">{key}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
     );
   }

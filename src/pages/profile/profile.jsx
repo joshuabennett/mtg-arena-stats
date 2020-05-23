@@ -67,22 +67,26 @@ class Profile extends React.Component {
     return (
       <div className="profile-page">
         <div className="deck-container">
-          {this.state.decks.length > 0
-            ? this.state.decks.map((item) => {
-                return (
-                  <Link
-                    to={{
-                      pathname: `/profile/${item.id}`,
-                      state: {
-                        deck: item,
-                      },
-                    }}
-                  >
-                    <Deck key={item.id} item={item} />
-                  </Link>
-                );
-              })
-            : null}
+          <h2>DECK BOX</h2>
+          <div className="deck-box">
+            {this.state.decks.length > 0
+              ? this.state.decks.map((item) => {
+                  return (
+                    <Link
+                      to={{
+                        pathname: `/profile/${item.id}`,
+                        state: {
+                          deck: item,
+                        },
+                      }}
+                    >
+                      <Deck key={item.id} item={item} />
+                    </Link>
+                  );
+                })
+              : null}
+          </div>
+          <button>View All Decks</button>
         </div>
       </div>
     );
