@@ -76,6 +76,9 @@ class Stats extends React.Component {
             timesDrafted: card.timesDrafted,
             winsWithCard: card.winsWithCard,
             lossesWithCard: card.lossesWithCard,
+            rarity: card.rarity,
+            image_url: card.image_url,
+            colors: card.colors,
           });
         });
         this.setState({ cards: newState, filteredCards: newState });
@@ -132,6 +135,8 @@ class Stats extends React.Component {
           </span>
           <div className="table-header">
             {[
+              { name: "colors", title: "Color" },
+              { name: "rarity", title: "Rarity" },
               { name: "cardName", title: "Card Name" },
               { name: "timesDrafted", title: "# Drafted" },
               { name: "winsWithCard", title: "# Wins" },

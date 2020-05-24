@@ -1,1 +1,60 @@
+.rarity {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
+  .rarity-pip {
+    padding: 0;
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    border: 2px solid lightgray;
+
+    &.common {
+      background-color: black;
+    }
+    &.uncommon {
+      background-color: silver;
+    }
+    &.rare {
+      background-color: gold;
+    }
+    &.mythic {
+      background-color: rgb(223, 5, 5);
+    }
+  }
+}
+
+.colors {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  div {
+    padding: 0;
+    width: 15px;
+    height: 15px;
+
+    &.B {
+      background: url("/images/Mana_B.png") no-repeat;
+      background-size: 15px 15px;
+    }
+    &.R {
+      background: url("/images/Mana_R.png") no-repeat;
+      background-size: 15px 15px;
+    }
+    &.U {
+      background: url("/images/Mana_U.png") no-repeat;
+      background-size: 15px 15px;
+    }
+    &.W {
+      background: url("/images/Mana_W.png") no-repeat;
+      background-size: 15px 15px;
+    }
+    &.G {
+      background: url("/images/Mana_G.png") no-repeat;
+      background-size: 15px 15px;
+    }
+  }
+}

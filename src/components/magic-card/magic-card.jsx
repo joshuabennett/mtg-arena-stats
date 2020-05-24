@@ -16,8 +16,18 @@ class MagicCard extends React.Component {
 
   render() {
     const { card } = this.state;
+    var rarityClass = `rarity-pip ${card.rarity}`;
+
     return (
       <div className="magic-card">
+        <div className="colors">
+          {card.colors
+            ? card.colors.map((color) => <div className={color}></div>)
+            : null}
+        </div>
+        <div className="rarity">
+          <div className={rarityClass}></div>
+        </div>
         <div className="card-name">{card.cardName}</div>
         <div className="card-amount">{card.timesDrafted}</div>
         <div className="card-wins">{card.winsWithCard}</div>
