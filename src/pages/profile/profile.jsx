@@ -54,6 +54,7 @@ class Profile extends React.Component {
             wins: item.wins,
             losses: item.losses,
             cardstext: item.cardstext,
+            cards: item.cards,
           });
         });
         this.setState({
@@ -69,18 +70,18 @@ class Profile extends React.Component {
         <div className="deck-container">
           <h2>DECK BOX</h2>
           <div className="deck-box">
-            {this.state.decks.length > 0
+            {this.state.decks
               ? this.state.decks.map((item) => {
                   return (
                     <Link
                       to={{
-                        pathname: `/profile/${item.id}`,
+                        pathname: `/profile/${item.deckName}`,
                         state: {
                           deck: item,
                         },
                       }}
                     >
-                      <Deck key={item.id} item={item} />
+                      <Deck key={item.deckName} item={item} />
                     </Link>
                   );
                 })

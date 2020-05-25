@@ -36,7 +36,7 @@ class ImportForm extends React.Component {
       .forEach((item) => (item.checked = false));
   };
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault();
     const decksRef = firestore
       .collection("users")
@@ -44,18 +44,21 @@ class ImportForm extends React.Component {
       .collection("sets")
       .doc(this.props.set)
       .collection("decks");
+
     const deck = {
       ...this.state,
     };
-    decksRef.add(deck);
-
     const cards = this.parseDeck(this.state.cardstext);
     this.setState({ loading: { status: true, total: cards.length } });
     cards.forEach((card) => {
       this.setState({ loading: { current: this.state.loading.current + 1 } });
       this.addCardToDB(card, deck);
     });
-
+    const newDeck = {
+      ...this.state,
+      cards: cards,
+    };
+    decksRef.add(newDeck);
     this.resetState();
   }
 
@@ -149,6 +152,7 @@ class ImportForm extends React.Component {
               colors: data.data.colors,
               rarity: data.data.rarity,
               image_url: data.data.image_uris.normal,
+              type_line: data.data.type_line,
             });
           }
         });

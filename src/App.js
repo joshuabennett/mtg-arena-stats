@@ -46,6 +46,8 @@ class App extends React.Component {
         });
       }
       this.setState({ currentUser: userAuth });
+      window.sessionStorage.setItem("currentUser", userAuth.uid);
+      window.sessionStorage.setItem("currentSet", "IKO");
     });
   }
 
@@ -56,6 +58,7 @@ class App extends React.Component {
   setChangeHandler = (e) => {
     const newSet = e.target.value;
     this.setState({ currentSet: newSet });
+    window.sessionStorage.setItem("currentSet", newSet);
   };
 
   render() {

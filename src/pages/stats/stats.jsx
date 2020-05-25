@@ -79,6 +79,7 @@ class Stats extends React.Component {
             rarity: card.rarity,
             image_url: card.image_url,
             colors: card.colors,
+            type_line: card.type_line,
           });
         });
         this.setState({ cards: newState, filteredCards: newState });
@@ -156,13 +157,15 @@ class Stats extends React.Component {
             })}
             }
           </div>
-          {this.state.filteredCards.map((card) => {
-            return (
-              <div key={card.cardName} className="table-row">
-                <MagicCard card={card} />
-              </div>
-            );
-          })}
+          {this.state.filteredCards
+            .filter((card) => !card.type_line.includes("Basic Land"))
+            .map((card) => {
+              return (
+                <div key={card.cardName} className="table-row">
+                  <MagicCard card={card} />
+                </div>
+              );
+            })}
         </div>
       </div>
     );

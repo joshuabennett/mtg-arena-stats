@@ -1,38 +1,48 @@
 import React from "react";
 import "./deck-list.scss";
 
+import { firestore } from "../../firebase/firebase";
+
 class DeckList extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      cards: {},
+      cards: [],
     };
   }
 
   componentDidMount() {
-    this.parseDeck(this.props.location.state.deck.cardstext);
+    this.getCards(this.props.location.state.deck.cards);
   }
 
-  parseDeck(plainText) {
-    if (!plainText) return;
-    var deckListObject = {};
-    var cards = plainText.split("\n");
-
-    var reducedCards = cards.filter((item) => {
-      return item !== "[Deck]" && item !== "[Sideboard]" && item !== "";
-    });
-
-    for (const card of reducedCards) {
-      deckListObject[card.slice(card.indexOf(" "))] = card.slice(
-        0,
-        card.indexOf(" ")
-      );
+  getCards(cards) {
+    if (window.sessionStorage.getItem("currentUser")) {
+      var newState = [];
+      cards.forEach(async (card) => {
+        var cardType;
+        await firestore
+          .collection("users")
+          .doc(window.sessionStorage.getItem("currentUser"))
+          .collection("sets")
+          .doc(window.sessionStorage.getItem("currentSet"))
+          .collection("cards")
+          .doc(card.cardName)
+          .get()
+          .then((snapshot) => {
+            if (snapshot.exists) {
+              cardType = snapshot.data().type_line;
+              console.log(cardType);
+            }
+          });
+        newState.push({
+          cardAmount: card.amount,
+          cardName: card.cardName,
+          cardType: cardType,
+        });
+      });
+      this.setState({ cards: newState });
     }
-    this.setState((state) => {
-      const cards = { ...state.cards, ...deckListObject };
-      return { cards };
-    });
   }
 
   render() {
@@ -41,14 +51,16 @@ class DeckList extends React.Component {
         <div className="deck-list-container">
           <h1 className="deck-name">Deck Name</h1>
           <div className="deck-list">
-            {Object.keys(this.state.cards).map((key) => {
-              return (
-                <div className="row">
-                  <span className="card-amount">{this.state.cards[key]}</span>
-                  <span className="card-name">{key}</span>
-                </div>
-              );
-            })}
+            {this.state.cards
+              ? this.state.cards.map((card) => {
+                  return (
+                    <div className="row">
+                      <div className="card-amount">{card.cardAmount} x </div>
+                      <div className="card-name">{card.cardName}</div>
+                    </div>
+                  );
+                })
+              : null}
           </div>
         </div>
       </div>
