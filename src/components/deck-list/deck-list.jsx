@@ -2,6 +2,7 @@ import React from "react";
 import "./deck-list.scss";
 
 import { firestore } from "../../firebase/firebase";
+import DeckSection from "../deck-list-section/deck-list-section";
 
 class DeckList extends React.Component {
   constructor(props) {
@@ -93,102 +94,20 @@ class DeckList extends React.Component {
         <div className="deck-list-container">
           <h1 className="deck-name">Deck Name</h1>
           <div className="deck-list">
-            <h3>
-              Creatures (
-              {this.state.creatures.reduce(
-                (accumalator, currentVal) =>
-                  accumalator + parseInt(currentVal.cardAmount),
-                0
-              )}
-              )
-            </h3>
-            {this.state.creatures
-              ? this.state.creatures.map((card) => {
-                  return (
-                    <div className="row">
-                      <div className="card-amount">{card.cardAmount} x </div>
-                      <div className="card-name">{card.cardName}</div>
-                    </div>
-                  );
-                })
-              : null}
-            <h3>
-              Artifacts (
-              {this.state.artifacts.reduce(
-                (accumalator, currentVal) =>
-                  accumalator + parseInt(currentVal.cardAmount),
-                0
-              )}
-              )
-            </h3>
-            {this.state.artifacts
-              ? this.state.artifacts.map((card) => {
-                  return (
-                    <div className="row">
-                      <div className="card-amount">{card.cardAmount} x </div>
-                      <div className="card-name">{card.cardName}</div>
-                    </div>
-                  );
-                })
-              : null}
-            <h3>
-              Spells (
-              {this.state.spells.reduce(
-                (accumalator, currentVal) =>
-                  accumalator + parseInt(currentVal.cardAmount),
-                0
-              )}
-              )
-            </h3>
-            {this.state.spells
-              ? this.state.spells.map((card) => {
-                  return (
-                    <div className="row">
-                      <div className="card-amount">{card.cardAmount} x </div>
-                      <div className="card-name">{card.cardName}</div>
-                    </div>
-                  );
-                })
-              : null}
-
-            <h3>
-              Enchantments (
-              {this.state.enchantments.reduce(
-                (accumalator, currentVal) =>
-                  accumalator + parseInt(currentVal.cardAmount),
-                0
-              )}
-              )
-            </h3>
-            {this.state.enchantments
-              ? this.state.enchantments.map((card) => {
-                  return (
-                    <div className="row">
-                      <div className="card-amount">{card.cardAmount} x </div>
-                      <div className="card-name">{card.cardName}</div>
-                    </div>
-                  );
-                })
-              : null}
-            <h3>
-              Lands (
-              {this.state.lands.reduce(
-                (accumalator, currentVal) =>
-                  accumalator + parseInt(currentVal.cardAmount),
-                0
-              )}
-              )
-            </h3>
-            {this.state.lands
-              ? this.state.lands.map((card) => {
-                  return (
-                    <div className="row">
-                      <div className="card-amount">{card.cardAmount} x </div>
-                      <div className="card-name">{card.cardName}</div>
-                    </div>
-                  );
-                })
-              : null}
+            <DeckSection
+              sectionName="Creatures"
+              section={this.state.creatures}
+            />
+            <DeckSection
+              sectionName="Artifacts"
+              section={this.state.artifacts}
+            />
+            <DeckSection
+              sectionName="Enchantments"
+              section={this.state.enchantments}
+            />
+            <DeckSection sectionName="Spells" section={this.state.spells} />
+            <DeckSection sectionName="Lands" section={this.state.lands} />
           </div>
         </div>
       </div>

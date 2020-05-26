@@ -1,0 +1,14 @@
+.deck-section {
+  display: flex;
+  flex-direction: column;
+
+  .row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+
+    div {
+      padding-right: 10px;
+    }
+  }
+}
