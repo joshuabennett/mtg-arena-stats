@@ -74,6 +74,7 @@ class Profile extends React.Component {
               ? this.state.decks.map((item) => {
                   return (
                     <Link
+                      key={item.deckName}
                       to={{
                         pathname: `/profile/${item.deckName}`,
                         state: {
