@@ -22,9 +22,6 @@ class DeckList extends React.Component {
     this.getCards(this.props.location.state.deck.cards);
   }
 
-  // This is the only way I can get the cards to go into the for loop of sort cards.
-  // I'm still not sure what's happening. But this works for now until I find a better way.
-
   async getCards(cards) {
     if (window.sessionStorage.getItem("currentUser")) {
       var newState = [];
@@ -48,11 +45,12 @@ class DeckList extends React.Component {
           });
         })
       );
-      this.setState({ cards: newState }, this.sortCards());
+      this.setState({ cards: newState }, () => this.sortCards());
     }
   }
 
   sortCards() {
+    console.log("called");
     var creatures = [];
     var enchantments = [];
     var artifacts = [];
