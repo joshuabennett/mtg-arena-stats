@@ -1,6 +1,8 @@
 import React from "react";
 import "./magic-card.scss";
 
+import { Link } from "react-router-dom";
+
 class MagicCard extends React.Component {
   constructor(props) {
     super(props);
@@ -28,7 +30,9 @@ class MagicCard extends React.Component {
         <div className="rarity">
           <div className={rarityClass}></div>
         </div>
-        <div className="card-name">{card.cardName}</div>
+        <div className="card-name">
+          <Link to={`/card/${card.cardName}`}>{card.cardName}</Link>
+        </div>
         <div className="card-amount">{card.timesDrafted}</div>
         <div className="card-wins">{card.winsWithCard}</div>
         <div className="card-losses">{card.lossesWithCard}</div>

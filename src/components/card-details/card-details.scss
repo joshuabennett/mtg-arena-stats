@@ -1,0 +1,65 @@
+.card-details-page {
+  display: flex;
+  justify-content: center;
+
+  .card-details-container {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    height: 400px;
+
+    .card-image {
+      img {
+        max-height: 100%;
+        padding-right: 15px;
+      }
+    }
+    .card-information {
+      padding: 15px;
+
+      .details-card-colors {
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: row;
+
+        .color-name {
+          img {
+            padding-top: 2px;
+            height: 18px;
+          }
+        }
+      }
+
+      .details-rarity {
+        position: relative;
+        width: 25%;
+        font-size: 12px;
+        border-radius: 25px;
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        background-color: rgba(255, 0, 0, 0.164);
+        color: red;
+        display: flex;
+        flex-direction: row;
+        font-weight: bold;
+
+        .details-rarity-pip {
+          position: absolute;
+          right: 12px;
+          top: 7px;
+          height: 10px;
+          width: 10px;
+          background-color: red;
+          border-radius: 50%;
+        }
+      }
+
+      h1 {
+        margin: 0;
+      }
+    }
+  }
+}
