@@ -24,37 +24,31 @@ class DeckList extends React.Component {
 
   // This is the only way I can get the cards to go into the for loop of sort cards.
   // I'm still not sure what's happening. But this works for now until I find a better way.
-  componentDidUpdate(prevProps) {
-    if (prevProps !== this.props) {
-      this.sortCards();
-    }
-  }
 
   async getCards(cards) {
     if (window.sessionStorage.getItem("currentUser")) {
       var newState = [];
-      cards.forEach(async (card) => {
-        var cardType;
-        await firestore
-          .collection("users")
-          .doc(window.sessionStorage.getItem("currentUser"))
-          .collection("sets")
-          .doc(window.sessionStorage.getItem("currentSet"))
-          .collection("cards")
-          .doc(card.cardName)
-          .get()
-          .then((snapshot) => {
-            if (snapshot.exists) {
-              cardType = snapshot.data().type_line;
-            }
+      await Promise.all(
+        cards.map(async (card) => {
+          var snapshot = await firestore
+            .collection("users")
+            .doc(window.sessionStorage.getItem("currentUser"))
+            .collection("sets")
+            .doc(window.sessionStorage.getItem("currentSet"))
+            .collection("cards")
+            .doc(card.cardName)
+            .get();
+          if (snapshot.exists) {
+            var cardType = snapshot.data().type_line;
+          }
+          newState.push({
+            cardAmount: card.amount,
+            cardName: card.cardName,
+            cardType: cardType,
           });
-        newState.push({
-          cardAmount: card.amount,
-          cardName: card.cardName,
-          cardType: cardType,
-        });
-      });
-      this.setState({ cards: newState });
+        })
+      );
+      this.setState({ cards: newState }, this.sortCards());
     }
   }
 
@@ -64,7 +58,6 @@ class DeckList extends React.Component {
     var artifacts = [];
     var lands = [];
     var spells = [];
-    console.log(this.state.cards);
     this.state.cards.forEach((card) => {
       if (card.cardType) {
         console.log(card);
@@ -84,7 +77,6 @@ class DeckList extends React.Component {
         }
       }
     });
-    console.log(creatures);
     this.setState({ creatures, enchantments, artifacts, lands, spells });
   }
 
