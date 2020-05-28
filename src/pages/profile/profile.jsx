@@ -14,6 +14,8 @@ import "./profile.scss";
 import { firestore } from "../../firebase/firebase";
 import Deck from "../../components/deck/deck";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import DataBox from "../../components/data-box/data-box";
 
 class Profile extends React.Component {
   constructor(props) {
@@ -89,6 +91,36 @@ class Profile extends React.Component {
               : null}
           </div>
           <button>View All Decks</button>
+        </div>
+        <div className="player-container">
+          {this.props.user ? (
+            <div className="username">
+              <FontAwesomeIcon icon="user" />
+              <h2>{this.props.user.displayName}</h2>
+            </div>
+          ) : null}
+          {this.state.decks ? (
+            <div className="player-stats">
+              <DataBox
+                iconName="trophy"
+                label="Total Wins"
+                data={this.state.decks.reduce(
+                  (accumaltor, currentVal) =>
+                    accumaltor + parseInt(currentVal.wins),
+                  0
+                )}
+              />
+              <DataBox
+                iconName="skull"
+                label="Total Losses"
+                data={this.state.decks.reduce(
+                  (accumaltor, currentVal) =>
+                    accumaltor + parseInt(currentVal.losses),
+                  0
+                )}
+              />
+            </div>
+          ) : null}
         </div>
       </div>
     );

@@ -1,26 +1,49 @@
-.deck-container {
-  width: 45vw;
+.profile-page {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-radius: 15px;
-  padding: 25px;
-  margin: 75px;
+  flex-direction: row;
 
-  .deck-box {
+  .deck-container {
+    width: 45vw;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    padding: 25px;
+    margin: 75px;
+
+    .deck-box {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    button {
+      border-radius: 25px;
+      height: 40px;
+      width: 120px;
+      border: none;
+      background-color: rgb(56, 56, 56);
+      color: white;
+      margin-top: 10px;
+    }
   }
-  button {
-    border-radius: 25px;
-    height: 40px;
-    width: 120px;
-    border: none;
-    background-color: rgb(56, 56, 56);
-    color: white;
-    margin-top: 10px;
+
+  .player-container {
+    width: 45vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .username {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      h2 {
+        margin: 0;
+        padding-left: 10px;
+      }
+    }
   }
 }

@@ -17,9 +17,23 @@ import {
   faSortUp,
   faSortDown,
   faSearch,
+  faHands,
+  faTrophy,
+  faSkull,
+  faCalculator,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faSortUp, faSortDown, faSearch);
+library.add(
+  faSortUp,
+  faSortDown,
+  faSearch,
+  faHands,
+  faTrophy,
+  faSkull,
+  faCalculator,
+  faUser
+);
 
 class App extends React.Component {
   constructor(props) {

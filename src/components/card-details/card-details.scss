@@ -1,3 +1,31 @@
+@mixin rarity($rgb, $rgba, $class) {
+  #{$class} {
+    position: relative;
+    height: 25%;
+    font-size: 12px;
+    border-radius: 25px;
+    padding-left: 15px;
+    padding-right: 30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: $rgba;
+    color: $rgb;
+    display: flex;
+    flex-direction: row;
+    font-weight: bold;
+
+    .details-rarity-pip {
+      position: absolute;
+      right: 12px;
+      top: 7px;
+      height: 10px;
+      width: 10px;
+      background-color: $rgb;
+      border-radius: 50%;
+    }
+  }
+}
+
 .card-details-page {
   display: flex;
   justify-content: center;
@@ -23,6 +51,15 @@
         display: flex;
         flex-direction: row;
 
+        @include rarity(rgb(255, 0, 0), rgba(255, 0, 0, 0.17), ".mythic");
+        @include rarity(rgb(219, 187, 4), rgba(255, 215, 0, 0.17), ".rare");
+        @include rarity(
+          rgb(179, 178, 178),
+          rgba(192, 192, 192, 0.17),
+          ".uncommon"
+        );
+        @include rarity(rgb(0, 0, 0), rgba(0, 0, 0, 0.17), ".common");
+
         .color-name {
           img {
             padding-top: 2px;
@@ -31,34 +68,12 @@
         }
       }
 
-      .details-rarity {
-        position: relative;
-        width: 25%;
-        font-size: 12px;
-        border-radius: 25px;
-        padding-left: 15px;
-        padding-right: 15px;
-        padding-top: 5px;
-        padding-bottom: 5px;
-        background-color: rgba(255, 0, 0, 0.164);
-        color: red;
-        display: flex;
-        flex-direction: row;
-        font-weight: bold;
-
-        .details-rarity-pip {
-          position: absolute;
-          right: 12px;
-          top: 7px;
-          height: 10px;
-          width: 10px;
-          background-color: red;
-          border-radius: 50%;
-        }
-      }
-
       h1 {
         margin: 0;
+      }
+      .stats-table {
+        display: flex;
+        flex-direction: column;
       }
     }
   }

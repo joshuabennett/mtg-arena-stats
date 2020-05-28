@@ -2,6 +2,8 @@ import React from "react";
 import "./card-details.scss";
 
 import { firestore } from "../../firebase/firebase";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import DataBox from "../data-box/data-box";
 
 class CardDetails extends React.Component {
   constructor(props) {
@@ -49,20 +51,38 @@ class CardDetails extends React.Component {
               <span className="color-name">
                 <img src={`/images/Mana_${card.colors}.png`} alt="color" />
               </span>
-              <span className="details-rarity">
+              <span className={`details-rarity ${card.rarity}`}>
                 <div className="details-rarity-pip"></div>
                 {card.rarity}
               </span>
             </div>
             <div className="stats-table">
-              <div className="details-times-drafted">
-                # Drafted: {card.timesDrafted}
-              </div>
-              <div className="details-wins"># Wins: {card.winsWithCard}</div>
-              <div className="details-losses">
-                # Losses: {card.lossesWithCard}
-              </div>
-              <div className="details-winpct">Win Percentage: </div>
+              <DataBox
+                iconName="hands"
+                label="Total Drafted"
+                data={card.timesDrafted}
+              />
+              <DataBox
+                iconName="trophy"
+                label="Total Wins"
+                data={card.winsWithCard}
+              />
+              <DataBox
+                iconName="skull"
+                label="Total Losses"
+                data={card.lossesWithCard}
+              />
+              <DataBox
+                iconName="calculator"
+                label="Win Percentage"
+                data={
+                  (
+                    (card.winsWithCard /
+                      (card.winsWithCard + card.lossesWithCard)) *
+                    100
+                  ).toPrecision(2) + "%"
+                }
+              />
               {/* Archetype Information
           Decks Used In and Amount */}
             </div>
