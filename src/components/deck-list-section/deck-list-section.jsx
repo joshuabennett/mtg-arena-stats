@@ -17,7 +17,7 @@ const DeckSection = (props) => (
     {props.section
       ? props.section.map((card) => {
           return (
-            <div className="row">
+            <div className="card-row">
               <div className="card-amount">{card.cardAmount}x</div>
               <div className="card-name">{card.cardName}</div>
             </div>

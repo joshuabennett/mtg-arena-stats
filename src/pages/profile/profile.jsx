@@ -6,6 +6,7 @@
 // Top 3 commons drafted
 // Top 3 uncommons drafted
 // Top 3 rares drafted
+// Favorite Card?
 
 // List of decks (recent or not?) with win rates
 
@@ -67,8 +68,62 @@ class Profile extends React.Component {
   }
 
   render() {
+    var totalWins = this.state.decks.reduce(
+      (accumaltor, currentVal) => accumaltor + parseInt(currentVal.wins),
+      0
+    );
     return (
       <div className="profile-page">
+        {this.props.user ? (
+          <div className="player-container">
+            <div className="avatar">
+              <img src="images/Avatar_Mu.png" alt="avatar" />
+            </div>
+            <div className="player-info-container">
+              <div className="username">
+                <FontAwesomeIcon icon="user" />
+                <h2>{this.props.user.displayName}</h2>
+              </div>
+              {this.state.decks ? (
+                <div className="player-stats">
+                  <DataBox
+                    iconName="trophy"
+                    label="Total Wins"
+                    data={totalWins}
+                  />
+                  <DataBox
+                    iconName="skull"
+                    label="Total Losses"
+                    data={this.state.decks.reduce(
+                      (accumaltor, currentVal) =>
+                        accumaltor + parseInt(currentVal.losses),
+                      0
+                    )}
+                  />
+                  <DataBox
+                    iconName="hands"
+                    label="Drafts Played"
+                    data={this.state.decks.length}
+                  />
+                  <DataBox
+                    iconName="trophy"
+                    label="7 Win Drafts"
+                    data={this.state.decks.reduce(
+                      (accum, currentVal) =>
+                        currentVal.wins > 6 ? accum + 1 : accum,
+                      0
+                    )}
+                  />
+                  <DataBox
+                    iconName="calculator"
+                    label="Average Wins"
+                    data={(totalWins / this.state.decks.length).toPrecision(3)}
+                  />
+                </div>
+              ) : null}
+            </div>
+          </div>
+        ) : null}
         <div className="deck-container">
           <h2>DECK BOX</h2>
           <div className="deck-box">
@@ -91,36 +146,6 @@ class Profile extends React.Component {
               : null}
           </div>
           <button>View All Decks</button>
-        </div>
-        <div className="player-container">
-          {this.props.user ? (
-            <div className="username">
-              <FontAwesomeIcon icon="user" />
-              <h2>{this.props.user.displayName}</h2>
-            </div>
-          ) : null}
-          {this.state.decks ? (
-            <div className="player-stats">
-              <DataBox
-                iconName="trophy"
-                label="Total Wins"
-                data={this.state.decks.reduce(
-                  (accumaltor, currentVal) =>
-                    accumaltor + parseInt(currentVal.wins),
-                  0
-                )}
-              />
-              <DataBox
-                iconName="skull"
-                label="Total Losses"
-                data={this.state.decks.reduce(
-                  (accumaltor, currentVal) =>
-                    accumaltor + parseInt(currentVal.losses),
-                  0
-                )}
-              />
-            </div>
-          ) : null}
         </div>
       </div>
     );
