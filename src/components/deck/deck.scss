@@ -1,6 +1,6 @@
 .deck-item {
-  width: 120px;
-  height: 120px;
+  width: 100%;
+  height: 90px;
   border: 2px solid rgb(206, 204, 204);
   border-radius: 10px;
   display: flex;
@@ -11,6 +11,13 @@
   padding: 20px;
   cursor: pointer;
   background-color: white;
+
+  &:hover {
+    background-color: rgb(90, 90, 90);
+    a {
+      color: white;
+    }
+  }
 
   h3,
   h2 {
@@ -25,22 +32,5 @@
       height: 20px;
       width: 20px;
     }
-  }
-}
-
-a:link,
-a:visited {
-  color: black;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 14px;
-}
-
-a:hover,
-a:active {
-  .deck-item {
-    background-color: rgb(90, 90, 90);
-    color: white;
   }
 }

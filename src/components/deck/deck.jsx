@@ -5,7 +5,7 @@ const Deck = (props) => {
   var { item } = props;
 
   return (
-    <div className="deck-item">
+    <div className="lower-deck-item">
       <h2>{item.deckName}</h2>
       <div className="colors">
         {item.colors.length > 0

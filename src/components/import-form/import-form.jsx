@@ -9,6 +9,7 @@ import "./import-form.scss";
 
 import { firestore } from "../../firebase/firebase";
 import Axios from "axios";
+import DataBox from "../data-box/data-box";
 
 class ImportForm extends React.Component {
   constructor(props) {
@@ -27,6 +28,8 @@ class ImportForm extends React.Component {
     archetype: "",
     cardstext: "",
     loading: { status: false, current: 0, total: 0 },
+    totalMana: 0,
+    manaCosts: [],
   });
 
   resetState = () => {
@@ -57,6 +60,7 @@ class ImportForm extends React.Component {
     const newDeck = {
       ...this.state,
       cards: cards,
+      date: new Date(),
     };
     decksRef.add(newDeck);
     this.resetState();
@@ -152,9 +156,17 @@ class ImportForm extends React.Component {
               colors: data.data.colors,
               rarity: data.data.rarity,
               image_url: data.data.image_uris.normal,
+              image_crop: data.data.image_uris.art_crop,
+              cmc: data.data.cmc,
               type_line: data.data.type_line,
             });
           }
+          var manaCosts = this.state.manaCosts;
+          manaCosts[data.data.cmc] += 1;
+          this.setState({
+            totalMana: this.state.totalMana + data.data.cmc,
+            manaCosts: manaCosts,
+          });
         });
     }
   }

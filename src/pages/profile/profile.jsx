@@ -1,14 +1,10 @@
-// Username (current set default)
-// Current Rank??
-// Total Drafts Played
-// Total Win Rate
 // Archetype win rates
 // Top 3 commons drafted
 // Top 3 uncommons drafted
 // Top 3 rares drafted
 // Favorite Card?
 
-// List of decks (recent or not?) with win rates
+// Need to update so that user is pulled from URL to load profile instead of from props.
 
 import React from "react";
 import "./profile.scss";
@@ -25,16 +21,19 @@ class Profile extends React.Component {
     this.state = {
       decks: [],
       set: this.props.set,
+      cards: [],
     };
   }
   componentDidMount() {
     this.updateDecks(this.state.set);
+    this.updateCards(this.state.set);
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.set !== this.props.set) {
       this.setState({ set: this.props.set });
       this.updateDecks(this.props.set);
+      this.updateCards(this.props.set);
     }
   }
 
@@ -67,9 +66,44 @@ class Profile extends React.Component {
     }
   }
 
+  updateCards(set) {
+    if (this.props.user != null) {
+      const cardsRef = firestore
+        .collection("users")
+        .doc(this.props.user.uid)
+        .collection("sets")
+        .doc(set)
+        .collection("cards");
+      cardsRef.get().then((snapshot) => {
+        var newState = [];
+        snapshot.forEach((snapshot) => {
+          let card = snapshot.data();
+          newState.push({
+            cardName: card.cardName,
+            timesDrafted: card.timesDrafted,
+            winsWithCard: card.winsWithCard,
+            lossesWithCard: card.lossesWithCard,
+            rarity: card.rarity,
+            image_url: card.image_url,
+            colors: card.colors,
+            type_line: card.type_line,
+            cmc: card.cmc,
+            crop: card.image_crop,
+          });
+        });
+        newState = newState.sort((a, b) => b.timesDrafted - a.timesDrafted);
+        this.setState({ cards: newState });
+      });
+    }
+  }
+
   render() {
     var totalWins = this.state.decks.reduce(
       (accumaltor, currentVal) => accumaltor + parseInt(currentVal.wins),
+      0
+    );
+    var totalLosses = this.state.decks.reduce(
+      (accumaltor, currentVal) => accumaltor + parseInt(currentVal.losses),
       0
     );
     return (
@@ -94,11 +128,7 @@ class Profile extends React.Component {
                   <DataBox
                     iconName="skull"
                     label="Total Losses"
-                    data={this.state.decks.reduce(
-                      (accumaltor, currentVal) =>
-                        accumaltor + parseInt(currentVal.losses),
-                      0
-                    )}
+                    data={totalLosses}
                   />
                   <DataBox
                     iconName="hands"
@@ -119,33 +149,71 @@ class Profile extends React.Component {
                     label="Average Wins"
                     data={(totalWins / this.state.decks.length).toPrecision(3)}
                   />
+                  <DataBox
+                    iconName="calculator"
+                    label="Win Percentage"
+                    data={(
+                      (totalWins / (totalWins + totalLosses)) *
+                      100
+                    ).toPrecision(3)}
+                  />
                 </div>
               ) : null}
             </div>
           </div>
         ) : null}
-        <div className="deck-container">
-          <h2>DECK BOX</h2>
-          <div className="deck-box">
-            {this.state.decks
-              ? this.state.decks.map((item) => {
-                  return (
-                    <Link
-                      key={item.deckName}
-                      to={{
-                        pathname: `/profile/${item.deckName}`,
-                        state: {
-                          deck: item,
-                        },
-                      }}
-                    >
-                      <Deck key={item.deckName} item={item} />
-                    </Link>
-                  );
-                })
-              : null}
+        <div className="profile-details-container">
+          <div className="sidebar-container">
+            <div className="favorite-cards-box">
+              <div className="favorite-title">
+                <h3>Most Drafted Cards</h3>
+              </div>
+              {this.state.cards.slice(0, 3).map((card) => {
+                return (
+                  <div className="favorite-row">
+                    <img src={card.crop} alt="card icon" />
+                    <div className="favorite-info">
+                      <div className="top-row">
+                        <h4>{card.cardName}</h4>
+                        <span>{card.timesDrafted}x</span>
+                      </div>
+                      <div className="card-data">
+                        <span>
+                          {card.winsWithCard} - {card.lossesWithCard}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="colors-data-box"></div>
           </div>
-          <button>View All Decks</button>
+          <div className="deck-container">
+            <h2>DECK BOX</h2>
+            <div className="deck-box">
+              {this.state.decks
+                ? this.state.decks.slice(0, 3).map((item) => {
+                    return (
+                      <div className="deck-item">
+                        <Link
+                          key={item.deckName}
+                          to={{
+                            pathname: `/profile/${item.deckName}`,
+                            state: {
+                              deck: item,
+                            },
+                          }}
+                        >
+                          <Deck key={item.deckName} item={item} />
+                        </Link>
+                      </div>
+                    );
+                  })
+                : null}
+            </div>
+            <button>View All Decks</button>
+          </div>
         </div>
       </div>
     );
