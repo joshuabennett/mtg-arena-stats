@@ -253,7 +253,11 @@ class Profile extends React.Component {
                             },
                           }}
                         >
-                          <Deck key={item.deckName} item={item} />
+                          <Deck
+                            key={item.deckName}
+                            item={item}
+                            cards={this.state.cards}
+                          />
                         </Link>
                       </div>
                     );

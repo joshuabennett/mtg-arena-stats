@@ -17,7 +17,7 @@
       .colors-data-box {
         background-color: white;
         padding: 5px;
-        margin-bottom: 5px;
+        margin-bottom: 10px;
       }
 
       .colors-data-box {
@@ -153,6 +153,10 @@
       align-items: center;
       border-radius: 15px;
 
+      h2 {
+        margin: 2px;
+      }
+
       .deck-box {
         width: 100%;
         display: flex;
@@ -173,7 +177,7 @@
       button {
         border-radius: 25px;
         height: 40px;
-        width: 120px;
+        width: 50%;
         border: none;
         background-color: rgb(56, 56, 56);
         color: white;

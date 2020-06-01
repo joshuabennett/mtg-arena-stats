@@ -51,7 +51,7 @@ class App extends React.Component {
   componentDidMount() {
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
-        console.log("auth");
+        window.sessionStorage.setItem("currentUser", userAuth.uid);
         const userRef = await createUserProfileDocument(userAuth);
         userRef.onSnapshot((snapshot) => {
           this.setState({
@@ -61,7 +61,6 @@ class App extends React.Component {
         });
       }
       this.setState({ currentUser: userAuth });
-      window.sessionStorage.setItem("currentUser", userAuth.uid);
       window.sessionStorage.setItem("currentSet", "IKO");
     });
   }
