@@ -98,6 +98,7 @@ class Stats extends React.Component {
   }
 
   render() {
+    // Sorts the array based on asc or desc and the current selection. Only works for numbers.
     const sortTable = (e) => {
       const selection = e.target.className;
       this.setState({ activeCol: selection });
@@ -121,6 +122,34 @@ class Stats extends React.Component {
       this.forceUpdate();
     };
 
+    // Same as before but works for ALPHA.
+    const sortAlphaTable = (e) => {
+      const selection = e.target.className;
+      this.setState({ activeCol: selection });
+      this.setState((prevState) => {
+        if (prevState.desc) {
+          return {
+            filteredCards: prevState.filteredCards.sort((a, b) => {
+              var string1 = b[selection];
+              var string2 = a[selection];
+              return string2.localeCompare(string1);
+            }),
+            desc: false,
+          };
+        } else {
+          return {
+            filteredCards: prevState.filteredCards.sort((a, b) => {
+              var string1 = b[selection];
+              var string2 = a[selection];
+              return string2.localeCompare(string1) * -1;
+            }),
+            desc: true,
+          };
+        }
+      });
+      this.forceUpdate();
+    };
+
     return (
       <div className="stats-page">
         <div className="table">
@@ -136,26 +165,25 @@ class Stats extends React.Component {
           </span>
           <div className="table-header">
             {[
-              { name: "colors", title: "Color" },
-              { name: "rarity", title: "Rarity" },
-              { name: "cardName", title: "Card Name" },
-              { name: "timesDrafted", title: "# Drafted" },
-              { name: "winsWithCard", title: "# Wins" },
-              { name: "lossesWithCard", title: "# Losses" },
-              { name: "winPct", title: "Win %" },
+              { name: "colors", title: "Color", handler: null },
+              { name: "rarity", title: "Rarity", handler: sortAlphaTable },
+              { name: "cardName", title: "Card Name", handler: sortAlphaTable },
+              { name: "timesDrafted", title: "# Drafted", handler: sortTable },
+              { name: "winsWithCard", title: "# Wins", handler: sortTable },
+              { name: "lossesWithCard", title: "# Losses", handler: sortTable },
+              { name: "winPct", title: "Win %", handler: sortTable },
             ].map((item) => {
               return (
                 <TableHeader
                   activeCol={this.state.activeCol}
                   desc={this.state.desc}
-                  onClickHandler={sortTable}
+                  onClickHandler={item.handler}
                   name={item.name}
                 >
                   {item.title}
                 </TableHeader>
               );
             })}
-            }
           </div>
           {this.state.filteredCards
             .filter((card) => !card.type_line.includes("Basic Land"))

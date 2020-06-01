@@ -22,6 +22,7 @@ class Profile extends React.Component {
       decks: [],
       set: this.props.set,
       cards: [],
+      colors: [],
     };
   }
   componentDidMount() {
@@ -47,6 +48,7 @@ class Profile extends React.Component {
         .collection("decks");
       itemsRef.get().then((snapshot) => {
         let newState = [];
+        let colorsData = [];
         snapshot.forEach((snapshot) => {
           let item = snapshot.data();
           newState.push({
@@ -58,9 +60,21 @@ class Profile extends React.Component {
             cardstext: item.cardstext,
             cards: item.cards,
           });
+          colorsData = ["u", "g", "w", "r", "b"].map((color) => {
+            var amountWins = 0;
+            var amountLosses = 0;
+            newState.forEach((deck) => {
+              if (deck.colors.includes(color)) {
+                amountWins += parseInt(deck.wins);
+                amountLosses += parseInt(deck.losses);
+              }
+            });
+            return { color: color, wins: amountWins, losses: amountLosses };
+          });
         });
         this.setState({
           decks: newState,
+          colors: colorsData,
         });
       });
     }
@@ -131,6 +145,14 @@ class Profile extends React.Component {
                     data={totalLosses}
                   />
                   <DataBox
+                    iconName="calculator"
+                    label="Win Percentage"
+                    data={(
+                      (totalWins / (totalWins + totalLosses)) *
+                      100
+                    ).toPrecision(3)}
+                  />
+                  <DataBox
                     iconName="hands"
                     label="Drafts Played"
                     data={this.state.decks.length}
@@ -149,14 +171,6 @@ class Profile extends React.Component {
                     label="Average Wins"
                     data={(totalWins / this.state.decks.length).toPrecision(3)}
                   />
-                  <DataBox
-                    iconName="calculator"
-                    label="Win Percentage"
-                    data={(
-                      (totalWins / (totalWins + totalLosses)) *
-                      100
-                    ).toPrecision(3)}
-                  />
                 </div>
               ) : null}
             </div>
@@ -174,11 +188,17 @@ class Profile extends React.Component {
                     <img src={card.crop} alt="card icon" />
                     <div className="favorite-info">
                       <div className="top-row">
-                        <h4>{card.cardName}</h4>
+                        <h4>
+                          <Link to={`/card/${card.cardName}`}>
+                            {card.cardName}
+                          </Link>
+                        </h4>
                         <span>{card.timesDrafted}x</span>
                       </div>
                       <div className="card-data">
                         <span>
+                          <span className="win-loss-text">WL</span>
+                          {"  "}
                           {card.winsWithCard} - {card.lossesWithCard}
                         </span>
                       </div>
@@ -187,7 +207,35 @@ class Profile extends React.Component {
                 );
               })}
             </div>
-            <div className="colors-data-box"></div>
+            <div className="colors-data-box">
+              <div className="color-title">
+                <h3>Win Rates by Color</h3>
+              </div>
+              {this.state.colors.map((color) => {
+                return (
+                  <div className="color-row">
+                    <img
+                      src={`/images/Mana_${color.color.toUpperCase()}.png`}
+                      alt="color-pip"
+                    />
+                    <div className="color-info">
+                      <div className="color-data">
+                        <span className="win-loss-text">WL</span>
+                        {color.wins} - {color.losses}
+                      </div>
+                      <div className="color-win-pct">
+                        <span className="win-rate-text">WR </span>
+                        {(
+                          (color.wins / (color.wins + color.losses)) *
+                          100
+                        ).toPrecision(3)}
+                        %
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
           <div className="deck-container">
             <h2>DECK BOX</h2>

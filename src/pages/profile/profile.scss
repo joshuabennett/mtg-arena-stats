@@ -20,6 +20,58 @@
         margin-bottom: 5px;
       }
 
+      .colors-data-box {
+        border-radius: 10px;
+        border: 2px solid lightgray;
+
+        .color-title {
+          h3 {
+            color: rgb(86, 86, 146);
+            font-size: 14px;
+            margin: 5px;
+          }
+        }
+        .color-row {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          padding: 7px;
+          border-top: 1px solid lightgray;
+
+          img {
+            width: 20px;
+            height: 20px;
+          }
+
+          .color-info {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+            .color-win-pct {
+              font-size: 12px;
+              color: gray;
+              font-weight: bold;
+
+              .win-rate-text {
+                font-weight: normal;
+              }
+            }
+
+            .color-data {
+              padding: 5px;
+              font-size: 12px;
+
+              .win-loss-text {
+                color: gray;
+              }
+            }
+          }
+        }
+      }
+
       .favorite-cards-box {
         border-radius: 10px;
         border: 2px solid lightgray;
@@ -57,6 +109,15 @@
                 font-size: 12px;
                 font-weight: bold;
               }
+
+              a:link,
+              a:visited {
+                text-decoration: none;
+                color: black;
+              }
+              a:hover {
+                color: gray;
+              }
             }
 
             h4 {
@@ -69,6 +130,9 @@
                 font-size: 12px;
                 margin: 0;
               }
+              .win-loss-text {
+                color: gray;
+              }
             }
           }
         }
@@ -78,12 +142,6 @@
           width: 45px;
           border-radius: 50%;
         }
-      }
-
-      .colors-data-box {
-        height: 250px;
-        border-radius: 10px;
-        border: 2px solid lightgray;
       }
     }
 
