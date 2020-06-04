@@ -1,6 +1,11 @@
 .deck-section {
   display: flex;
   flex-direction: column;
+  margin: 10px 0 10px 0;
+
+  h3 {
+    margin-bottom: 3px;
+  }
 
   .card-row {
     width: 100%;

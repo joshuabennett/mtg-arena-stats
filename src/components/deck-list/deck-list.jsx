@@ -19,7 +19,7 @@ class DeckList extends React.Component {
   }
 
   componentDidMount() {
-    this.getCards(this.props.location.state.deck.cards);
+    this.getCards(this.props.deck.cards);
   }
 
   async getCards(cards) {

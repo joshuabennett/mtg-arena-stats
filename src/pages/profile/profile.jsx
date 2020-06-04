@@ -243,23 +243,11 @@ class Profile extends React.Component {
               {this.state.decks
                 ? this.state.decks.slice(0, 3).map((item) => {
                     return (
-                      <div className="deck-item">
-                        <Link
-                          key={item.deckName}
-                          to={{
-                            pathname: `/profile/${item.deckName}`,
-                            state: {
-                              deck: item,
-                            },
-                          }}
-                        >
-                          <Deck
-                            key={item.deckName}
-                            item={item}
-                            cards={this.state.cards}
-                          />
-                        </Link>
-                      </div>
+                      <Deck
+                        key={item.deckName}
+                        item={item}
+                        cards={this.state.cards}
+                      />
                     );
                   })
                 : null}

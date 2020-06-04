@@ -1,21 +1,35 @@
 .deck-item {
   width: 100%;
-  height: 60px;
+  min-height: 60px;
   border: 2px solid rgb(206, 204, 204);
-  border-radius: 10px;
+  border-radius: 10px 10px 0 0;
   display: flex;
-  margin: 5px;
+  margin: 5px 0px 5px 20px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  cursor: pointer;
   background-color: white;
+  font-size: 14px;
 
-  &:hover {
-    background-color: rgb(90, 90, 90);
-    a {
-      color: white;
+  .hidden {
+    display: none;
+  }
+
+  .expanded-info {
+    width: 100%;
+    background-color: lightgray;
+
+    .deck-list-container {
+      width: 100%;
+      padding: 0 15px 0 15px;
+      margin: 5px;
+
+      .deck-name {
+        display: none;
+      }
+      .deck-list {
+        border: none;
+      }
     }
   }
 
@@ -41,33 +55,50 @@
 }
 
 .lower-deck-item {
+  width: 100%;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
 
-  .deck-title-information {
+  .expanded-info-button {
     display: flex;
-    flex-direction: column;
-    width: 33%;
-    text-align: left;
-
-    h2 {
-      font-size: 16px;
-      text-transform: uppercase;
-    }
-    h3 {
-      font-size: 14px;
-    }
+    justify-content: center;
+    cursor: pointer;
+    margin-top: 5px;
+    background-color: rgb(122, 122, 122);
+    color: white;
+    padding-bottom: 5px;
   }
 
-  .record {
-    font-size: 22px;
-    width: 33%;
-  }
+  .unexpanded-info {
+    padding: 10px 10px 0 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 
-  .rare-mythic-cards {
-    width: 33%;
-    text-align: right;
+    .deck-title-information {
+      display: flex;
+      flex-direction: column;
+      width: 33%;
+      text-align: left;
+
+      h2 {
+        font-size: 16px;
+        text-transform: uppercase;
+      }
+      h3 {
+        font-size: 14px;
+      }
+    }
+
+    .record {
+      font-size: 22px;
+      width: 33%;
+    }
+
+    .rare-mythic-cards {
+      width: 33%;
+      text-align: right;
+    }
   }
 }

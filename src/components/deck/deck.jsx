@@ -1,31 +1,48 @@
 import React from "react";
 import "./deck.scss";
 
-const Deck = (props) => {
-  var { item, cards } = props;
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import DeckList from "../deck-list/deck-list";
 
-  return (
-    <div className="lower-deck-item">
-      <div className="deck-title-information">
-        <h2>{item.deckName}</h2>
-        <div className="colors">
-          {item.colors.length > 0
-            ? item.colors.map((item) => {
-                return (
-                  <span className="color">
-                    <img
-                      src={`/images/Mana_${item.toUpperCase()}.png`}
-                      alt="color-symbol"
-                    />
-                  </span>
-                );
-              })
-            : null}
-        </div>
-        <h3 className="archetype">{item.archetype}</h3>
-      </div>
-      <span className="record">WL {`${item.wins} - ${item.losses}`}</span>
-      {/* Need to update the database before testing this feature
+class Deck extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      hidden: true,
+    };
+  }
+
+  toggleHidden = (e) => {
+    this.setState({ hidden: !this.state.hidden });
+  };
+
+  render() {
+    var { item, cards } = this.props;
+    return (
+      <div className="deck-item">
+        <div className="lower-deck-item">
+          <div className="unexpanded-info">
+            <div className="deck-title-information">
+              <h2>{item.deckName}</h2>
+              <div className="colors">
+                {item.colors.length > 0
+                  ? item.colors.map((item) => {
+                      return (
+                        <span className="color">
+                          <img
+                            src={`/images/Mana_${item.toUpperCase()}.png`}
+                            alt="color-symbol"
+                          />
+                        </span>
+                      );
+                    })
+                  : null}
+              </div>
+              <h3 className="archetype">{item.archetype}</h3>
+            </div>
+            <span className="record">WL {`${item.wins} - ${item.losses}`}</span>
+            {/* Need to update the database before testing this feature
       <div className="deck-curve">
         {item.cards.reduce((accum, card) => {
           var val = 0;
@@ -37,28 +54,39 @@ const Deck = (props) => {
           return accum + val;
         }, 0)}
       </div> */}
-      <div className="rare-mythic-cards">
-        {cards
-          ? item.cards
-              .filter((card) => {
-                var value = false;
-                cards.forEach((otherCard) => {
-                  if (card.cardName === otherCard.cardName) {
-                    console.log(otherCard.rarity);
-                    value =
-                      otherCard.rarity === "rare" ||
-                      otherCard.rarity === "mythic";
-                  }
-                });
-                return value;
-              })
-              .map((card) => (
-                <div className="rare-mythic-card">{card.cardName}</div>
-              ))
-          : null}
+            <div className="rare-mythic-cards">
+              {cards
+                ? item.cards
+                    .filter((card) => {
+                      var value = false;
+                      cards.forEach((otherCard) => {
+                        if (card.cardName === otherCard.cardName) {
+                          console.log(otherCard.rarity);
+                          value =
+                            otherCard.rarity === "rare" ||
+                            otherCard.rarity === "mythic";
+                        }
+                      });
+                      return value;
+                    })
+                    .map((card) => (
+                      <div className="rare-mythic-card">{card.cardName}</div>
+                    ))
+                : null}
+            </div>
+          </div>
+          <div className="expanded-info-button" onClick={this.toggleHidden}>
+            <FontAwesomeIcon icon="sort-down" />
+          </div>
+        </div>
+        {!this.state.hidden ? (
+          <div className="expanded-info">
+            <DeckList deck={item} />
+          </div>
+        ) : null}
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default Deck;
