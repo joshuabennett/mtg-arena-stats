@@ -49,7 +49,13 @@ class CardDetails extends React.Component {
             <h1 className="details-card-name">{card.cardName}</h1>
             <div className="details-card-colors">
               <span className="color-name">
-                <img src={`/images/Mana_${card.colors}.png`} alt="color" />
+                {card.colors
+                  ? card.colors.map((color) => {
+                      return (
+                        <img src={`/images/Mana_${color}.png`} alt="color" />
+                      );
+                    })
+                  : null}
               </span>
               <span className={`details-rarity ${card.rarity}`}>
                 <div className="details-rarity-pip"></div>

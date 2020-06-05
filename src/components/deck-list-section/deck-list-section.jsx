@@ -1,6 +1,8 @@
 import React from "react";
 import "./deck-list-section.scss";
 
+import { Link } from "react-router-dom";
+
 const DeckSection = (props) => (
   <div className="deck-section">
     {props.section.length > 0 ? (
@@ -19,7 +21,9 @@ const DeckSection = (props) => (
           return (
             <div className="card-row">
               <div className="card-amount">{card.cardAmount}x</div>
-              <div className="card-name">{card.cardName}</div>
+              <div className="card-name">
+                <Link to={`/card/${card.cardName}`}>{card.cardName}</Link>
+              </div>
             </div>
           );
         })

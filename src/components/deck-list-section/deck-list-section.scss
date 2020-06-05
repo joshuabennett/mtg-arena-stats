@@ -12,6 +12,17 @@
     display: flex;
     flex-direction: row;
 
+    .card-name {
+      a {
+        text-decoration: none;
+        color: black;
+
+        &:hover {
+          color: rgb(97, 97, 97);
+        }
+      }
+    }
+
     div {
       padding-right: 10px;
     }

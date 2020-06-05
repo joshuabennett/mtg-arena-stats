@@ -164,16 +164,6 @@
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
-
-        a:link,
-        a:visited {
-          width: 100%;
-          color: black;
-          text-align: center;
-          text-decoration: none;
-          display: inline-block;
-          font-size: 14px;
-        }
       }
       button {
         border-radius: 5px;
