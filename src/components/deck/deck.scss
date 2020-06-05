@@ -66,7 +66,18 @@
     margin-top: 5px;
     background-color: rgb(122, 122, 122);
     color: white;
-    padding-bottom: 5px;
+    padding: 3px 0 5px 0;
+
+    &.clicked {
+      background-color: black;
+    }
+
+    &:hover {
+      transition: background-color 0.2s ease-in;
+      background-color: black;
+      svg {
+      }
+    }
   }
 
   .unexpanded-info {
@@ -94,6 +105,12 @@
     .record {
       font-size: 22px;
       width: 33%;
+      text-align: center;
+
+      .wl {
+        color: gray;
+        font-size: 20px;
+      }
     }
 
     .rare-mythic-cards {

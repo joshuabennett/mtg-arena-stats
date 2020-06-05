@@ -23,6 +23,7 @@ class Profile extends React.Component {
       set: this.props.set,
       cards: [],
       colors: [],
+      deckBoxSize: 3,
     };
   }
   componentDidMount() {
@@ -110,6 +111,10 @@ class Profile extends React.Component {
       });
     }
   }
+
+  increaseDeckBoxSize = (e) => {
+    this.setState({ deckBoxSize: this.state.deckBoxSize + 5 });
+  };
 
   render() {
     var totalWins = this.state.decks.reduce(
@@ -241,18 +246,24 @@ class Profile extends React.Component {
             <h2>DECK BOX</h2>
             <div className="deck-box">
               {this.state.decks
-                ? this.state.decks.slice(0, 3).map((item) => {
-                    return (
-                      <Deck
-                        key={item.deckName}
-                        item={item}
-                        cards={this.state.cards}
-                      />
-                    );
-                  })
+                ? this.state.decks
+                    .slice(0, this.state.deckBoxSize)
+                    .map((item) => {
+                      return (
+                        <Deck
+                          key={item.deckName}
+                          item={item}
+                          cards={this.state.cards}
+                        />
+                      );
+                    })
                 : null}
             </div>
-            <button>View All Decks</button>
+            {this.state.deckBoxSize <= this.state.decks.length ? (
+              <button onClick={this.increaseDeckBoxSize}>
+                View More Decks
+              </button>
+            ) : null}
           </div>
         </div>
       </div>

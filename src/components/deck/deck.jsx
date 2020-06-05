@@ -10,11 +10,17 @@ class Deck extends React.Component {
 
     this.state = {
       hidden: true,
+      open: false,
     };
   }
 
   toggleHidden = (e) => {
-    this.setState({ hidden: !this.state.hidden });
+    if (!this.state.open) {
+      e.target.className = "expanded-info-button clicked";
+    } else {
+      e.target.className = "expanded-info-button";
+    }
+    this.setState({ hidden: !this.state.hidden, open: !this.state.open });
   };
 
   render() {
@@ -41,7 +47,9 @@ class Deck extends React.Component {
               </div>
               <h3 className="archetype">{item.archetype}</h3>
             </div>
-            <span className="record">WL {`${item.wins} - ${item.losses}`}</span>
+            <span className="record">
+              <span className="wl">WL </span> {`${item.wins} - ${item.losses}`}
+            </span>
             {/* Need to update the database before testing this feature
       <div className="deck-curve">
         {item.cards.reduce((accum, card) => {
@@ -76,7 +84,11 @@ class Deck extends React.Component {
             </div>
           </div>
           <div className="expanded-info-button" onClick={this.toggleHidden}>
-            <FontAwesomeIcon icon="sort-down" />
+            {!this.state.open ? (
+              <FontAwesomeIcon icon="sort-down" />
+            ) : (
+              <FontAwesomeIcon icon="sort-up" />
+            )}
           </div>
         </div>
         {!this.state.hidden ? (
