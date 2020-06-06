@@ -1,8 +1,17 @@
 import React from "react";
 import "./deck.scss";
+import Axios from "axios";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DeckList from "../deck-list/deck-list";
+
+const COLOR_MAP = {
+  u: "blue",
+  r: "red",
+  w: "white",
+  b: "black",
+  g: "green",
+};
 
 class Deck extends React.Component {
   constructor(props) {
@@ -11,6 +20,7 @@ class Deck extends React.Component {
     this.state = {
       hidden: true,
       open: false,
+      imageUrl: "",
     };
   }
 
@@ -23,11 +33,35 @@ class Deck extends React.Component {
     this.setState({ hidden: !this.state.hidden, open: !this.state.open });
   };
 
+  async wait(ms) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, ms);
+    });
+  }
+  async componentDidMount() {
+    var colorString = "";
+    this.props.item.colors.forEach((color) => {
+      colorString += `c%3A${COLOR_MAP[color]}+`;
+    });
+    colorString.substring(0, colorString.length - 1);
+    const data = await Axios.get(
+      `https://api.scryfall.com/cards/random?q=${colorString}`
+    );
+    await this.wait(100);
+    this.setState({ imageUrl: data.data.image_uris.art_crop });
+  }
+
   render() {
     var { item, cards } = this.props;
+    var imageStyle = {
+      backgroundImage: `url(${this.state.imageUrl})`,
+      backgroundPosition: "center center",
+      backgroundSize: "100%",
+    };
+
     return (
       <div className="deck-item">
-        <div className="lower-deck-item">
+        <div className="lower-deck-item" style={imageStyle}>
           <div className="unexpanded-info">
             <div className="deck-title-information">
               <h2>{item.deckName}</h2>
