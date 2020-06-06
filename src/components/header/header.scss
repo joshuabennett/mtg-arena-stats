@@ -39,6 +39,15 @@
     align-items: center;
     justify-content: flex-end;
 
+    a {
+      text-decoration: none;
+      color: black;
+
+      &:hover {
+        color: gray;
+      }
+    }
+
     .option {
       padding: 10px 15px;
       cursor: pointer;

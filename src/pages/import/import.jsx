@@ -5,7 +5,7 @@ import "./import.scss";
 import ImportForm from "../../components/import-form/import-form";
 
 const ImportPage = (props) => (
-  <div className="login-page">
+  <div className="import-page">
     <ImportForm user={props.user} set={props.set} />
   </div>
 );

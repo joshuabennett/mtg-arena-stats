@@ -4,21 +4,43 @@
   align-items: center;
 
   .container {
-    width: 40%;
+    width: 60%;
     padding: 20px;
     margin-top: 50px;
     margin-bottom: 50px;
     border-radius: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     h1 {
       font-size: 22px;
       float: right;
     }
+
+    button {
+      border-radius: 25px;
+      height: 40px;
+      width: 120px;
+      border: none;
+      background-color: rgb(56, 56, 56);
+      color: white;
+      margin-top: 10px;
+    }
   }
 
   .deck-form {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+
+    .left-side,
+    .right-side {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: 25px;
+    }
 
     ::placeholder {
       opacity: 0.5;
@@ -193,16 +215,6 @@
       &:focus {
         outline: none;
       }
-    }
-
-    button {
-      border-radius: 25px;
-      height: 40px;
-      width: 120px;
-      border: none;
-      background-color: rgb(56, 56, 56);
-      color: white;
-      margin-top: 10px;
     }
   }
 }

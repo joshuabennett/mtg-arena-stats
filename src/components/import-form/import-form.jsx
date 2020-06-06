@@ -184,101 +184,105 @@ class ImportForm extends React.Component {
           <div className="container">
             <h1>IMPORT DECK</h1>
             <form className="deck-form" onSubmit={this.handleSubmit}>
-              <label for="deckName">Deck Name</label>
-              <input
-                type="text"
-                name="deckName"
-                className="text-input"
-                onChange={this.handleChange}
-                value={this.state.deckName}
-              />
-              <label for="color-boxes">Colors</label>
-              <div className="color-boxes">
+              <div className="left-side">
+                <label for="deckName">Deck Name</label>
                 <input
-                  type="checkbox"
-                  name="blue"
-                  value="u"
-                  id="blue"
+                  type="text"
+                  name="deckName"
+                  className="text-input"
                   onChange={this.handleChange}
+                  value={this.state.deckName}
                 />
-                <label for="blue"></label>
-                <input
-                  type="checkbox"
-                  name="green"
-                  value="g"
-                  id="green"
-                  onChange={this.handleChange}
-                />
-                <label for="green"></label>
-                <input
-                  type="checkbox"
-                  name="black"
-                  value="b"
-                  id="black"
-                  onChange={this.handleChange}
-                />
-                <label for="black"></label>
-                <input
-                  type="checkbox"
-                  name="red"
-                  value="r"
-                  id="red"
-                  onChange={this.handleChange}
-                />
-                <label for="red"></label>
-                <input
-                  type="checkbox"
-                  name="white"
-                  value="w"
-                  id="white"
-                  onChange={this.handleChange}
-                />
-                <label for="white"></label>
-              </div>
-              <div className="wins-and-losses">
-                <div className="wins-container">
-                  <label for="wins">Wins</label>
+                <label for="color-boxes">Colors</label>
+                <div className="color-boxes">
                   <input
-                    type="text"
-                    name="wins"
-                    placeholder="# of Wins"
-                    className="text-input"
+                    type="checkbox"
+                    name="blue"
+                    value="u"
+                    id="blue"
                     onChange={this.handleChange}
-                    value={this.state.wins}
                   />
-                </div>
-                <div className="losses-container">
-                  <label for="losses">Losses</label>
+                  <label for="blue"></label>
                   <input
-                    type="text"
-                    name="losses"
-                    placeholder="# of Losses"
-                    className="text-input"
+                    type="checkbox"
+                    name="green"
+                    value="g"
+                    id="green"
                     onChange={this.handleChange}
-                    value={this.state.losses}
                   />
+                  <label for="green"></label>
+                  <input
+                    type="checkbox"
+                    name="black"
+                    value="b"
+                    id="black"
+                    onChange={this.handleChange}
+                  />
+                  <label for="black"></label>
+                  <input
+                    type="checkbox"
+                    name="red"
+                    value="r"
+                    id="red"
+                    onChange={this.handleChange}
+                  />
+                  <label for="red"></label>
+                  <input
+                    type="checkbox"
+                    name="white"
+                    value="w"
+                    id="white"
+                    onChange={this.handleChange}
+                  />
+                  <label for="white"></label>
+                </div>
+                <div className="wins-and-losses">
+                  <div className="wins-container">
+                    <label for="wins">Wins</label>
+                    <input
+                      type="text"
+                      name="wins"
+                      placeholder="# of Wins"
+                      className="text-input"
+                      onChange={this.handleChange}
+                      value={this.state.wins}
+                    />
+                  </div>
+                  <div className="losses-container">
+                    <label for="losses">Losses</label>
+                    <input
+                      type="text"
+                      name="losses"
+                      placeholder="# of Losses"
+                      className="text-input"
+                      onChange={this.handleChange}
+                      value={this.state.losses}
+                    />
+                  </div>
+                </div>
+                <label for="archetype">Archetype</label>
+                <input
+                  type="text"
+                  name="archetype"
+                  className="text-input"
+                  onChange={this.handleChange}
+                  value={this.state.archetype}
+                />
+              </div>
+              <div className="right-side">
+                <label for="deck-text">Deck List</label>
+                <div className="deck-text">
+                  <textarea
+                    name="cardstext"
+                    rows="30"
+                    placeholder="[Paste Decklist Here]"
+                    onChange={this.handleChange}
+                    value={this.state.cardstext}
+                  ></textarea>
                 </div>
               </div>
-              <label for="archetype">Archetype</label>
-              <input
-                type="text"
-                name="archetype"
-                className="text-input"
-                onChange={this.handleChange}
-                value={this.state.archetype}
-              />
-              <label for="deck-text">Deck List</label>
-              <div className="deck-text">
-                <textarea
-                  name="cardstext"
-                  rows="30"
-                  placeholder="[Paste Decklist Here]"
-                  onChange={this.handleChange}
-                  value={this.state.cardstext}
-                ></textarea>
-              </div>
-              <button>Add Deck</button>
             </form>
+            <button>Add Deck</button>
           </div>
         )}
       </div>

@@ -14,6 +14,19 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DataBox from "../../components/data-box/data-box";
 
+const COLORS_FACTION_MAP = {
+  uw: "Azorious",
+  ur: "Izzet",
+  ub: "Dimir",
+  ug: "Simic",
+  wr: "Boros",
+  wb: "Orzhov",
+  gw: "Selesnya",
+  rb: "Rakdos",
+  gr: "Gruul",
+  gb: "Golgari",
+};
+
 class Profile extends React.Component {
   constructor(props) {
     super(props);
@@ -23,7 +36,8 @@ class Profile extends React.Component {
       set: this.props.set,
       cards: [],
       colors: [],
-      deckBoxSize: 3,
+      factions: [],
+      deckBoxSize: 5,
     };
   }
   componentDidMount() {
@@ -50,6 +64,7 @@ class Profile extends React.Component {
       itemsRef.get().then((snapshot) => {
         let newState = [];
         let colorsData = [];
+        let factionsData = [];
         snapshot.forEach((snapshot) => {
           let item = snapshot.data();
           newState.push({
@@ -72,10 +87,40 @@ class Profile extends React.Component {
             });
             return { color: color, wins: amountWins, losses: amountLosses };
           });
+          factionsData = [
+            "ug",
+            "uw",
+            "ur",
+            "ub",
+            "gw",
+            "gr",
+            "gb",
+            "wr",
+            "wb",
+            "rb",
+          ].map((faction) => {
+            var factionWins = 0;
+            var factionLosses = 0;
+            newState.forEach((deck) => {
+              if (
+                deck.colors.includes(faction[0]) &&
+                deck.colors.includes(faction[1])
+              ) {
+                factionWins += parseInt(deck.wins);
+                factionLosses += parseInt(deck.losses);
+              }
+            });
+            return {
+              faction: faction,
+              wins: factionWins,
+              losses: factionLosses,
+            };
+          });
         });
         this.setState({
           decks: newState,
           colors: colorsData,
+          factions: factionsData,
         });
       });
     }
@@ -232,6 +277,44 @@ class Profile extends React.Component {
                         <span className="win-rate-text">WR </span>
                         {(
                           (color.wins / (color.wins + color.losses)) *
+                          100
+                        ).toPrecision(3)}
+                        %
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="factions-data-box">
+              <div className="faction-title">
+                <h3>Win Rates by Faction</h3>
+              </div>
+              {this.state.factions.map((faction) => {
+                return (
+                  <div className="faction-row">
+                    <div className="faction-name">
+                      <div>{COLORS_FACTION_MAP[faction.faction]}</div>
+                      <div className="faction-colors">
+                        <img
+                          src={`images/Mana_${faction.faction[0].toUpperCase()}.png`}
+                          alt="first color"
+                        />
+                        <img
+                          src={`images/Mana_${faction.faction[1].toUpperCase()}.png`}
+                          alt="second color"
+                        />
+                      </div>
+                    </div>
+                    <div className="faction-info">
+                      <div className="faction-data">
+                        <span className="win-loss-text">WL</span>
+                        {faction.wins} - {faction.losses}
+                      </div>
+                      <div className="faction-win-pct">
+                        <span className="win-rate-text">WR </span>
+                        {(
+                          (faction.wins / (faction.losses + faction.wins)) *
                           100
                         ).toPrecision(3)}
                         %

@@ -6,6 +6,15 @@
   h2 {
     color: rgb(2, 2, 175);
   }
+
+  a {
+    color: black;
+    text-decoration: none;
+
+    &:hover {
+      color: gray;
+    }
+  }
 }
 
 .table {
