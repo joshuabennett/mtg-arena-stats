@@ -85,9 +85,9 @@ class Deck extends React.Component {
           </div>
           <div className="expanded-info-button" onClick={this.toggleHidden}>
             {!this.state.open ? (
-              <FontAwesomeIcon icon="sort-down" />
+              <FontAwesomeIcon icon="chevron-down" />
             ) : (
-              <FontAwesomeIcon icon="sort-up" />
+              <FontAwesomeIcon icon="chevron-up" />
             )}
           </div>
         </div>

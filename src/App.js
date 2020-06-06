@@ -22,6 +22,8 @@ import {
   faSkull,
   faCalculator,
   faUser,
+  faChevronUp,
+  faChevronDown,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -32,7 +34,9 @@ library.add(
   faTrophy,
   faSkull,
   faCalculator,
-  faUser
+  faUser,
+  faChevronUp,
+  faChevronDown
 );
 
 class App extends React.Component {

@@ -37,11 +37,13 @@ class DeckList extends React.Component {
             .get();
           if (snapshot.exists) {
             var cardType = snapshot.data().type_line;
+            var cardRarity = snapshot.data().rarity;
           }
           newState.push({
             cardAmount: card.amount,
             cardName: card.cardName,
             cardType: cardType,
+            cardRarity: cardRarity,
           });
         })
       );
@@ -84,20 +86,13 @@ class DeckList extends React.Component {
         <div className="deck-list-container">
           <h1 className="deck-name">Deck Name</h1>
           <div className="deck-list">
-            <DeckSection
-              sectionName="Creatures"
-              section={this.state.creatures}
-            />
-            <DeckSection
-              sectionName="Artifacts"
-              section={this.state.artifacts}
-            />
-            <DeckSection
-              sectionName="Enchantments"
-              section={this.state.enchantments}
-            />
-            <DeckSection sectionName="Spells" section={this.state.spells} />
-            <DeckSection sectionName="Lands" section={this.state.lands} />
+            {["creatures", "artifacts", "enchantments", "spells", "lands"].map(
+              (type) => {
+                return this.state[type].length > 0 ? (
+                  <DeckSection sectionName={type} section={this.state[type]} />
+                ) : null;
+              }
+            )}
           </div>
         </div>
       </div>

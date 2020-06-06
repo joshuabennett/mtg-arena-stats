@@ -21,8 +21,10 @@ const DeckSection = (props) => (
           return (
             <div className="card-row">
               <div className="card-amount">{card.cardAmount}x</div>
-              <div className="card-name">
-                <Link to={`/card/${card.cardName}`}>{card.cardName}</Link>
+              <div className={`card-name ${card.cardRarity}`}>
+                <Link to={`/card/${card.cardName}`}>
+                  {card.cardName} <span className="shade"></span>
+                </Link>
               </div>
             </div>
           );

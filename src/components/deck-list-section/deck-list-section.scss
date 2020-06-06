@@ -5,6 +5,7 @@
 
   h3 {
     margin-bottom: 3px;
+    text-transform: capitalize;
   }
 
   .card-row {
@@ -13,12 +14,59 @@
     flex-direction: row;
 
     .card-name {
+      &.uncommon {
+        a {
+          position: relative;
+          color: rgb(204, 202, 202);
+          .shade {
+            position: relative;
+            margin: -7px 0 0;
+            padding: 0;
+            display: block;
+            background: #111;
+            width: 100%;
+            height: 8px;
+            opacity: 0.25;
+          }
+        }
+      }
+      &.rare {
+        a {
+          color: gold;
+          .shade {
+            position: relative;
+            margin: -7px 0 0;
+            padding: 0;
+            display: block;
+            background: #111;
+            width: 100%;
+            height: 8px;
+            opacity: 0.25;
+          }
+        }
+      }
+      &.mythic {
+        a {
+          color: rgb(253, 0, 0);
+          .shade {
+            position: relative;
+            margin: -7px 0 0;
+            padding: 0;
+            display: block;
+            background: #111;
+            width: 100%;
+            height: 8px;
+            opacity: 0.25;
+          }
+        }
+      }
       a {
         text-decoration: none;
-        color: black;
+        color: peachpuff;
 
         &:hover {
           color: rgb(97, 97, 97);
+          opacity: 0.75;
         }
       }
     }

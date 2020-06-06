@@ -17,7 +17,8 @@
 
   .expanded-info {
     width: 100%;
-    background-color: lightgray;
+    background-color: rgb(32, 32, 32);
+    color: white;
 
     .deck-list-container {
       width: 100%;
@@ -69,14 +70,7 @@
     padding: 3px 0 5px 0;
 
     &.clicked {
-      background-color: black;
-    }
-
-    &:hover {
-      transition: background-color 0.2s ease-in;
-      background-color: black;
-      svg {
-      }
+      background-color: rgb(122, 122, 122);
     }
   }
 
