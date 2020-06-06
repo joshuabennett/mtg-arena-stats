@@ -1,0 +1,40 @@
+.login-page {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  > div {
+    margin: 25px;
+  }
+
+  input {
+    border: solid rgb(226, 226, 226) 2px;
+    border-radius: 5px;
+    height: 30px;
+    width: 300px;
+    padding-left: 15px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  button {
+    border-radius: 25px;
+    padding: 10px 25px 10px 25px;
+    border: none;
+    background-color: rgb(56, 56, 56);
+    color: white;
+    margin: 10px;
+    text-transform: uppercase;
+    cursor: pointer;
+
+    &.google-sign-in {
+      background-color: rgb(69, 69, 202);
+    }
+  }
+
+  .group {
+    margin: 5px;
+  }
+}
