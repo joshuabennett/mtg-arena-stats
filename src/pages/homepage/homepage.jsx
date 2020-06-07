@@ -7,6 +7,17 @@
 import React from "react";
 import "./homepage.scss";
 
-const Homepage = () => <div className="homepage"></div>;
+const Homepage = () => (
+  <div className="homepage">
+    <div className="news-section">
+      <div className="banner"></div>
+    </div>
+    <div className="stats-section">
+      <div className="top-players"></div>
+      <div className="top-cards"></div>
+      <div className="top-decks"></div>
+    </div>
+  </div>
+);
 
 export default Homepage;

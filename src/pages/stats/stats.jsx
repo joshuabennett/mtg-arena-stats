@@ -45,6 +45,7 @@ class Stats extends React.Component {
       activeCol: "",
       set: this.props.set,
     };
+    // Change this to an arrow function later
     this.filterCards = this.filterCards.bind(this);
   }
 
@@ -52,6 +53,7 @@ class Stats extends React.Component {
     this.updateCards(this.state.set);
   }
 
+  // This is the only way I can get the asynchronous state calls to properly update the render.
   componentDidUpdate(prevProps) {
     if (prevProps.set !== this.props.set) {
       this.setState({ set: this.props.set });
@@ -59,6 +61,7 @@ class Stats extends React.Component {
     }
   }
 
+  // Takes current set and updates state with all current cards for the current user in the current set.
   updateCards(set) {
     if (this.props.user != null) {
       const cardsRef = firestore
@@ -87,6 +90,7 @@ class Stats extends React.Component {
     }
   }
 
+  // Takes that value of the search box and filters out all cards that contain that value in the copied state.
   filterCards(e) {
     const text = e.target.value;
     this.setState({ searchText: text });
@@ -98,6 +102,8 @@ class Stats extends React.Component {
   }
 
   render() {
+    // Input: Event from Click Handler
+    // Output: Updates a copy of the cards that is sorted.
     // Sorts the array based on asc or desc and the current selection. Only works for numbers.
     const sortTable = (e) => {
       const selection = e.target.className;
@@ -119,16 +125,18 @@ class Stats extends React.Component {
           };
         }
       });
+      // Probably uneccesary
       this.forceUpdate();
     };
 
-    // Same as before but works for ALPHA.
+    // Same as before but works for ALPHA using localeCompare.
     const sortAlphaTable = (e) => {
       const selection = e.target.className;
       this.setState({ activeCol: selection });
       this.setState((prevState) => {
         if (prevState.desc) {
           return {
+            // For some reason localeCompare won't work if I don't put the selections in their own variables.
             filteredCards: prevState.filteredCards.sort((a, b) => {
               var string1 = b[selection];
               var string2 = a[selection];
@@ -186,6 +194,7 @@ class Stats extends React.Component {
             })}
           </div>
           {this.state.filteredCards
+            // Filtering out basic lands because they're not important data.
             .filter((card) => !card.type_line.includes("Basic Land"))
             .map((card) => {
               return (

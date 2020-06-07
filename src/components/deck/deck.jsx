@@ -57,6 +57,7 @@ class Deck extends React.Component {
       backgroundImage: `url(${this.state.imageUrl})`,
       backgroundPosition: "center center",
       backgroundSize: "100%",
+      borderRadius: "5px",
     };
 
     return (

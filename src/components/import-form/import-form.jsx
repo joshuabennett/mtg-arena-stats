@@ -128,47 +128,45 @@ class ImportForm extends React.Component {
     );
     await this.wait(100);
 
-    if (data.data.type_line !== "Land") {
-      const cardsRef = firestore
-        .collection("users")
-        .doc(this.props.user.uid)
-        .collection("sets")
-        .doc(this.props.set)
-        .collection("cards");
-      cardsRef
-        .doc(newCard.cardName)
-        .get()
-        .then((snapshot) => {
-          if (snapshot.exists) {
-            var card = snapshot.data();
-            let updatedInfo = {
-              timesDrafted: card.timesDrafted + parseInt(newCard.amount),
-              winsWithCard: card.winsWithCard + parseInt(deck.wins),
-              lossesWithCard: card.lossesWithCard + parseInt(deck.losses),
-            };
-            cardsRef.doc(newCard.cardName).update(updatedInfo);
-          } else {
-            cardsRef.doc(newCard.cardName).set({
-              cardName: newCard.cardName,
-              timesDrafted: 0 + parseInt(newCard.amount),
-              winsWithCard: 0 + parseInt(deck.wins),
-              lossesWithCard: 0 + parseInt(deck.losses),
-              colors: data.data.colors,
-              rarity: data.data.rarity,
-              image_url: data.data.image_uris.normal,
-              image_crop: data.data.image_uris.art_crop,
-              cmc: data.data.cmc,
-              type_line: data.data.type_line,
-            });
-          }
-          var manaCosts = this.state.manaCosts;
-          manaCosts[data.data.cmc] += 1;
-          this.setState({
-            totalMana: this.state.totalMana + data.data.cmc,
-            manaCosts: manaCosts,
+    const cardsRef = firestore
+      .collection("users")
+      .doc(this.props.user.uid)
+      .collection("sets")
+      .doc(this.props.set)
+      .collection("cards");
+    cardsRef
+      .doc(newCard.cardName)
+      .get()
+      .then((snapshot) => {
+        if (snapshot.exists) {
+          var card = snapshot.data();
+          let updatedInfo = {
+            timesDrafted: card.timesDrafted + parseInt(newCard.amount),
+            winsWithCard: card.winsWithCard + parseInt(deck.wins),
+            lossesWithCard: card.lossesWithCard + parseInt(deck.losses),
+          };
+          cardsRef.doc(newCard.cardName).update(updatedInfo);
+        } else {
+          cardsRef.doc(newCard.cardName).set({
+            cardName: newCard.cardName,
+            timesDrafted: 0 + parseInt(newCard.amount),
+            winsWithCard: 0 + parseInt(deck.wins),
+            lossesWithCard: 0 + parseInt(deck.losses),
+            colors: data.data.colors,
+            rarity: data.data.rarity,
+            image_url: data.data.image_uris.normal,
+            image_crop: data.data.image_uris.art_crop,
+            cmc: data.data.cmc,
+            type_line: data.data.type_line,
           });
+        }
+        var manaCosts = this.state.manaCosts;
+        manaCosts[data.data.cmc] += 1;
+        this.setState({
+          totalMana: this.state.totalMana + data.data.cmc,
+          manaCosts: manaCosts,
         });
-    }
+      });
   }
 
   render() {
