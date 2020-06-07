@@ -39,16 +39,22 @@ class Deck extends React.Component {
     });
   }
   async componentDidMount() {
+    // Build the string for the API call based on colors after converting them to their names
+    // %3A is =, c is creature
     var colorString = "";
     this.props.item.colors.forEach((color) => {
       colorString += `c%3A${COLOR_MAP[color]}+`;
     });
+    // Need to remove the final '+'
     colorString.substring(0, colorString.length - 1);
     const data = await Axios.get(
       `https://api.scryfall.com/cards/random?q=${colorString}`
     );
     await this.wait(100);
-    this.setState({ imageUrl: data.data.image_uris.art_crop });
+    // Some cards don't have images or art-crops
+    if (data.data.image_uris) {
+      this.setState({ imageUrl: data.data.image_uris.art_crop });
+    }
   }
 
   render() {

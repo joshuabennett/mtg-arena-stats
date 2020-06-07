@@ -33,31 +33,71 @@ class Profile extends React.Component {
 
     this.state = {
       decks: [],
-      set: this.props.set,
+      set: window.sessionStorage.getItem("currentSet"),
       cards: [],
       colors: [],
       factions: [],
       deckBoxSize: 5,
+      userId: "",
     };
   }
-  componentDidMount() {
-    this.updateDecks(this.state.set);
-    this.updateCards(this.state.set);
-  }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.set !== this.props.set) {
-      this.setState({ set: this.props.set });
-      this.updateDecks(this.props.set);
-      this.updateCards(this.props.set);
+  componentDidMount() {
+    if (this.props.match) {
+      firestore
+        .collection("users")
+        .where("displayName", "==", this.props.match.params.name)
+        .get()
+        .then((qSnapshot) => {
+          qSnapshot.forEach((doc) => {
+            this.setState({ userId: doc.id }, () => {
+              this.updateDecks(this.state.set, this.state.userId);
+              this.updateCards(this.state.set, this.state.userId);
+            });
+          });
+        });
+    } else {
+      this.updateDecks(
+        this.props.set,
+        window.sessionStorage.getItem("currentUser")
+      );
+      this.updateCards(
+        this.props.set,
+        window.sessionStorage.getItem("currentUser")
+      );
     }
   }
 
-  updateDecks(set) {
-    if (this.props.user != null) {
+  // Not working as planned. The set isn't updating if on different user's Profile page
+  componentDidUpdate(prevProps) {
+    if (prevProps.set !== this.props.set) {
+      this.setState({ set: this.props.set });
+      this.updateDecks(
+        this.state.set,
+        window.sessionStorage.getItem("currentUser")
+      );
+      this.updateCards(
+        this.state.set,
+        window.sessionStorage.getItem("currentUser")
+      );
+    } else if (this.state.set !== window.sessionStorage.getItem("currentSet")) {
+      this.setState({ set: window.sessionStorage.getItem("currentSet") });
+      this.updateDecks(
+        window.sessionStorage.getItem("currentSet"),
+        this.state.userId
+      );
+      this.updateCards(
+        window.sessionStorage.getItem("currentSet"),
+        this.state.userId
+      );
+    }
+  }
+
+  async updateDecks(set, userId) {
+    if (userId) {
       const itemsRef = firestore
         .collection("users")
-        .doc(this.props.user.uid)
+        .doc(userId)
         .collection("sets")
         .doc(set)
         .collection("decks");
@@ -126,11 +166,12 @@ class Profile extends React.Component {
     }
   }
 
-  updateCards(set) {
-    if (this.props.user != null) {
+  // Pulls the list of cards for the current set and sorts them in order of times drafted.
+  updateCards(set, userId) {
+    if (userId) {
       const cardsRef = firestore
         .collection("users")
-        .doc(this.props.user.uid)
+        .doc(userId)
         .collection("sets")
         .doc(set)
         .collection("cards");
@@ -138,18 +179,21 @@ class Profile extends React.Component {
         var newState = [];
         snapshot.forEach((snapshot) => {
           let card = snapshot.data();
-          newState.push({
-            cardName: card.cardName,
-            timesDrafted: card.timesDrafted,
-            winsWithCard: card.winsWithCard,
-            lossesWithCard: card.lossesWithCard,
-            rarity: card.rarity,
-            image_url: card.image_url,
-            colors: card.colors,
-            type_line: card.type_line,
-            cmc: card.cmc,
-            crop: card.image_crop,
-          });
+          // Remove all basic lands from most drafted list.
+          if (!card.type_line.includes("Basic Land")) {
+            newState.push({
+              cardName: card.cardName,
+              timesDrafted: card.timesDrafted,
+              winsWithCard: card.winsWithCard,
+              lossesWithCard: card.lossesWithCard,
+              rarity: card.rarity,
+              image_url: card.image_url,
+              colors: card.colors,
+              type_line: card.type_line,
+              cmc: card.cmc,
+              crop: card.image_crop,
+            });
+          }
         });
         newState = newState.sort((a, b) => b.timesDrafted - a.timesDrafted);
         this.setState({ cards: newState });
@@ -172,15 +216,24 @@ class Profile extends React.Component {
     );
     return (
       <div className="profile-page">
-        {this.props.user ? (
+        {this.props.user || this.state.userId ? (
           <div className="player-container">
             <div className="avatar">
-              <img src="images/Avatar_Mu.png" alt="avatar" />
+              {/* Link is one depth lower if not your own profile */}
+              {this.props.user ? (
+                <img src="/images/Avatar_Mu.png" alt="avatar" />
+              ) : (
+                <img src="../images/Avatar_Mu.png" alt="avatar" />
+              )}
             </div>
             <div className="player-info-container">
               <div className="username">
                 <FontAwesomeIcon icon="user" />
-                <h2>{this.props.user.displayName}</h2>
+                {this.props.user ? (
+                  <h2>{this.props.user.displayName}</h2>
+                ) : (
+                  <h2>{this.props.match.params.name}</h2>
+                )}
               </div>
               {this.state.decks ? (
                 <div className="player-stats">
@@ -264,10 +317,17 @@ class Profile extends React.Component {
               {this.state.colors.map((color) => {
                 return (
                   <div className="color-row">
-                    <img
-                      src={`/images/Mana_${color.color.toUpperCase()}.png`}
-                      alt="color-pip"
-                    />
+                    {this.props.user ? (
+                      <img
+                        src={`/images/Mana_${color.color.toUpperCase()}.png`}
+                        alt="color-pip"
+                      />
+                    ) : (
+                      <img
+                        src={`../images/Mana_${color.color.toUpperCase()}.png`}
+                        alt="color-pip"
+                      />
+                    )}
                     <div className="color-info">
                       <div className="color-data">
                         <span className="win-loss-text">WL</span>
@@ -291,37 +351,55 @@ class Profile extends React.Component {
                 <h3>Win Rates by Faction</h3>
               </div>
               {this.state.factions.map((faction) => {
-                return (
-                  <div className="faction-row">
-                    <div className="faction-name">
-                      <div>{COLORS_FACTION_MAP[faction.faction]}</div>
-                      <div className="faction-colors">
-                        <img
-                          src={`images/Mana_${faction.faction[0].toUpperCase()}.png`}
-                          alt="first color"
-                        />
-                        <img
-                          src={`images/Mana_${faction.faction[1].toUpperCase()}.png`}
-                          alt="second color"
-                        />
+                // Don't show factions without any plays
+                if ((faction.wins === 0) & (faction.losses === 0)) {
+                  return null;
+                } else {
+                  return (
+                    <div className="faction-row">
+                      <div className="faction-name">
+                        <div>{COLORS_FACTION_MAP[faction.faction]}</div>
+                        {this.props.user ? (
+                          <div className="faction-colors">
+                            <img
+                              src={`images/Mana_${faction.faction[0].toUpperCase()}.png`}
+                              alt="first color"
+                            />
+                            <img
+                              src={`images/Mana_${faction.faction[1].toUpperCase()}.png`}
+                              alt="second color"
+                            />
+                          </div>
+                        ) : (
+                          <div className="faction-colors">
+                            <img
+                              src={`../images/Mana_${faction.faction[0].toUpperCase()}.png`}
+                              alt="first color"
+                            />
+                            <img
+                              src={`../images/Mana_${faction.faction[1].toUpperCase()}.png`}
+                              alt="second color"
+                            />
+                          </div>
+                        )}
+                      </div>
+                      <div className="faction-info">
+                        <div className="faction-data">
+                          <span className="win-loss-text">WL</span>
+                          {faction.wins} - {faction.losses}
+                        </div>
+                        <div className="faction-win-pct">
+                          <span className="win-rate-text">WR </span>
+                          {(
+                            (faction.wins / (faction.losses + faction.wins)) *
+                            100
+                          ).toPrecision(3)}
+                          %
+                        </div>
                       </div>
                     </div>
-                    <div className="faction-info">
-                      <div className="faction-data">
-                        <span className="win-loss-text">WL</span>
-                        {faction.wins} - {faction.losses}
-                      </div>
-                      <div className="faction-win-pct">
-                        <span className="win-rate-text">WR </span>
-                        {(
-                          (faction.wins / (faction.losses + faction.wins)) *
-                          100
-                        ).toPrecision(3)}
-                        %
-                      </div>
-                    </div>
-                  </div>
-                );
+                  );
+                }
               })}
             </div>
           </div>

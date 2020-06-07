@@ -111,7 +111,7 @@ class App extends React.Component {
             />
           )}
         />
-        <Route path={`/profile/:deckId`} component={DeckList} exact />
+        <Route path={`/profile/:name`} component={Profile} exact />
         <Route
           render={() =>
             this.state.currentUser ? <Redirect to="/" /> : <Login />

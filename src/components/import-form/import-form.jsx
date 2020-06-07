@@ -105,6 +105,9 @@ class ImportForm extends React.Component {
     for (const card of reducedCards) {
       var cardName = card.slice(card.indexOf(" ") + 1, card.indexOf("(") - 1);
       var amount = card.slice(0, card.indexOf(" "));
+      if (cardName.includes("//")) {
+        cardName.replace("//", "/");
+      }
       if (amount !== "0") {
         deckListObject.push({
           cardName,
@@ -280,7 +283,7 @@ class ImportForm extends React.Component {
                 </div>
               </div>
             </form>
-            <button>Add Deck</button>
+            <button onClick={this.handleSubmit}>Add Deck</button>
           </div>
         )}
       </div>

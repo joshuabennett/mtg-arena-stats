@@ -2,7 +2,6 @@ import React from "react";
 import "./card-details.scss";
 
 import { firestore } from "../../firebase/firebase";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DataBox from "../data-box/data-box";
 
 class CardDetails extends React.Component {
@@ -20,8 +19,6 @@ class CardDetails extends React.Component {
       .doc(window.sessionStorage.getItem("currentUser"))
       .collection("sets")
       .doc(window.sessionStorage.getItem("currentSet"));
-
-    var card;
 
     cardsRef
       .collection("cards")
