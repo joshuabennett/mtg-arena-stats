@@ -68,18 +68,20 @@ class Profile extends React.Component {
     }
   }
 
-  // Not working as planned. The set isn't updating if on different user's Profile page
+  // Update components when set changes
   componentDidUpdate(prevProps) {
+    // If updating from own profile
     if (prevProps.set !== this.props.set) {
       this.setState({ set: this.props.set });
       this.updateDecks(
-        this.state.set,
+        this.props.set,
         window.sessionStorage.getItem("currentUser")
       );
       this.updateCards(
-        this.state.set,
+        this.props.set,
         window.sessionStorage.getItem("currentUser")
       );
+      // If updating from linked Profile
     } else if (this.state.set !== window.sessionStorage.getItem("currentSet")) {
       this.setState({ set: window.sessionStorage.getItem("currentSet") });
       this.updateDecks(

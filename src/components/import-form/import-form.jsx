@@ -106,7 +106,7 @@ class ImportForm extends React.Component {
       var cardName = card.slice(card.indexOf(" ") + 1, card.indexOf("(") - 1);
       var amount = card.slice(0, card.indexOf(" "));
       if (cardName.includes("//")) {
-        cardName.replace("//", "/");
+        cardName.replace("//", "");
       }
       if (amount !== "0") {
         deckListObject.push({
