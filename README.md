@@ -6,7 +6,7 @@ A React Web App that allows you to import decks you've built using Wizards of th
 ### Technologies
 Built with React, SASS, and Firebase.
 
-Uses React-Router and FontAwesome libraries.
+Uses React-Router, Axios, and FontAwesome libraries.
 
 Calls the Scryfall API.
 
