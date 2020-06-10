@@ -13,6 +13,7 @@ import Deck from "../../components/deck/deck";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DataBox from "../../components/data-box/data-box";
+import { DEFAULT_SET } from "../../App";
 
 const COLORS_FACTION_MAP = {
   uw: "Azorious",
@@ -33,7 +34,9 @@ class Profile extends React.Component {
 
     this.state = {
       decks: [],
-      set: window.sessionStorage.getItem("currentSet"),
+      set: window.sessionStorage.getItem("currentSet")
+        ? window.sessionStorage.getItem("currentSet")
+        : DEFAULT_SET,
       cards: [],
       colors: [],
       factions: [],

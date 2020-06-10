@@ -1,5 +1,5 @@
 $base-color: black;
-$secondary-color: gray;
+$secondary-color: white;
 
 @mixin flex-row {
   display: flex;
@@ -14,15 +14,22 @@ $secondary-color: gray;
 .homepage {
   @include flex-col;
   align-items: center;
+
+  h1 {
+    span {
+      color: rgb(80, 80, 133);
+      font-family: "Poppins", sans-serif;
+    }
+  }
   .news-section {
     width: 100%;
-    height: 400px;
-    background-color: $base-color;
+    height: 200px;
 
     .banner {
-      width: 75%;
-      height: 90%;
       background-color: $secondary-color;
+      display: flex;
+      justify-content: center;
+      padding: 25px;
     }
   }
 

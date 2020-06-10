@@ -38,6 +38,8 @@ library.add(
   faChevronDown
 );
 
+export const DEFAULT_SET = "IKO";
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -45,7 +47,7 @@ class App extends React.Component {
     this.state = {
       currentUser: null,
       id: null,
-      currentSet: "IKO",
+      currentSet: DEFAULT_SET,
     };
   }
 
@@ -64,7 +66,7 @@ class App extends React.Component {
         });
       }
       this.setState({ currentUser: userAuth });
-      window.sessionStorage.setItem("currentSet", "IKO");
+      window.sessionStorage.setItem("currentSet", DEFAULT_SET);
     });
   }
 

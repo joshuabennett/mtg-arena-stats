@@ -19,15 +19,19 @@ const Header = (props) => (
       <Link className="option" to="/">
         HOME
       </Link>
-      <Link className="option" to="/stats">
-        STATS
-      </Link>
-      <Link className="option" to="/import">
-        IMPORT
-      </Link>
-      <Link className="option" to="/profile">
-        PROFILE
-      </Link>
+      {props.user ? (
+        <div className="logged-in-links">
+          <Link className="option" to="/stats">
+            STATS
+          </Link>
+          <Link className="option" to="/import">
+            IMPORT
+          </Link>
+          <Link className="option" to="/profile">
+            PROFILE
+          </Link>
+        </div>
+      ) : null}
       {props.user ? (
         <div className="option" onClick={() => auth.signOut()}>
           LOGOUT

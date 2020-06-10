@@ -9,6 +9,7 @@ import "./homepage.scss";
 
 import { firestore } from "../../firebase/firebase";
 import StatsBox from "../../components/stats-box/stats-box";
+import { DEFAULT_SET } from "../../App";
 
 class Homepage extends React.Component {
   constructor(props) {
@@ -19,13 +20,14 @@ class Homepage extends React.Component {
       commonCards: [],
       uncommonCards: [],
       decks: [],
+      set: window.sessionStorage.getItem("currentSet")
+        ? window.sessionStorage.getItem("currentSet")
+        : DEFAULT_SET,
     };
   }
 
   componentDidMount() {
-    const setRef = firestore
-      .collection("mergedData")
-      .doc(window.sessionStorage.getItem("currentSet"));
+    const setRef = firestore.collection("mergedData").doc(this.state.set);
     setRef
       .collection("allDecks")
       .orderBy("date")
@@ -105,11 +107,21 @@ class Homepage extends React.Component {
       });
   }
 
+  componentDidUpdate() {}
+
   render() {
     return (
       <div className="homepage">
+        <h1>
+          MTG<span>ARENA</span> LIMITED STATS
+        </h1>
         <div className="news-section">
-          <div className="banner"></div>
+          <div className="banner">
+            <img
+              src="https://media.wizards.com/2020/images/magic/m21/arena_ad/NSLx4ngxLj_en.jpg"
+              alt="banner"
+            />
+          </div>
         </div>
         <div className="stats-section">
           <div className="top-players">
