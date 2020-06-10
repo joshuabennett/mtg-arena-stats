@@ -71,6 +71,7 @@ class Deck extends React.Component {
         <div className="lower-deck-item" style={imageStyle}>
           <div className="unexpanded-info">
             <div className="deck-title-information">
+              <div className="date">{item.date}</div>
               <h2>{item.deckName}</h2>
               <div className="colors">
                 {item.colors.length > 0

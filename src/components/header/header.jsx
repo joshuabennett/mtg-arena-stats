@@ -16,6 +16,9 @@ const Header = (props) => (
       </select>
     </div>
     <div className="options">
+      <Link className="option" to="/">
+        HOME
+      </Link>
       <Link className="option" to="/stats">
         STATS
       </Link>

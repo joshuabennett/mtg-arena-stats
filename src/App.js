@@ -8,7 +8,6 @@ import Import from "./pages/import/import";
 import Stats from "./pages/stats/stats";
 import Profile from "./pages/profile/profile";
 import Login from "./pages/login/login";
-import DeckList from "./components/deck-list/deck-list";
 import CardDetails from "./components/card-details/card-details";
 import { auth, createUserProfileDocument } from "./firebase/firebase";
 

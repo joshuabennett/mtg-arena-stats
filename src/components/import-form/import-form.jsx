@@ -9,7 +9,6 @@ import "./import-form.scss";
 
 import { firestore } from "../../firebase/firebase";
 import Axios from "axios";
-import DataBox from "../data-box/data-box";
 
 class ImportForm extends React.Component {
   constructor(props) {
@@ -62,6 +61,61 @@ class ImportForm extends React.Component {
       cards: cards,
       date: new Date(),
     };
+    // Add only 7-0 decks to the TopDecks list
+    if (this.state.wins === "7" && this.state.losses === "0") {
+      firestore
+        .collection("mergedData")
+        .doc(this.props.set)
+        .collection("allDecks")
+        .add({
+          ...this.state,
+          cards: cards,
+          date: new Date(),
+          owner: this.props.user.displayName,
+        });
+    }
+    // Add deck stats to this player's overall data
+    const topUsersRef = firestore
+      .collection("mergedData")
+      .doc(this.props.set)
+      .collection("allUsers")
+      .doc(this.props.user.displayName);
+    topUsersRef.get().then((snapshot) => {
+      if (snapshot.exists) {
+        var playerData = snapshot.data();
+        topUsersRef.update({
+          wins: playerData.wins + parseInt(newDeck.wins),
+          losses: playerData.losses + parseInt(newDeck.losses),
+          winRate: (
+            playerData.wins +
+            (parseInt(newDeck.wins) /
+              (playerData.losses +
+                parseInt(newDeck.losses) +
+                playerData.wins +
+                parseInt(newDeck.wins))) *
+              100
+          ).toPrecision(3),
+          sevenWins:
+            this.state.wins === "7" && this.state.losses === "0"
+              ? playerData.sevenWins++
+              : playerData.sevenWins,
+          numDrafts: playerData.numDrafts++,
+        });
+      } else {
+        topUsersRef.set({
+          wins: parseInt(newDeck.wins),
+          losses: parseInt(newDeck.losses),
+          winRate: (
+            (parseInt(newDeck.wins) /
+              (parseInt(newDeck.wins) + parseInt(newDeck.losses))) *
+            100
+          ).toPrecision(3),
+          displayName: this.props.user.displayName,
+          sevenWins: newDeck.wins === "7" && newDeck.losses === "0" ? 1 : 0,
+          numDrafts: 1,
+        });
+      }
+    });
     decksRef.add(newDeck);
     this.resetState();
   }
@@ -163,8 +217,46 @@ class ImportForm extends React.Component {
             type_line: data.data.type_line,
           });
         }
+        // A cutdown version for adding to data for all users
+        const mergedData = firestore
+          .collection("mergedData")
+          .doc(this.props.set);
+        mergedData
+          .collection("allCards")
+          .doc(newCard.cardName)
+          .get()
+          .then((snapshot) => {
+            if (snapshot.exists) {
+              var card = snapshot.data();
+              let updatedInfo = {
+                timesDrafted: card.timesDrafted + parseInt(newCard.amount),
+                winsWithCard: card.winsWithCard + parseInt(deck.wins),
+                lossesWithCard: card.lossesWithCard + parseInt(deck.losses),
+              };
+              mergedData
+                .collection("allCards")
+                .doc(newCard.cardName)
+                .update(updatedInfo);
+            } else {
+              mergedData
+                .collection("allCards")
+                .doc(newCard.cardName)
+                .set({
+                  cardName: newCard.cardName,
+                  timesDrafted: 0 + parseInt(newCard.amount),
+                  winsWithCard: 0 + parseInt(deck.wins),
+                  lossesWithCard: 0 + parseInt(deck.losses),
+                  image: data.data.image_uris.art_crop,
+                  rarity: data.data.rarity,
+                });
+            }
+          });
         var manaCosts = this.state.manaCosts;
-        manaCosts[data.data.cmc] += 1;
+        if (manaCosts[data.data.cmc]) {
+          manaCosts[data.data.cmc]++;
+        } else {
+          manaCosts[data.data.cmc] = 1;
+        }
         this.setState({
           totalMana: this.state.totalMana + data.data.cmc,
           manaCosts: manaCosts,
