@@ -23,36 +23,31 @@ class DeckList extends React.Component {
   }
 
   async getCards(cards) {
-    if (window.sessionStorage.getItem("currentUser")) {
-      var newState = [];
-      await Promise.all(
-        cards.map(async (card) => {
-          var snapshot = await firestore
-            .collection("users")
-            .doc(window.sessionStorage.getItem("currentUser"))
-            .collection("sets")
-            .doc(window.sessionStorage.getItem("currentSet"))
-            .collection("cards")
-            .doc(card.cardName)
-            .get();
-          if (snapshot.exists) {
-            var cardType = snapshot.data().type_line;
-            var cardRarity = snapshot.data().rarity;
-          }
-          newState.push({
-            cardAmount: card.amount,
-            cardName: card.cardName,
-            cardType: cardType,
-            cardRarity: cardRarity,
-          });
-        })
-      );
-      this.setState({ cards: newState }, () => this.sortCards());
-    }
+    var newState = [];
+    await Promise.all(
+      cards.map(async (card) => {
+        var snapshot = await firestore
+          .collection("mergedData")
+          .doc(window.sessionStorage.getItem("currentSet"))
+          .collection("allCards")
+          .doc(card.cardName)
+          .get();
+        if (snapshot.exists) {
+          var cardType = snapshot.data().type_line;
+          var cardRarity = snapshot.data().rarity;
+        }
+        newState.push({
+          cardAmount: card.amount,
+          cardName: card.cardName,
+          cardType: cardType,
+          cardRarity: cardRarity,
+        });
+      })
+    );
+    this.setState({ cards: newState }, () => this.sortCards());
   }
 
   sortCards() {
-    console.log("called");
     var creatures = [];
     var enchantments = [];
     var artifacts = [];

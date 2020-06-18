@@ -1,5 +1,6 @@
 import React from "react";
 import "./stats-box.scss";
+import { Link } from "react-router-dom";
 
 const StatsBox = (props) => (
   <div className="stats-box">
@@ -12,7 +13,21 @@ const StatsBox = (props) => (
           {item.image ? <img src={item.image} alt="card" /> : null}
           <div className="stats-info">
             <div className="stats-front-col">
-              <h4>{item.middleTopData}</h4>
+              {props.isPlayer ? (
+                <Link to={`/profile/${item.middleTopData}`}>
+                  <h4>{item.middleTopData}</h4>
+                </Link>
+              ) : props.isDeck ? (
+                <Link
+                  to={`/profile/${item.middleBottomData.slice(
+                    item.middleBottomData.indexOf("by ") + 3
+                  )}`}
+                >
+                  <h4>{item.middleTopData}</h4>
+                </Link>
+              ) : (
+                <h4>{item.middleTopData}</h4>
+              )}
               <span>{item.rightData}</span>
             </div>
             <div className="stats-right-col">

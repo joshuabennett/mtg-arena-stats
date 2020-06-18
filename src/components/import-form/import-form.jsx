@@ -238,17 +238,20 @@ class ImportForm extends React.Component {
                 .doc(newCard.cardName)
                 .update(updatedInfo);
             } else {
-              mergedData
-                .collection("allCards")
-                .doc(newCard.cardName)
-                .set({
-                  cardName: newCard.cardName,
-                  timesDrafted: 0 + parseInt(newCard.amount),
-                  winsWithCard: 0 + parseInt(deck.wins),
-                  lossesWithCard: 0 + parseInt(deck.losses),
-                  image: data.data.image_uris.art_crop,
-                  rarity: data.data.rarity,
-                });
+              if (!data.data.type_line.includes("Basic Land")) {
+                mergedData
+                  .collection("allCards")
+                  .doc(newCard.cardName)
+                  .set({
+                    cardName: newCard.cardName,
+                    timesDrafted: 0 + parseInt(newCard.amount),
+                    winsWithCard: 0 + parseInt(deck.wins),
+                    lossesWithCard: 0 + parseInt(deck.losses),
+                    image: data.data.image_uris.art_crop,
+                    rarity: data.data.rarity,
+                    type_line: data.data.type_line,
+                  });
+              }
             }
           });
         var manaCosts = this.state.manaCosts;
