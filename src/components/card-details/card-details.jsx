@@ -40,7 +40,7 @@ class CardDetails extends React.Component {
     const allCardsRef = firestore
       .collection("mergedData")
       .doc(this.state.set)
-      .collections("allCards")
+      .collection("allCards")
       .doc(this.props.match.params.cardName);
 
     allCardsRef.get().then((snapshot) => {

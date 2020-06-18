@@ -83,23 +83,17 @@ class ImportForm extends React.Component {
     topUsersRef.get().then((snapshot) => {
       if (snapshot.exists) {
         var playerData = snapshot.data();
+        var newWins = playerData.wins + parseInt(newDeck.wins);
+        var newLosses = playerData.losses + parseInt(newDeck.losses);
         topUsersRef.update({
-          wins: playerData.wins + parseInt(newDeck.wins),
-          losses: playerData.losses + parseInt(newDeck.losses),
-          winRate: (
-            playerData.wins +
-            (parseInt(newDeck.wins) /
-              (playerData.losses +
-                parseInt(newDeck.losses) +
-                playerData.wins +
-                parseInt(newDeck.wins))) *
-              100
-          ).toPrecision(3),
+          wins: newWins,
+          losses: newLosses,
+          winRate: ((newWins / (newWins + newLosses)) * 100).toPrecision(3),
           sevenWins:
             this.state.wins === "7" && this.state.losses === "0"
-              ? playerData.sevenWins++
+              ? playerData.sevenWins + 1
               : playerData.sevenWins,
-          numDrafts: playerData.numDrafts++,
+          numDrafts: playerData.numDrafts + 1,
         });
       } else {
         topUsersRef.set({
@@ -211,8 +205,8 @@ class ImportForm extends React.Component {
             lossesWithCard: 0 + parseInt(deck.losses),
             colors: data.data.colors,
             rarity: data.data.rarity,
-            image_url: data.data.image_uris.normal,
-            image_crop: data.data.image_uris.art_crop,
+            image_url: data.data.image_uris.normal || "No Image Found",
+            image_crop: data.data.image_uris.art_crop || "No Image Found",
             cmc: data.data.cmc,
             type_line: data.data.type_line,
           });
@@ -247,9 +241,9 @@ class ImportForm extends React.Component {
                     timesDrafted: 0 + parseInt(newCard.amount),
                     winsWithCard: 0 + parseInt(deck.wins),
                     lossesWithCard: 0 + parseInt(deck.losses),
-                    fullimage: data.data.image_uri.normal,
+                    fullimage: data.data.image_uris.normal || "No Image Found",
                     colors: data.data.colors,
-                    image: data.data.image_uris.art_crop,
+                    image: data.data.image_uris.art_crop || "No Image Found",
                     rarity: data.data.rarity,
                     type_line: data.data.type_line,
                   });

@@ -16,6 +16,9 @@ $secondary-color: white;
   align-items: center;
 
   h1 {
+    padding: 3px;
+    font-family: "Poppins", sans-serif;
+    margin: 5px;
     span {
       color: rgb(80, 80, 133);
       font-family: "Poppins", sans-serif;
@@ -26,7 +29,6 @@ $secondary-color: white;
     height: 200px;
 
     .banner {
-      background-color: $secondary-color;
       display: flex;
       justify-content: center;
       padding: 25px;
