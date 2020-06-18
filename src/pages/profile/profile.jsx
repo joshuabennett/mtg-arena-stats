@@ -322,6 +322,9 @@ class Profile extends React.Component {
                 <h3>Win Rates by Color</h3>
               </div>
               {this.state.colors.map((color) => {
+                if (color.wins === 0 && color.losses === 0) {
+                  return null;
+                }
                 return (
                   <div className="color-row">
                     {this.props.user ? (

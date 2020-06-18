@@ -83,7 +83,7 @@ class CardDetails extends React.Component {
                     (card.winsWithCard /
                       (card.winsWithCard + card.lossesWithCard)) *
                     100
-                  ).toPrecision(2) + "%"
+                  ).toPrecision(3) + "%"
                 }
               />
               {/* Archetype Information
