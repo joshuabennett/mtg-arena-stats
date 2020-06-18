@@ -9,6 +9,7 @@ import Stats from "./pages/stats/stats";
 import Profile from "./pages/profile/profile";
 import Login from "./pages/login/login";
 import CardDetails from "./components/card-details/card-details";
+import DeckList from "./components/deck-list/deck-list";
 import { auth, createUserProfileDocument } from "./firebase/firebase";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -115,6 +116,7 @@ class App extends React.Component {
           )}
         />
         <Route path={`/profile/:name`} component={Profile} exact />
+        {/* <Route path={`/deck/:deckId`} component={DeckList} exact /> */}
         <Route
           render={() =>
             this.state.currentUser ? <Redirect to="/" /> : <Login />

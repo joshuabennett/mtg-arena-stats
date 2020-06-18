@@ -247,6 +247,8 @@ class ImportForm extends React.Component {
                     timesDrafted: 0 + parseInt(newCard.amount),
                     winsWithCard: 0 + parseInt(deck.wins),
                     lossesWithCard: 0 + parseInt(deck.losses),
+                    fullimage: data.data.image_uri.normal,
+                    colors: data.data.colors,
                     image: data.data.image_uris.art_crop,
                     rarity: data.data.rarity,
                     type_line: data.data.type_line,
