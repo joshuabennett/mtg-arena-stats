@@ -70,7 +70,7 @@ class Deck extends React.Component {
       <div className="deck-item">
         <div className="lower-deck-item" style={imageStyle}>
           <div className="unexpanded-info">
-            <div className="deck-title-information">
+            <div className="deck-title-information col">
               <div className="date">{item.date}</div>
               <h2>{item.deckName}</h2>
               <div className="colors">
@@ -89,7 +89,7 @@ class Deck extends React.Component {
               </div>
               <h3 className="archetype">{item.archetype}</h3>
             </div>
-            <span className="record">
+            <span className="record col">
               <span className="wl">WL </span> {`${item.wins} - ${item.losses}`}
             </span>
             {/* Need to update the database before testing this feature
@@ -104,25 +104,32 @@ class Deck extends React.Component {
           return accum + val;
         }, 0)}
       </div> */}
-            <div className="rare-mythic-cards">
-              {cards
-                ? item.cards
-                    .filter((card) => {
-                      var value = false;
-                      cards.forEach((otherCard) => {
-                        if (card.cardName === otherCard.cardName) {
-                          console.log(otherCard.rarity);
-                          value =
-                            otherCard.rarity === "rare" ||
-                            otherCard.rarity === "mythic";
-                        }
-                      });
-                      return value;
-                    })
-                    .map((card) => (
-                      <div className="rare-mythic-card">{card.cardName}</div>
-                    ))
-                : null}
+            <div className="rare-mythic-cards col">
+              {parseInt(item.wins) > 6 ? (
+                <div className="seven-wins-icon">
+                  <FontAwesomeIcon icon="star" />
+                </div>
+              ) : null}
+              <div className="rare-cards">
+                {cards
+                  ? item.cards
+                      .filter((card) => {
+                        var value = false;
+                        cards.forEach((otherCard) => {
+                          if (card.cardName === otherCard.cardName) {
+                            console.log(otherCard.rarity);
+                            value =
+                              otherCard.rarity === "rare" ||
+                              otherCard.rarity === "mythic";
+                          }
+                        });
+                        return value;
+                      })
+                      .map((card) => (
+                        <div className="rare-mythic-card">{card.cardName}</div>
+                      ))
+                  : null}
+              </div>
             </div>
           </div>
           <div className="expanded-info-button" onClick={this.toggleHidden}>

@@ -23,6 +23,7 @@ import {
   faUser,
   faChevronUp,
   faChevronDown,
+  faStar,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -35,7 +36,8 @@ library.add(
   faCalculator,
   faUser,
   faChevronUp,
-  faChevronDown
+  faChevronDown,
+  faStar
 );
 
 export const DEFAULT_SET = "IKO";

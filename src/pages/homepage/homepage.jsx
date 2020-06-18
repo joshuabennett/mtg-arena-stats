@@ -10,7 +10,6 @@ import "./homepage.scss";
 import { firestore } from "../../firebase/firebase";
 import StatsBox from "../../components/stats-box/stats-box";
 import { DEFAULT_SET } from "../../App";
-import { Link } from "react-router-dom";
 
 class Homepage extends React.Component {
   constructor(props) {

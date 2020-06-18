@@ -76,19 +76,22 @@
   }
 
   .unexpanded-info {
+    position: relative;
     margin: 10px 10px 2px 10px;
     padding: 5px;
     display: flex;
     flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     background-color: rgba(255, 255, 255, 0.842);
     border-radius: 5px;
+
+    .col {
+      flex: 1;
+    }
 
     .deck-title-information {
       display: flex;
       flex-direction: column;
-      width: 33%;
       text-align: left;
 
       h2 {
@@ -102,8 +105,8 @@
 
     .record {
       font-size: 22px;
-      width: 33%;
       text-align: center;
+      align-self: center;
 
       .wl {
         color: gray;
@@ -111,9 +114,15 @@
       }
     }
 
+    .seven-wins-icon {
+      color: rgb(211, 180, 3);
+    }
+
     .rare-mythic-cards {
-      width: 33%;
+      display: flex;
+      flex-direction: column;
       text-align: right;
+      justify-content: space-between;
     }
   }
 }
