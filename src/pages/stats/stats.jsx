@@ -179,7 +179,7 @@ class Stats extends React.Component {
               { name: "timesDrafted", title: "# Drafted", handler: sortTable },
               { name: "winsWithCard", title: "# Wins", handler: sortTable },
               { name: "lossesWithCard", title: "# Losses", handler: sortTable },
-              { name: "winPct", title: "Win %", handler: sortTable },
+              { name: "winPct", title: "Win %", handler: null },
             ].map((item) => {
               return (
                 <TableHeader
