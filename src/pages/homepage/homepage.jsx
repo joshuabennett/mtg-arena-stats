@@ -20,9 +20,7 @@ class Homepage extends React.Component {
       commonCards: [],
       uncommonCards: [],
       decks: [],
-      set: window.sessionStorage.getItem("currentSet")
-        ? window.sessionStorage.getItem("currentSet")
-        : DEFAULT_SET,
+      set: DEFAULT_SET,
     };
   }
 
@@ -107,7 +105,14 @@ class Homepage extends React.Component {
       });
   }
 
-  componentDidUpdate() {}
+  componentDidUpdate(prevProps) {
+    // re-render component if set changes
+    if (prevProps.set !== this.props.set) {
+      this.setState({ set: this.props.set }, () => {
+        this.componentDidMount();
+      });
+    }
+  }
 
   render() {
     return (

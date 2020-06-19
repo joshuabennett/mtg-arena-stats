@@ -90,7 +90,11 @@ class App extends React.Component {
           user={this.state.currentUser}
           setChangeHandler={this.setChangeHandler}
         />
-        <Route component={Homepage} path="/" exact />
+        <Route
+          path="/"
+          exact
+          render={() => <Homepage set={this.state.currentSet} />}
+        />
         <Route
           path="/import"
           exact
