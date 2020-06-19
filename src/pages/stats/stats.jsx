@@ -161,7 +161,7 @@ class Stats extends React.Component {
     return (
       <div className="stats-page">
         <div className="table">
-          <h2 classame="table-header">CARD STATS</h2>
+          <h2 classame="table-header">YOUR CARD STATS</h2>
           <input
             type="text"
             placeholder="Search Card"

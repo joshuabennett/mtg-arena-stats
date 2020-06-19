@@ -24,6 +24,8 @@ class DeckList extends React.Component {
 
   async getCards(cards) {
     var newState = [];
+    var cardType = "";
+    var cardRarity = "";
     await Promise.all(
       cards.map(async (card) => {
         var snapshot = await firestore
@@ -33,8 +35,11 @@ class DeckList extends React.Component {
           .doc(card.cardName)
           .get();
         if (snapshot.exists) {
-          var cardType = snapshot.data().type_line;
-          var cardRarity = snapshot.data().rarity;
+          cardType = snapshot.data().type_line;
+          cardRarity = snapshot.data().rarity;
+        } else {
+          cardType = "Basic Land";
+          cardRarity = "Common";
         }
         newState.push({
           cardAmount: card.amount,

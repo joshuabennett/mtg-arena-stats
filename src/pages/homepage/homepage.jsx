@@ -135,7 +135,7 @@ class Homepage extends React.Component {
           <div className="top-cards">
             <StatsBox
               isCard
-              title="Top 5 Commons"
+              title="Most Drafted Commons"
               amount={5}
               data={this.state.commonCards}
             />
@@ -143,7 +143,7 @@ class Homepage extends React.Component {
           <div className="top-cards">
             <StatsBox
               isCard
-              title="Top 5 Uncommons"
+              title="Most Drafted Uncommons"
               amount={5}
               data={this.state.uncommonCards}
             />

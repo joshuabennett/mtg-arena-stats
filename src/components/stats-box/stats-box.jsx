@@ -25,6 +25,10 @@ const StatsBox = (props) => (
                 >
                   <h4>{item.middleTopData}</h4>
                 </Link>
+              ) : props.isCard ? (
+                <Link to={`/card/${item.middleTopData}`}>
+                  <h4>{item.middleTopData}</h4>
+                </Link>
               ) : (
                 <h4>{item.middleTopData}</h4>
               )}

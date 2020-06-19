@@ -29,6 +29,7 @@
 .card-details-page {
   display: flex;
   justify-content: center;
+  padding: 50px;
 
   .card-details-container {
     display: flex;
@@ -71,9 +72,26 @@
       h1 {
         margin: 0;
       }
-      .stats-table {
+      .all-information {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        > * {
+          margin: 10px;
+        }
+        .row {
+          width: 230px;
+        }
+        .all-stats-table {
+          .label {
+            background-color: rgb(57, 68, 131);
+          }
+          .data {
+            background-color: rgb(57, 68, 131);
+          }
+          .icon {
+            background-color: rgb(103, 112, 167);
+          }
+        }
       }
     }
   }
