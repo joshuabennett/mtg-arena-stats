@@ -59,6 +59,7 @@ class Deck extends React.Component {
 
   render() {
     var { item, cards } = this.props;
+    // Only way I can think of having a dynamic background-image is doing this through Javascript.
     var imageStyle = {
       backgroundImage: `url(${this.state.imageUrl})`,
       backgroundPosition: "center center",
@@ -111,13 +112,13 @@ class Deck extends React.Component {
                 </div>
               ) : null}
               <div className="rare-cards">
+                {/* Only display the rare and mythic cards */}
                 {cards
                   ? item.cards
                       .filter((card) => {
                         var value = false;
                         cards.forEach((otherCard) => {
                           if (card.cardName === otherCard.cardName) {
-                            console.log(otherCard.rarity);
                             value =
                               otherCard.rarity === "rare" ||
                               otherCard.rarity === "mythic";

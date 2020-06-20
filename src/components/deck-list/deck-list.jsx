@@ -60,7 +60,6 @@ class DeckList extends React.Component {
     var spells = [];
     this.state.cards.forEach((card) => {
       if (card.cardType) {
-        console.log(card);
         if (card.cardType.includes("Land")) {
           lands.push(card);
         } else if (card.cardType.includes("Creature")) {

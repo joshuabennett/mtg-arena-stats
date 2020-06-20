@@ -26,7 +26,6 @@ $secondary-color: white;
   }
   .news-section {
     width: 100%;
-    height: 200px;
 
     .banner {
       display: flex;
@@ -44,5 +43,23 @@ $secondary-color: white;
   .top-decks {
     width: 25%;
     margin: 5px;
+  }
+}
+
+@media all and (max-width: 980px) {
+  .homepage {
+    .stats-section {
+      width: 95%;
+      flex-wrap: wrap;
+    }
+    img {
+      width: 100vw;
+    }
+    .top-players,
+    .top-cards,
+    .top-decks {
+      width: 45%;
+      margin: 5px;
+    }
   }
 }

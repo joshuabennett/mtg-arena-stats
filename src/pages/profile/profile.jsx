@@ -134,6 +134,8 @@ class Profile extends React.Component {
             });
             return { color: color, wins: amountWins, losses: amountLosses };
           });
+
+          // Win rates for each color combination. I don't like this implementation, but all others will be too expensive because they'll be n^2 and have duplicates.
           factionsData = [
             "ug",
             "uw",

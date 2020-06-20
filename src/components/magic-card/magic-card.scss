@@ -58,3 +58,35 @@
     }
   }
 }
+
+@media all and (max-width: 980px) {
+  .rarity {
+    .rarity-pip {
+      width: 7px;
+      height: 7px;
+      border: 1px solid lightgray;
+    }
+  }
+  .colors {
+    div {
+      width: 8px;
+      height: 8px;
+
+      &.B {
+        background-size: 8px 8px;
+      }
+      &.R {
+        background-size: 8px 8px;
+      }
+      &.U {
+        background-size: 8px 8px;
+      }
+      &.W {
+        background-size: 8px 8px;
+      }
+      &.G {
+        background-size: 8px 8px;
+      }
+    }
+  }
+}

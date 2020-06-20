@@ -75,3 +75,30 @@
     padding-bottom: 15px;
   }
 }
+
+@media all and (max-width: 980px) {
+  .stats-page {
+    a {
+      font-size: 8px;
+    }
+    .table {
+      margin-top: 5px;
+      input {
+        width: 150px;
+        height: 15px;
+      }
+    }
+    .magic-card {
+      div {
+        padding: 0;
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
+    }
+    .table-header {
+      h3 {
+        font-size: 8px;
+      }
+    }
+  }
+}

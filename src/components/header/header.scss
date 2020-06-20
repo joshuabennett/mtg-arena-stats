@@ -54,3 +54,20 @@
     }
   }
 }
+
+@media all and (max-width: 980px) {
+  .header {
+    .set-selection {
+      margin-left: 10px;
+
+      label {
+        font-size: 10px;
+      }
+    }
+    .options {
+      .option {
+        padding: 2px 3px;
+      }
+    }
+  }
+}

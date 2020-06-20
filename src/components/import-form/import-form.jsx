@@ -277,6 +277,7 @@ class ImportForm extends React.Component {
             <h1>IMPORT DECK</h1>
             <form className="deck-form" onSubmit={this.handleSubmit}>
               <div className="left-side">
+                <img src="/images/Arena_Logo.png" alt="Arena Logo" />
                 <label for="deckName">Deck Name</label>
                 <input
                   type="text"

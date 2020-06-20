@@ -316,3 +316,87 @@
     height: 40px;
   }
 }
+
+@media all and (max-width: 980px) {
+  * {
+    font-size: 10px;
+  }
+  .deck-box {
+    .deck-item {
+      margin: 1px;
+
+      .expanded-info {
+        .deck-list-page {
+          .deck-list-container {
+            padding: 2px;
+            margin: 1px;
+            .deck-list {
+              padding: 5px;
+            }
+          }
+        }
+      }
+    }
+  }
+  .profile-page {
+    .player-container {
+      width: 90vw;
+      .avatar {
+        display: none;
+      }
+      .username {
+        h2 {
+          font-size: 16px;
+        }
+      }
+    }
+    .profile-details-container {
+      width: 100vw;
+      flex-direction: column;
+      align-items: center;
+
+      .deck-container {
+        width: 95%;
+      }
+      .sidebar-container {
+        width: 70%;
+        .favorite-cards-box {
+          .favorite-row {
+            padding: 1px;
+          }
+          .favorite-info {
+            padding-left: 2px;
+          }
+          .favorite-title {
+            h3 {
+              font-size: 12px;
+            }
+          }
+          img {
+            width: 20px;
+            height: 20px;
+          }
+        }
+      }
+    }
+    .lower-deck-item {
+      .unexpanded-info {
+        .record {
+          font-size: 14px;
+          .wl {
+            font-size: 14px;
+          }
+        }
+        .rare-mythic-cards {
+          display: none;
+        }
+        .deck-title-information {
+          h2,
+          h3 {
+            font-size: 11px;
+          }
+        }
+      }
+    }
+  }
+}
