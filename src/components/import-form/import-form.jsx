@@ -71,15 +71,19 @@ class ImportForm extends React.Component {
           ...this.state,
           cards: cards,
           date: new Date(),
-          owner: this.props.user.displayName,
+          owner: this.props.displayName,
         });
     }
     // Add deck stats to this player's overall data
+    console.log(this.props.set);
+    console.log(this.props.displayName);
+    console.log(this.props);
     const topUsersRef = firestore
       .collection("mergedData")
       .doc(this.props.set)
       .collection("allUsers")
       .doc(this.props.displayName);
+
     topUsersRef.get().then((snapshot) => {
       if (snapshot.exists) {
         var playerData = snapshot.data();
@@ -104,7 +108,7 @@ class ImportForm extends React.Component {
               (parseInt(newDeck.wins) + parseInt(newDeck.losses))) *
             100
           ).toPrecision(3),
-          displayName: this.props.user.displayName,
+          displayName: this.props.displayName,
           sevenWins: newDeck.wins === "7" && newDeck.losses === "0" ? 1 : 0,
           numDrafts: 1,
         });
@@ -143,17 +147,13 @@ class ImportForm extends React.Component {
     // Remove all items after Sideboard, including the Sideboard Tag. Data does not currently support Sideboard cards. Definitely something to
     // consider in future iterations.
 
-    var sbIndex = cards.indexOf("Sideboard") || cards.indexOf("[Sideboard]");
-    cards = cards.slice(sbIndex);
+    var sbIndex = cards.indexOf("Sideboard");
+    if (sbIndex) {
+      cards = cards.slice(0, sbIndex);
+    }
 
     var reducedCards = cards.filter((item) => {
-      return (
-        item !== "[Deck]" &&
-        item !== "[Sideboard]" &&
-        item !== "" &&
-        item !== "Deck" &&
-        item !== "Sideboard"
-      );
+      return item !== "" && item !== "Deck";
     });
 
     for (const card of reducedCards) {
