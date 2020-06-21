@@ -21,6 +21,7 @@ class SignIn extends React.Component {
       this.setState(urlVars);
     });
   }
+
   getUrlVars() {
     var vars = [],
       hash;

@@ -53,10 +53,13 @@ class Profile extends React.Component {
         .get()
         .then((qSnapshot) => {
           qSnapshot.forEach((doc) => {
-            this.setState({ userId: doc.id }, () => {
-              this.updateDecks(this.state.set, this.state.userId);
-              this.updateCards(this.state.set, this.state.userId);
-            });
+            this.setState(
+              { userId: doc.id, displayName: doc.data().displayName },
+              () => {
+                this.updateDecks(this.state.set, this.state.userId);
+                this.updateCards(this.state.set, this.state.userId);
+              }
+            );
           });
         });
     } else {
@@ -135,7 +138,8 @@ class Profile extends React.Component {
             return { color: color, wins: amountWins, losses: amountLosses };
           });
 
-          // Win rates for each color combination. I don't like this implementation, but all others will be too expensive because they'll be n^2 and have duplicates.
+          // Win rates for each color combination. I don't like this implementation, but all others will be too expensive because they'll be
+          // n^2 and have duplicates.
           factionsData = [
             "ug",
             "uw",
@@ -225,7 +229,7 @@ class Profile extends React.Component {
     );
     return (
       <div className="profile-page">
-        {this.props.user || this.state.userId ? (
+        {this.props.user || this.state.displayName ? (
           <div className="player-container">
             <div className="avatar">
               {/* Link is one depth lower if not your own profile */}
@@ -239,7 +243,7 @@ class Profile extends React.Component {
               <div className="username">
                 <FontAwesomeIcon icon="user" />
                 {this.props.user ? (
-                  <h2>{this.props.user.displayName}</h2>
+                  <h2>{this.props.displayName}</h2>
                 ) : (
                   <h2>{this.props.match.params.name}</h2>
                 )}

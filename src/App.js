@@ -116,6 +116,7 @@ class App extends React.Component {
             <Profile
               user={this.state.currentUser}
               set={this.state.currentSet}
+              displayName={this.state.displayName}
             />
           )}
         />

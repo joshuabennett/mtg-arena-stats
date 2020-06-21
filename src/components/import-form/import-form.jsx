@@ -140,6 +140,12 @@ class ImportForm extends React.Component {
     var deckListObject = [];
     var cards = plainText.split("\n");
 
+    // Remove all items after Sideboard, including the Sideboard Tag. Data does not currently support Sideboard cards. Definitely something to
+    // consider in future iterations.
+
+    var sbIndex = cards.indexOf("Sideboard") || cards.indexOf("[Sideboard]");
+    cards = cards.slice(sbIndex);
+
     var reducedCards = cards.filter((item) => {
       return (
         item !== "[Deck]" &&
