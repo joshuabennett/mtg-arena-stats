@@ -99,7 +99,11 @@ class App extends React.Component {
           path="/import"
           exact
           render={() => (
-            <Import user={this.state.currentUser} set={this.state.currentSet} />
+            <Import
+              user={this.state.currentUser}
+              set={this.state.currentSet}
+              displayName={this.state.displayName}
+            />
           )}
         />
         <Route

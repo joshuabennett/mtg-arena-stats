@@ -79,7 +79,7 @@ class ImportForm extends React.Component {
       .collection("mergedData")
       .doc(this.props.set)
       .collection("allUsers")
-      .doc(this.props.user.displayName);
+      .doc(this.props.displayName);
     topUsersRef.get().then((snapshot) => {
       if (snapshot.exists) {
         var playerData = snapshot.data();
