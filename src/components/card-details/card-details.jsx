@@ -5,6 +5,15 @@ import { firestore } from "../../firebase/firebase";
 import DataBox from "../data-box/data-box";
 import { DEFAULT_SET } from "../../App";
 
+const COLOR_MAP = {
+  U: "blue",
+  R: "red",
+  W: "white",
+  B: "black",
+  G: "green",
+};
+
+// Single Card Component showing a picture, logged in user's data for the cards, and all users data for the card.
 class CardDetails extends React.Component {
   constructor(props) {
     super(props);
@@ -13,8 +22,10 @@ class CardDetails extends React.Component {
       card: "",
       allCards: "",
       set: window.sessionStorage.getItem("currentSet") || DEFAULT_SET,
-      position: 0,
+      rarityPosition: 0,
+      colorPosition: 0,
       totalCards: 0,
+      colorTotalCards: 0,
     };
   }
 
@@ -68,18 +79,19 @@ class CardDetails extends React.Component {
       .collection("allCards");
 
     // Get the ranking of all cards based on times drafted
-    // positionRef
-    //   .orderBy("timesDrafted", "desc")
-    //   .get()
-    //   .then((qSnapshot) => {
-    //     let x = 0;
-    //     qSnapshot.forEach((item) => {
-    //       x++;
-    //       if (item.data().cardName === this.state.allCards.cardName) {
-    //         this.setState({ position: x, totalCards: qSnapshot.size });
-    //       }
-    //     });
-    //   });
+    positionRef
+      .where("rarity", "==", this.state.allCards.rarity)
+      .orderBy("timesDrafted", "desc")
+      .get()
+      .then((qSnapshot) => {
+        let x = 0;
+        qSnapshot.forEach((item) => {
+          x++;
+          if (item.data().cardName === this.state.allCards.cardName) {
+            this.setState({ totalPosition: x, totalCards: qSnapshot.size });
+          }
+        });
+      });
 
     // Position of card based on Times drafted within all cards of the same color.
     positionRef
@@ -91,7 +103,10 @@ class CardDetails extends React.Component {
         qSnapshot.forEach((item) => {
           x++;
           if (item.data().cardName === this.state.allCards.cardName) {
-            this.setState({ position: x, totalCards: qSnapshot.size });
+            this.setState({
+              colorPosition: x,
+              colorTotalCards: qSnapshot.size,
+            });
           }
         });
       });
@@ -122,31 +137,29 @@ class CardDetails extends React.Component {
                 <div className="details-rarity-pip"></div>
                 {allCards.rarity}
               </span>
-              <span>
-                {this.state.position} / {this.state.totalCards}
-              </span>
             </div>
             <div className="all-information">
               {card ? (
                 <div className="stats-table">
+                  <span class="reminder-text">Your Personal Stats</span>
                   <DataBox
                     iconName="hands"
-                    label="Times You've Drafted"
+                    label="Amount Drafted"
                     data={card.timesDrafted}
                   />
                   <DataBox
                     iconName="trophy"
-                    label="Your Wins"
+                    label="Wins"
                     data={card.winsWithCard}
                   />
                   <DataBox
                     iconName="skull"
-                    label="Your Losses"
+                    label="Losses"
                     data={card.lossesWithCard}
                   />
                   <DataBox
                     iconName="calculator"
-                    label="Your Win Percentage"
+                    label="Win Rate"
                     data={
                       (
                         (card.winsWithCard /
@@ -160,6 +173,9 @@ class CardDetails extends React.Component {
                 </div>
               ) : (
                 <div className="stats-table">
+                  <span class="reminder-text">
+                    Import a deck with this card.
+                  </span>
                   <DataBox
                     iconName="skull"
                     label={`No Personal Stats`}
@@ -168,24 +184,25 @@ class CardDetails extends React.Component {
                 </div>
               )}
               <div className="all-stats-table">
+                <span class="reminder-text">All Players Combined Stats</span>
                 <DataBox
                   iconName="hands"
-                  label="Total Drafted"
+                  label="Amount Drafted"
                   data={allCards.timesDrafted}
                 />
                 <DataBox
                   iconName="trophy"
-                  label="Total Wins"
+                  label="Wins"
                   data={allCards.winsWithCard}
                 />
                 <DataBox
                   iconName="skull"
-                  label="Total Losses"
+                  label="Losses"
                   data={allCards.lossesWithCard}
                 />
                 <DataBox
                   iconName="calculator"
-                  label="Total Win Percentage"
+                  label="Win Rate"
                   data={
                     (
                       (allCards.winsWithCard /
@@ -196,6 +213,25 @@ class CardDetails extends React.Component {
                 />
                 {/* Archetype Information
           Decks Used In and Amount */}
+              </div>
+              <div className="rankings-table">
+                <span class="reminder-text">
+                  Placements ranked by amount drafted.
+                </span>
+                <DataBox
+                  iconName="star"
+                  label={`${allCards.rarity} Cards`}
+                  data={`${this.state.totalPosition} / ${this.state.totalCards}`}
+                />
+                <DataBox
+                  iconName="star"
+                  label={
+                    COLOR_MAP[this.state.allCards.colors]
+                      ? `${COLOR_MAP[this.state.allCards.colors]} Cards`
+                      : `Multicolor Cards`
+                  }
+                  data={`${this.state.colorPosition} / ${this.state.colorTotalCards}`}
+                />
               </div>
             </div>
           </div>

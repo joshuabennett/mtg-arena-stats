@@ -148,20 +148,24 @@ class ImportForm extends React.Component {
     // consider in future iterations.
 
     var sbIndex = cards.indexOf("Sideboard");
+    // Only remove if there actually was a Sideboard.
     if (sbIndex) {
       cards = cards.slice(0, sbIndex);
     }
 
+    // Remove blank cards and the Deck tag
     var reducedCards = cards.filter((item) => {
       return item !== "" && item !== "Deck";
     });
 
+    // Split cards have a double slash in there name which breaks Firebase when adding them to the database, so replace them with just a single slash.
     for (const card of reducedCards) {
       var cardName = card.slice(card.indexOf(" ") + 1, card.indexOf("(") - 1);
       var amount = card.slice(0, card.indexOf(" "));
       if (cardName.includes("//")) {
         cardName.replace("//", "");
       }
+      // For some reason MTG Arena will export cards with 0 in the deck. Just ignore these by checking.
       if (amount !== "0") {
         deckListObject.push({
           cardName,
@@ -183,6 +187,7 @@ class ImportForm extends React.Component {
     const data = await Axios.get(
       `https://api.scryfall.com/cards/named?fuzzy=${cardQuery}`
     );
+    // Scryfall API asks for 10 ms between requests. Is this actually happening?
     await this.wait(100);
 
     const cardsRef = firestore
