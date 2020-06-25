@@ -1,9 +1,3 @@
-// Overall Stats (current set only)
-// Top 10 commons, top 10 uncommon, top 5 rares
-// Archetype winrates
-// Top Players??
-// Recent 7-0 decks?
-
 import React from "react";
 import "./homepage.scss";
 
@@ -21,10 +15,13 @@ class Homepage extends React.Component {
       uncommonCards: [],
       decks: [],
       set: DEFAULT_SET,
+      colorData: [],
+      factionData: [],
     };
   }
 
   componentDidMount() {
+    // Query for 5 most recent 7-0 decks.
     const setRef = firestore.collection("mergedData").doc(this.state.set);
     setRef
       .collection("allDecks")
@@ -44,6 +41,8 @@ class Homepage extends React.Component {
         });
         this.setState({ decks: topDecks });
       });
+
+    // Query for 5 most drafted Commons
     setRef
       .collection("allCards")
       .where("rarity", "==", "common")
@@ -63,6 +62,8 @@ class Homepage extends React.Component {
         });
         this.setState({ commonCards: topCommons });
       });
+
+    // Query for 5 most drafted uncommons
     setRef
       .collection("allCards")
       .where("rarity", "==", "uncommon")
@@ -82,9 +83,11 @@ class Homepage extends React.Component {
         });
         this.setState({ uncommonCards: topUncommons });
       });
+
+    // Query for top 3 users with more than 3 or more drafts ordered by Win Rate.
     setRef
       .collection("allUsers")
-      .where("numDrafts", ">=", 1)
+      .where("numDrafts", ">=", 3)
       .orderBy("numDrafts")
       .orderBy("winRate")
       .limit(3)
@@ -93,7 +96,6 @@ class Homepage extends React.Component {
         var topPlayers = [];
         snapshot.forEach((doc) => {
           doc = doc.data();
-          console.log(doc);
           topPlayers.push({
             middleTopData: doc.displayName,
             image: null,
@@ -102,6 +104,40 @@ class Homepage extends React.Component {
           });
         });
         this.setState({ players: topPlayers });
+      });
+
+    // Query for all colors and factions data
+    setRef
+      .collection("allColors")
+      .get()
+      .then((snapshot) => {
+        var colorData = [];
+        var factionData = [];
+        snapshot.forEach((doc) => {
+          doc = doc.data();
+          if (doc.mono === true) {
+            colorData.push({
+              middleTopData: null,
+              image: `images/Mana_${doc.string}.png`,
+              rightData: `WR ${(
+                (doc.wins / (doc.wins + doc.losses)) *
+                100
+              ).toPrecision(3)}`,
+              middleBottomData: `WL ${doc.wins} - ${doc.losses}`,
+            });
+          } else {
+            factionData.push({
+              middleTopData: doc.string,
+              image: null,
+              rightData: `WR ${(
+                (doc.wins / (doc.wins + doc.losses)) *
+                100
+              ).toPrecision(3)}`,
+              middleBottomData: `WL ${doc.wins} - ${doc.losses}`,
+            });
+          }
+        });
+        this.setState({ factionData, colorData });
       });
   }
 
@@ -133,8 +169,13 @@ class Homepage extends React.Component {
             <StatsBox
               isPlayer
               title="Top Players"
-              amount={5}
+              amount={3}
               data={this.state.players}
+            />
+            <StatsBox
+              title="Color Winrates"
+              amount={5}
+              data={this.state.colorData}
             />
           </div>
           <div className="top-cards">
@@ -157,8 +198,13 @@ class Homepage extends React.Component {
             <StatsBox
               isDeck
               title="Recent 7-0 Decks"
-              amount={5}
+              amount={3}
               data={this.state.decks}
+            />
+            <StatsBox
+              title="Faction Winrates"
+              amount={10}
+              data={this.state.factionData}
             />
           </div>
         </div>

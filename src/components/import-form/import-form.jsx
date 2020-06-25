@@ -1,14 +1,10 @@
-// Deck Name
-// Colors
-// Deck Archetype (Dropdown with option for new)
-// Wins
-// Losses
-// Decklist from Arena
 import React from "react";
 import "./import-form.scss";
 
 import { firestore } from "../../firebase/firebase";
 import Axios from "axios";
+import { validDeckFactions } from "../../utils/helpers";
+import { addToAllColors } from "../../firebase/database";
 
 class ImportForm extends React.Component {
   constructor(props) {
@@ -19,6 +15,7 @@ class ImportForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  // Set state to default. Seperating this makes it easier to reset the state after submitting.
   getInitialState = () => ({
     deckName: "",
     colors: [],
@@ -31,6 +28,7 @@ class ImportForm extends React.Component {
     manaCosts: [],
   });
 
+  // Reset state to default. Remove checks from checkboxes.
   resetState = () => {
     this.setState(this.getInitialState());
     document
@@ -40,6 +38,7 @@ class ImportForm extends React.Component {
 
   async handleSubmit(e) {
     e.preventDefault();
+
     const decksRef = firestore
       .collection("users")
       .doc(this.props.user.uid)
@@ -53,6 +52,7 @@ class ImportForm extends React.Component {
     const cards = this.parseDeck(this.state.cardstext);
     this.setState({ loading: { status: true, total: cards.length } });
     cards.forEach((card) => {
+      // Not sure the loading screen works as of now. Might need to put addCardToDB as a callback.
       this.setState({ loading: { current: this.state.loading.current + 1 } });
       this.addCardToDB(card, deck);
     });
@@ -74,10 +74,7 @@ class ImportForm extends React.Component {
           owner: this.props.displayName,
         });
     }
-    // Add deck stats to this player's overall data
-    console.log(this.props.set);
-    console.log(this.props.displayName);
-    console.log(this.props);
+    // Add deck stats to this player's overall data from all their decks.
     const topUsersRef = firestore
       .collection("mergedData")
       .doc(this.props.set)
@@ -115,6 +112,16 @@ class ImportForm extends React.Component {
       }
     });
     decksRef.add(newDeck);
+
+    // Add wins and losses for this deck to overall date for each color.
+    newDeck.colors.forEach((color) => {
+      addToAllColors(color, newDeck);
+    });
+
+    validDeckFactions(newDeck.colors).forEach((faction) => {
+      addToAllColors(faction, newDeck);
+    });
+
     this.resetState();
   }
 
@@ -131,6 +138,7 @@ class ImportForm extends React.Component {
           return { colors };
         });
       } else {
+        // Remove if was checked but no longer checked
         this.setState((state) => {
           const colors = state.colors.filter((item) => item !== val);
           return { colors };
@@ -139,6 +147,7 @@ class ImportForm extends React.Component {
     }
   }
 
+  // Takes a string representing a MTG Arena Deck and parses it into individual cards and amounts while removing excess information.
   parseDeck(plainText) {
     if (!plainText) return;
     var deckListObject = [];
@@ -146,7 +155,6 @@ class ImportForm extends React.Component {
 
     // Remove all items after Sideboard, including the Sideboard Tag. Data does not currently support Sideboard cards. Definitely something to
     // consider in future iterations.
-
     var sbIndex = cards.indexOf("Sideboard");
     // Only remove if there actually was a Sideboard.
     if (sbIndex) {
@@ -182,6 +190,8 @@ class ImportForm extends React.Component {
     });
   }
 
+  // Loops through all the cards in the deck and adds the data for each card from Scryfall API to the Deck object, but also adds it to
+  // the database for card data shared between all users.
   async addCardToDB(newCard, deck) {
     var cardQuery = newCard.cardName.replace(" ", "+");
     const data = await Axios.get(
@@ -196,10 +206,12 @@ class ImportForm extends React.Component {
       .collection("sets")
       .doc(this.props.set)
       .collection("cards");
+
     cardsRef
       .doc(newCard.cardName)
       .get()
       .then((snapshot) => {
+        // Already in Database only update new information.
         if (snapshot.exists) {
           var card = snapshot.data();
           let updatedInfo = {
@@ -209,6 +221,7 @@ class ImportForm extends React.Component {
           };
           cardsRef.doc(newCard.cardName).update(updatedInfo);
         } else {
+          // New and default Information for new cards.
           cardsRef.doc(newCard.cardName).set({
             cardName: newCard.cardName,
             timesDrafted: 0 + parseInt(newCard.amount),
@@ -222,7 +235,9 @@ class ImportForm extends React.Component {
             type_line: data.data.type_line,
           });
         }
-        // A cutdown version for adding to data for all users
+        // Instead of querying and looping through the Database each time someone loads the Homepage to gather
+        // information for allUsers and allCards it's more time efficient (but less space efficient) to just add the data to a seperate
+        // collection containing information for them that's updated each time a new deck is added.
         const mergedData = firestore
           .collection("mergedData")
           .doc(this.props.set);
@@ -232,6 +247,7 @@ class ImportForm extends React.Component {
           .get()
           .then((snapshot) => {
             if (snapshot.exists) {
+              // Can assume if it exists it's not a Basic Land and just update changed info.
               var card = snapshot.data();
               let updatedInfo = {
                 timesDrafted: card.timesDrafted + parseInt(newCard.amount),
@@ -243,6 +259,7 @@ class ImportForm extends React.Component {
                 .doc(newCard.cardName)
                 .update(updatedInfo);
             } else {
+              // Don't want Basic Lands in the overall Card Data. It'll always be the most drafted and no one cares about that data.
               if (!data.data.type_line.includes("Basic Land")) {
                 mergedData
                   .collection("allCards")
@@ -261,6 +278,7 @@ class ImportForm extends React.Component {
               }
             }
           });
+        // WIP. Want to add this as data to calculate the mana curve to display on each Deck Component.
         var manaCosts = this.state.manaCosts;
         if (manaCosts[data.data.cmc]) {
           manaCosts[data.data.cmc]++;

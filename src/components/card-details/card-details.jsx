@@ -4,14 +4,7 @@ import "./card-details.scss";
 import { firestore } from "../../firebase/firebase";
 import DataBox from "../data-box/data-box";
 import { DEFAULT_SET } from "../../App";
-
-const COLOR_MAP = {
-  U: "blue",
-  R: "red",
-  W: "white",
-  B: "black",
-  G: "green",
-};
+import { colorsToString } from "../../utils/helpers";
 
 // Single Card Component showing a picture, logged in user's data for the cards, and all users data for the card.
 class CardDetails extends React.Component {
@@ -226,9 +219,12 @@ class CardDetails extends React.Component {
                 <DataBox
                   iconName="star"
                   label={
-                    COLOR_MAP[this.state.allCards.colors]
-                      ? `${COLOR_MAP[this.state.allCards.colors]} Cards`
-                      : `Multicolor Cards`
+                    this.state.allCards.colors
+                      ? colorsToString(
+                          this.state.allCards.colors,
+                          this.state.allCards.type_line
+                        ) + " Cards"
+                      : null
                   }
                   data={`${this.state.colorPosition} / ${this.state.colorTotalCards}`}
                 />
