@@ -224,3 +224,26 @@
     }
   }
 }
+
+@media all and (max-width: 980px) {
+  .import-form {
+    .deck-form {
+      flex-direction: column;
+    }
+    .container {
+      width: 95%;
+      .deck-form {
+        width: 100%;
+        .wins-and-losses {
+          input {
+            width: 45%;
+          }
+        }
+        .text-input,
+        textarea {
+          width: 90%;
+        }
+      }
+    }
+  }
+}

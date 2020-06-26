@@ -341,6 +341,12 @@
   .profile-page {
     .player-container {
       width: 90vw;
+      .player-info-container {
+        align-items: center;
+        .player-stats {
+          justify-content: center;
+        }
+      }
       .avatar {
         display: none;
       }

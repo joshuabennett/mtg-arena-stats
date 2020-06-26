@@ -22,6 +22,7 @@ $secondary-color: white;
     span {
       color: rgb(80, 80, 133);
       font-family: "Poppins", sans-serif;
+      margin: 0;
     }
   }
   .news-section {
@@ -48,6 +49,12 @@ $secondary-color: white;
 
 @media all and (max-width: 780px) {
   .homepage {
+    h1 {
+      font-size: 18px;
+      span {
+        font-size: 14px;
+      }
+    }
     .stats-section {
       width: 95%;
       flex-wrap: wrap;
