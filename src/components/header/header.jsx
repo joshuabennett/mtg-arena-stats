@@ -10,6 +10,7 @@ const Header = (props) => (
     <div className="set-selection">
       <label for="sets">CURRENT SET</label>
       <select name="sets" id="sets" onChange={props.setChangeHandler}>
+        <option value="M21">M21</option>
         <option value="IKO">IKO</option>
         <option value="THB">THB</option>
         <option value="ELD">ELD</option>

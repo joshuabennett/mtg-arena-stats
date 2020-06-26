@@ -41,7 +41,7 @@ library.add(
   faStar
 );
 
-export const DEFAULT_SET = "IKO";
+export const DEFAULT_SET = "M21";
 
 class App extends React.Component {
   constructor(props) {

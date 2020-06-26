@@ -115,7 +115,6 @@ class Profile extends React.Component {
         let factionsData = [];
         snapshot.forEach((snapshot) => {
           let item = snapshot.data();
-          console.log(item.date);
           newState.push({
             deckName: item.deckName,
             colors: item.colors,
