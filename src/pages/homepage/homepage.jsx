@@ -163,17 +163,18 @@ class Homepage extends React.Component {
     return (
       <div className="homepage">
         <h1>
-          MTG<span>ARENA</span> LIMITED STATS
+          <span>MYTHIC</span> STATS
         </h1>
+        <p className="subtitle">MTGArena Limited Stats</p>
         <SearchBar searchHandler={this.searchHandler} />
-        <div className="news-section">
+        {/* <div className="news-section">
           <div className="banner">
             <img
               src="https://media.wizards.com/2020/images/magic/m21/arena_ad/NSLx4ngxLj_en.jpg"
               alt="banner"
             />
           </div>
-        </div>
+        </div> */}
         <div className="stats-section">
           <div className="top-players">
             <StatsBox
