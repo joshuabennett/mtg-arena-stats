@@ -3,7 +3,9 @@ import "./homepage.scss";
 
 import { firestore } from "../../firebase/firebase";
 import StatsBox from "../../components/stats-box/stats-box";
+import SearchBar from "../../components/search-bar/search-bar";
 import { DEFAULT_SET } from "../../App";
+import { withRouter } from "react-router-dom";
 
 class Homepage extends React.Component {
   constructor(props) {
@@ -153,12 +155,17 @@ class Homepage extends React.Component {
     }
   }
 
+  searchHandler = (searchText) => {
+    this.props.history.push(`/profile/${searchText}`);
+  };
+
   render() {
     return (
       <div className="homepage">
         <h1>
           MTG<span>ARENA</span> LIMITED STATS
         </h1>
+        <SearchBar searchHandler={this.searchHandler} />
         <div className="news-section">
           <div className="banner">
             <img
@@ -217,4 +224,4 @@ class Homepage extends React.Component {
   }
 }
 
-export default Homepage;
+export default withRouter(Homepage);
