@@ -1,19 +1,19 @@
 import React from "react";
 
 export const FACTION_MAP = {
-  Azorious: ["U", "W"],
-  Izzet: ["R", "U"],
-  Dimir: ["B", "U"],
-  Simic: ["G", "U"],
-  Boros: ["R", "W"],
-  Orzhov: ["B", "W"],
-  Selesnya: ["G", "W"],
-  Rakos: ["B", "R"],
-  Gruul: ["G", "R"],
-  Golgari: ["B", "G"],
+  Azorious: ["u", "w"],
+  Izzet: ["r", "u"],
+  Dimir: ["b", "u"],
+  Simic: ["g", "u"],
+  Boros: ["r", "w"],
+  Orzhov: ["b", "w"],
+  Selesnya: ["g", "w"],
+  Rakdos: ["b", "r"],
+  Gruul: ["g", "r"],
+  Golgari: ["b", "g"],
 };
 
-export const colorsToString = (colors, type) => {
+export const colorsToString = (colors, type = "colored") => {
   var colorString = "";
   colors.sort();
   colors.forEach((color) => {
@@ -40,10 +40,16 @@ export const convertManaToImg = (colors, type) => {
 
 export const validDeckFactions = (colors) => {
   var factions = [];
+  colors.sort();
+  console.log(colors);
   Object.keys(FACTION_MAP).forEach((faction) => {
-    if (colors.includes(FACTION_MAP[faction])) {
+    if (
+      colors.includes(FACTION_MAP[faction][0]) &&
+      colors.includes(FACTION_MAP[faction][1])
+    ) {
       factions.push(faction);
     }
   });
+  console.log(factions);
   return factions;
 };

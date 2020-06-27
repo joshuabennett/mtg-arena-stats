@@ -115,11 +115,11 @@ class ImportForm extends React.Component {
 
     // Add wins and losses for this deck to overall date for each color.
     newDeck.colors.forEach((color) => {
-      addToAllColors(color, newDeck);
+      addToAllColors(this.props.set, color, newDeck);
     });
 
     validDeckFactions(newDeck.colors).forEach((faction) => {
-      addToAllColors(faction, newDeck);
+      addToAllColors(this.props.set, faction, newDeck);
     });
 
     this.resetState();

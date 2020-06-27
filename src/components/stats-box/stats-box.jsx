@@ -9,7 +9,7 @@ const StatsBox = (props) => (
     </div>
     {props.data.slice(0, props.amount).map((item) => {
       return (
-        <div className="stats-row">
+        <div className={props.hasMana ? "stats-row has-mana" : "stats-row"}>
           {item.image ? <img src={item.image} alt="card" /> : null}
           <div className="stats-info">
             <div className="stats-front-col">
@@ -29,14 +29,18 @@ const StatsBox = (props) => (
                 <Link to={`/card/${item.middleTopData}`}>
                   <h4>{item.middleTopData}</h4>
                 </Link>
+              ) : props.hasMana ? (
+                <h4>{item.middleBottomData}</h4>
               ) : (
                 <h4>{item.middleTopData}</h4>
               )}
               <span>{item.rightData}</span>
             </div>
-            <div className="stats-right-col">
-              <span>{item.middleBottomData}</span>
-            </div>
+            {props.hasMana ? null : (
+              <div className="stats-right-col">
+                <span>{item.middleBottomData}</span>
+              </div>
+            )}
           </div>
         </div>
       );

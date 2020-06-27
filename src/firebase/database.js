@@ -1,13 +1,17 @@
-import { firestore } from "firebase";
+import { firestore } from "../firebase/firebase";
 
-export const addToAllColors = (color, deck) => {
+export const addToAllColors = (set, color, deck) => {
   firestore
+    .collection("mergedData")
+    .doc(set)
     .collection("allColors")
     .doc(color)
     .get()
     .then((snapshot) => {
       if (snapshot.exists) {
         firestore
+          .collection("mergedData")
+          .doc(set)
           .collection("allColors")
           .doc(color)
           .update({
@@ -16,6 +20,8 @@ export const addToAllColors = (color, deck) => {
           });
       } else {
         firestore
+          .collection("mergedData")
+          .doc(set)
           .collection("allColors")
           .doc(color)
           .set({

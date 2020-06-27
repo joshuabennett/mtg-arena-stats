@@ -99,7 +99,7 @@ class Homepage extends React.Component {
           topPlayers.push({
             middleTopData: doc.displayName,
             image: null,
-            rightData: `AVG Wins ${doc.wins / doc.numDrafts}`,
+            rightData: `AVG Wins ${(doc.wins / doc.numDrafts).toPrecision(3)}`,
             middleBottomData: `WL ${doc.wins} - ${doc.losses}`,
           });
         });
@@ -111,14 +111,16 @@ class Homepage extends React.Component {
       .collection("allColors")
       .get()
       .then((snapshot) => {
+        console.log(snapshot);
         var colorData = [];
         var factionData = [];
         snapshot.forEach((doc) => {
           doc = doc.data();
+          console.log(doc);
           if (doc.mono === true) {
             colorData.push({
               middleTopData: null,
-              image: `images/Mana_${doc.string}.png`,
+              image: `images/Mana_${doc.string.toUpperCase()}.png`,
               rightData: `WR ${(
                 (doc.wins / (doc.wins + doc.losses)) *
                 100
@@ -137,7 +139,8 @@ class Homepage extends React.Component {
             });
           }
         });
-        this.setState({ factionData, colorData });
+        console.log(colorData);
+        this.setState({ factionData: factionData, colorData: colorData });
       });
   }
 
@@ -173,6 +176,7 @@ class Homepage extends React.Component {
               data={this.state.players}
             />
             <StatsBox
+              hasMana
               title="Color Winrates"
               amount={5}
               data={this.state.colorData}
