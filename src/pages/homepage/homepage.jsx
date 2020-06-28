@@ -17,7 +17,7 @@ class Homepage extends React.Component {
       commonCards: [],
       uncommonCards: [],
       decks: [],
-      set: DEFAULT_SET,
+      set: window.sessionStorage.getItem("currentSet") || DEFAULT_SET,
       colorData: [],
       factionData: [],
     };
