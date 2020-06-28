@@ -6,6 +6,8 @@ import MagicCard from "../../components/magic-card/magic-card";
 import TableHeader from "../../components/table-header/table-header";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import { FadeIn, Delay } from "animate-components";
+
 class Stats extends React.Component {
   constructor(props) {
     super(props);
@@ -170,9 +172,14 @@ class Stats extends React.Component {
             .filter((card) => !card.type_line.includes("Basic Land"))
             .map((card) => {
               return (
-                <div key={card.cardName} className="table-row">
+                <FadeIn
+                  as="div"
+                  duration="2s"
+                  key={card.cardName}
+                  className="table-row"
+                >
                   <MagicCard card={card} />
-                </div>
+                </FadeIn>
               );
             })}
         </div>

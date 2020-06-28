@@ -14,23 +14,26 @@ $secondary-color: white;
 .homepage {
   @include flex-col;
   align-items: center;
-
-  h1 {
-    font-family: "Raleway", sans-serif;
-    margin: 5px;
-    font-size: 50px;
-    margin-bottom: 0px;
-    span {
-      color: rgb(221, 63, 15);
+  .hero {
+    @include flex-col;
+    align-items: center;
+    h1 {
       font-family: "Raleway", sans-serif;
-      margin: 0;
-      text-shadow: 1px 1px 1px rgb(0, 0, 0);
+      margin: 5px;
+      font-size: 50px;
+      margin-bottom: 0px;
+      span {
+        color: rgb(221, 63, 15);
+        font-family: "Raleway", sans-serif;
+        margin: 0;
+        text-shadow: 1px 1px 1px rgb(0, 0, 0);
+      }
     }
-  }
 
-  .subtitle {
-    margin: 0;
-    margin-bottom: 50px;
+    .subtitle {
+      margin: 0;
+      margin-bottom: 50px;
+    }
   }
   .news-section {
     width: 100%;

@@ -4,6 +4,7 @@ import Axios from "axios";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DeckList from "../deck-list/deck-list";
+import { FadeIn } from "animate-components";
 
 const COLOR_MAP = {
   u: "blue",
@@ -142,9 +143,9 @@ class Deck extends React.Component {
           </div>
         </div>
         {!this.state.hidden ? (
-          <div className="expanded-info">
+          <FadeIn className="expanded-info" as="div" duration="1.5s">
             <DeckList deck={item} />
-          </div>
+          </FadeIn>
         ) : null}
       </div>
     );

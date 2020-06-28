@@ -111,6 +111,7 @@ class ImportForm extends React.Component {
         });
       }
     });
+    console.log(newDeck);
     decksRef.add(newDeck);
 
     // Add wins and losses for this deck to overall date for each color.
@@ -168,7 +169,12 @@ class ImportForm extends React.Component {
 
     // Split cards have a double slash in there name which breaks Firebase when adding them to the database, so replace them with just a single slash.
     for (const card of reducedCards) {
-      var cardName = card.slice(card.indexOf(" ") + 1, card.indexOf("(") - 1);
+      var cardName;
+      if (card.includes("(")) {
+        cardName = card.slice(card.indexOf(" ") + 1, card.indexOf("(") - 1);
+      } else {
+        cardName = card.slice(card.indexOf(" ") + 1);
+      }
       var amount = card.slice(0, card.indexOf(" "));
       if (cardName.includes("//")) {
         cardName.replace("//", "");
@@ -279,16 +285,16 @@ class ImportForm extends React.Component {
             }
           });
         // WIP. Want to add this as data to calculate the mana curve to display on each Deck Component.
-        var manaCosts = this.state.manaCosts;
-        if (manaCosts[data.data.cmc]) {
-          manaCosts[data.data.cmc]++;
-        } else {
-          manaCosts[data.data.cmc] = 1;
-        }
-        this.setState({
-          totalMana: this.state.totalMana + data.data.cmc,
-          manaCosts: manaCosts,
-        });
+        // var manaCosts = this.state.manaCosts;
+        // if (manaCosts[data.data.cmc]) {
+        //   manaCosts[data.data.cmc]++;
+        // } else {
+        //   manaCosts[data.data.cmc] = 1;
+        // }
+        // this.setState({
+        //   totalMana: this.state.totalMana + data.data.cmc,
+        //   manaCosts: manaCosts,
+        // });
       });
   }
 

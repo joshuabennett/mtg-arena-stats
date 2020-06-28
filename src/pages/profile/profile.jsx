@@ -47,12 +47,14 @@ class Profile extends React.Component {
 
   componentDidMount() {
     if (this.props.match) {
+      console.log(this.props);
       firestore
         .collection("users")
         .where("displayName", "==", this.props.match.params.name)
         .get()
         .then((qSnapshot) => {
           qSnapshot.forEach((doc) => {
+            console.log(this.state);
             this.setState(
               { userId: doc.id, displayName: doc.data().displayName },
               () => {

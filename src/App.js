@@ -57,6 +57,7 @@ class App extends React.Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
+    window.sessionStorage.setItem("currentSet", DEFAULT_SET);
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
         window.sessionStorage.setItem("currentUser", userAuth.uid);
@@ -69,7 +70,6 @@ class App extends React.Component {
         });
       }
       this.setState({ currentUser: userAuth });
-      window.sessionStorage.setItem("currentSet", DEFAULT_SET);
     });
   }
 

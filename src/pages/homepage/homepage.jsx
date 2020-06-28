@@ -1,6 +1,7 @@
 import React from "react";
 import "./homepage.scss";
 
+import { FadeIn, FadeInUp, Delay } from "animate-components";
 import { firestore } from "../../firebase/firebase";
 import StatsBox from "../../components/stats-box/stats-box";
 import SearchBar from "../../components/search-bar/search-bar";
@@ -49,7 +50,7 @@ class Homepage extends React.Component {
       .collection("allCards")
       .where("rarity", "==", "common")
       .orderBy("timesDrafted", "desc")
-      .limit(5)
+      .limit(7)
       .get()
       .then((snapshot) => {
         var topCommons = [];
@@ -70,7 +71,7 @@ class Homepage extends React.Component {
       .collection("allCards")
       .where("rarity", "==", "uncommon")
       .orderBy("timesDrafted", "desc")
-      .limit(5)
+      .limit(7)
       .get()
       .then((snapshot) => {
         var topUncommons = [];
@@ -91,8 +92,8 @@ class Homepage extends React.Component {
       .collection("allUsers")
       .where("numDrafts", ">=", 3)
       .orderBy("numDrafts")
-      .orderBy("winRate")
-      .limit(3)
+      .orderBy("winRate", "desc")
+      .limit(5)
       .get()
       .then((snapshot) => {
         var topPlayers = [];
@@ -162,11 +163,13 @@ class Homepage extends React.Component {
   render() {
     return (
       <div className="homepage">
-        <h1>
-          <span>MYTHIC</span> STATS
-        </h1>
-        <p className="subtitle">MTGArena Limited Stats</p>
-        <SearchBar searchHandler={this.searchHandler} />
+        <FadeIn className="hero" duration="1s" as="div">
+          <h1>
+            <span>MYTHIC</span> STATS
+          </h1>
+          <p className="subtitle">MTGArena Limited Stats</p>
+          <SearchBar searchHandler={this.searchHandler} />
+        </FadeIn>
         {/* <div className="news-section">
           <div className="banner">
             <img
@@ -176,49 +179,57 @@ class Homepage extends React.Component {
           </div>
         </div> */}
         <div className="stats-section">
-          <div className="top-players">
-            <StatsBox
-              isPlayer
-              title="Top Players"
-              amount={3}
-              data={this.state.players}
-            />
-            <StatsBox
-              hasMana
-              title="Color Winrates"
-              amount={5}
-              data={this.state.colorData}
-            />
-          </div>
-          <div className="top-cards">
-            <StatsBox
-              isCard
-              title="Most Drafted Commons"
-              amount={5}
-              data={this.state.commonCards}
-            />
-          </div>
-          <div className="top-cards">
-            <StatsBox
-              isCard
-              title="Most Drafted Uncommons"
-              amount={5}
-              data={this.state.uncommonCards}
-            />
-          </div>
-          <div className="top-decks">
-            <StatsBox
-              isDeck
-              title="Recent 7-0 Decks"
-              amount={3}
-              data={this.state.decks}
-            />
-            <StatsBox
-              title="Faction Winrates"
-              amount={10}
-              data={this.state.factionData}
-            />
-          </div>
+          <Delay timeout={250}>
+            <FadeIn className="top-players" as="div">
+              <StatsBox
+                isPlayer
+                title="Top Players"
+                amount={5}
+                data={this.state.players}
+              />
+              <StatsBox
+                hasMana
+                title="Color Winrates"
+                amount={5}
+                data={this.state.colorData}
+              />
+            </FadeIn>
+          </Delay>
+          <Delay timeout={500}>
+            <FadeIn className="top-cards" duration="1.5s" as="div">
+              <StatsBox
+                isCard
+                title="Most Drafted Commons"
+                amount={7}
+                data={this.state.commonCards}
+              />
+            </FadeIn>
+          </Delay>
+          <Delay timeout={750}>
+            <FadeIn className="top-cards" duration="1.5s" as="div">
+              <StatsBox
+                isCard
+                title="Most Drafted Uncommons"
+                amount={7}
+                data={this.state.uncommonCards}
+              />
+            </FadeIn>
+          </Delay>
+          <Delay timeout={1000}>
+            <FadeIn className="top-decks" duration="1.5s" as="div">
+              <StatsBox
+                isDeck
+                title="Recent 7-0 Decks"
+                amount={3}
+                data={this.state.decks}
+              />
+              <StatsBox
+                title="Faction Winrates"
+                amount={10}
+                data={this.state.factionData}
+              />
+            </FadeIn>
+          </Delay>
         </div>
       </div>
     );
