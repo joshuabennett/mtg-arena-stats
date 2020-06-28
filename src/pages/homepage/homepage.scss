@@ -60,10 +60,12 @@ $secondary-color: white;
 
 @media all and (max-width: 780px) {
   .homepage {
-    h1 {
-      font-size: 18px;
-      span {
+    .hero {
+      h1 {
         font-size: 18px;
+        span {
+          font-size: 18px;
+        }
       }
     }
     .subtitle {
